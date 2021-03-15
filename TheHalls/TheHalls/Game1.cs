@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,9 +17,10 @@ namespace TheHalls
 
         private Texture2D coinImg;
         private Texture2D arcImg;
+        private Texture2D whiteSquare;
         private SpriteFont arial16;
 
-        private GameObject testObj;
+        private List<GameObject> obstacles;
         private Player player;
 
         private MouseState mouse;
@@ -34,8 +38,11 @@ namespace TheHalls
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            obstacles = new List<GameObject>();
 
-            testObj = new GameObject(new Vector2(0, 0), new Vector2(80, 96), coinImg);
+            obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
+            obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
+
             player = new Player(new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
                 _graphics.PreferredBackBufferHeight/2 - 24), screenOffset,
                 new Vector2(40, 48), coinImg, arcImg);
@@ -48,6 +55,7 @@ namespace TheHalls
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             coinImg = Content.Load<Texture2D>("coin");
             arcImg = Content.Load<Texture2D>("Arc");
+            whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
         }
 
@@ -78,7 +86,10 @@ namespace TheHalls
             _spriteBatch.Begin();
 
             player.Draw(_spriteBatch);
-            testObj.Draw(_spriteBatch, screenOffset);
+            foreach (GameObject elem in obstacles)
+            {
+                elem.Draw(_spriteBatch, screenOffset);
+            }
             _spriteBatch.DrawString(arial16, "ScreenOffset: X: " + screenOffset.X + " Y: " + screenOffset.Y, new Vector2(25, 25), Color.Black);
             
             _spriteBatch.End();

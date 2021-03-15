@@ -13,6 +13,7 @@ namespace TheHalls
         private Texture2D arcImg;
         private float arcRotation;
         private Vector2 offset;
+
         public Player(Vector2 worldLoc, Vector2 screenOffset, Vector2 size, Texture2D image, Texture2D arcImage) : base(worldLoc, size, image)
         {
             arcImg = arcImage;
@@ -25,13 +26,13 @@ namespace TheHalls
         /// </summary>
         public void Move(KeyboardState kb)
         {
-            if(kb.IsKeyDown(Keys.W))
+            if (kb.IsKeyDown(Keys.W))
             {
                 worldLoc.Y--;
                 offset.Y--;
             }
 
-            if(kb.IsKeyDown(Keys.S))
+            if (kb.IsKeyDown(Keys.S))
             {
                 worldLoc.Y++;
                 offset.Y++;
@@ -58,7 +59,7 @@ namespace TheHalls
         {
             arcLoc = ScreenCenter + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenCenter) * 100);
 
-            arcRotation = mouse.Y - ScreenCenter.Y > 0 ? 
+            arcRotation = mouse.Y - ScreenCenter.Y > 0 ?
                 (float)Math.Acos((arcLoc.X - ScreenCenter.X) / (arcLoc - ScreenCenter).Length()) + (float)(Math.PI / 2) :
                 -1 * (float)Math.Acos((arcLoc.X - ScreenCenter.X) / (arcLoc - ScreenCenter).Length()) + (float)(Math.PI / 2);
         }
@@ -86,7 +87,7 @@ namespace TheHalls
         /// </summary>
         public Vector2 ScreenCenter
         {
-            get { return (worldLoc - offset) + (Size / 2); } 
+            get { return (worldLoc - offset) + (Size / 2); }
         }
     }
 }

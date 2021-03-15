@@ -16,6 +16,7 @@ namespace TheHalls
         protected Vector2 worldLoc;
         protected Vector2 size;
         protected Texture2D image;
+        protected Color tint;
 
         public Vector2 WorldLoc
         {
@@ -25,6 +26,12 @@ namespace TheHalls
         public Vector2 Size
         {
             get { return size; }
+        }
+
+        public Color Tint
+        {
+            get { return tint; }
+            set { tint = value; }
         }
 
         /// <summary>
@@ -38,6 +45,7 @@ namespace TheHalls
             this.worldLoc = worldLoc;
             this.size = size;
             this.image = image;
+            tint = Color.White;
         }
 
         /// <summary>
@@ -47,7 +55,7 @@ namespace TheHalls
         /// <param name="screenOffset"></param>
         public void Draw(SpriteBatch sb, Vector2 screenOffset)
         {
-            sb.Draw(image, new Rectangle((int)(worldLoc.X - screenOffset.X), (int)(worldLoc.Y - screenOffset.Y), (int)size.X, (int)size.Y), Color.White);
+            sb.Draw(image, new Rectangle((int)(worldLoc.X - screenOffset.X), (int)(worldLoc.Y - screenOffset.Y), (int)size.X, (int)size.Y), tint);
         }
     }
 }
