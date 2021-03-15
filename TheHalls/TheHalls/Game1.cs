@@ -16,6 +16,7 @@ namespace TheHalls
         private SpriteFont arial16;
 
         private GameObject testObj;
+        private Player player;
 
         public Game1()
         {
@@ -30,8 +31,9 @@ namespace TheHalls
 
             base.Initialize();
 
-            testObj = new GameObject(new Vector2(50, 50), new Vector2(80, 96), coinImg);
-            screenOffset = new Vector2(75, 75);
+            testObj = new GameObject(new Vector2(0, 0), new Vector2(80, 96), coinImg);
+            player = new Player(new Vector2(_graphics.PreferredBackBufferWidth/2 -20, _graphics.PreferredBackBufferHeight/2 - 24), new Vector2(40, 48), coinImg);
+            screenOffset = new Vector2(0, 0);
         }
 
         protected override void LoadContent()
@@ -47,30 +49,10 @@ namespace TheHalls
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            kb = Keyboard.GetState();
+            player.Move();
 
-            //Currently, wasd moves the screenoffset.
-            if(kb.IsKeyDown(Keys.W))
-            {
-                screenOffset.Y--;
-            }
-
-            if(kb.IsKeyDown(Keys.S))
-            {
-                screenOffset.Y++;
-            }
-
-            if(kb.IsKeyDown(Keys.A))
-            {
-                screenOffset.X--;
-            }
-
-            if(kb.IsKeyDown(Keys.D))
-            {
-                screenOffset.X++;
-            }
-
-            // TODO: Add your update logic here
+            //adjusts the screenOffset to center the player.
+            screenOffset = new Vector2(player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2, player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
 
             base.Update(gameTime);
         }
@@ -81,6 +63,7 @@ namespace TheHalls
 
             _spriteBatch.Begin();
 
+            player.Draw(_spriteBatch, screenOffset);
             testObj.Draw(_spriteBatch, screenOffset);
             _spriteBatch.DrawString(arial16, "ScreenOffset: X: " + screenOffset.X + " Y: " + screenOffset.Y, new Vector2(25, 25), Color.Black);
             

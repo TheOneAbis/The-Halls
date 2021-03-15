@@ -13,9 +13,19 @@ namespace TheHalls
     /// </summary>
     class GameObject
     {
-        Vector2 worldLoc;
-        Vector2 size;
-        Texture2D image;
+        protected Vector2 worldLoc;
+        protected Vector2 size;
+        protected Texture2D image;
+
+        public Vector2 WorldLoc
+        {
+            get { return worldLoc; }
+        }
+
+        public Vector2 Size
+        {
+            get { return size; }
+        }
 
         /// <summary>
         /// creates a new gameObject at the given location with the given size and image.
