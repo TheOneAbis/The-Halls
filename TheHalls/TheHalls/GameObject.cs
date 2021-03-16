@@ -53,9 +53,24 @@ namespace TheHalls
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="screenOffset"></param>
-        public void Draw(SpriteBatch sb, Vector2 screenOffset)
+        public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(image, new Rectangle((int)(worldLoc.X - screenOffset.X), (int)(worldLoc.Y - screenOffset.Y), (int)size.X, (int)size.Y), tint);
+            sb.Draw(image, new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y), tint);
+        }
+
+        /// <summary>
+        /// returns true if the two objects are colliding.
+        /// </summary>
+        /// <param name="toCheck"></param>
+        /// <returns></returns>
+        public bool Collides(GameObject toCheck)
+        {
+            return GetRect().Intersects(toCheck.GetRect());
+        }
+
+        public Rectangle GetRect()
+        {
+            return new Rectangle((int)worldLoc.X, (int)worldLoc.Y, (int)size.X, (int)size.Y);
         }
     }
 }

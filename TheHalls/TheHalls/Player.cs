@@ -12,13 +12,14 @@ namespace TheHalls
         private Vector2 arcLoc;
         private Texture2D arcImg;
         private float arcRotation;
-        private Vector2 offset;
+        //private Vector2 offset;
+        private float movementSpeed;
 
         public Player(Vector2 worldLoc, Vector2 screenOffset, Vector2 size, Texture2D image, Texture2D arcImage) : base(worldLoc, size, image)
         {
             arcImg = arcImage;
             arcRotation = 0;
-            offset = screenOffset;
+            movementSpeed = 3;
         }
 
         /// <summary>
@@ -26,29 +27,33 @@ namespace TheHalls
         /// </summary>
         public void Move(KeyboardState kb)
         {
+            Vector2 moveDirection = new Vector2(0, 0);
             if (kb.IsKeyDown(Keys.W))
             {
-                worldLoc.Y--;
-                offset.Y--;
+                moveDirection.Y -= movementSpeed;
             }
 
             if (kb.IsKeyDown(Keys.S))
             {
-                worldLoc.Y++;
-                offset.Y++;
+                moveDirection.Y += movementSpeed;
             }
 
             if (kb.IsKeyDown(Keys.A))
             {
-                worldLoc.X--;
-                offset.X--;
+                moveDirection.X -= movementSpeed;
             }
 
             if (kb.IsKeyDown(Keys.D))
             {
-                worldLoc.X++;
-                offset.X++;
+                moveDirection.X += movementSpeed;
             }
+
+            if (!(moveDirection.X == 0 && moveDirection.Y == 0))
+            {
+                moveDirection.Normalize();
+            }
+
+            worldLoc += (moveDirection * movementSpeed);
         }
 
         /// <summary>
@@ -68,10 +73,11 @@ namespace TheHalls
         /// Draws the player and the slash arc to the screen
         /// </summary>
         /// <param name="sb">SpriteBatch from Game1.Draw()</param>
-        public virtual void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb)
         {
             // Draw player
-            base.Draw(sb, offset);
+            base.Draw(sb);
+
 
             // Draw player weapon slash arc
             sb.Draw(arcImg, new Rectangle((int)arcLoc.X,
@@ -87,7 +93,59 @@ namespace TheHalls
         /// </summary>
         public Vector2 ScreenCenter
         {
-            get { return (worldLoc - offset) + (Size / 2); }
+            get { return (worldLoc - Game1.screenOffset) + (Size / 2); }
+        }
+
+        /// <summary>
+        /// Checks the player's location against all of the game objects passed in, and stops the player if they are overlapping.
+        /// </summary>
+        /// <param name="obstacles"></param>
+        public void ResolveCollisions(List<GameObject> obstacles)
+        {
+            Rectangle playerRect = GetRect();
+
+            foreach (GameObject elem in obstacles)
+            {
+                Rectangle obstacle = elem.GetRect();
+                if (obstacle.Intersects(playerRect))
+                {
+                    Rectangle overlap = Rectangle.Intersect(obstacle, playerRect);
+                    if (overlap.Width <= overlap.Height)
+                    {
+                        //X adjustment
+                        if (obstacle.X > playerRect.X)
+                        {
+                            //obstacle is to the right of player 
+                            playerRect.X -= overlap.Width;
+                        }
+                        else
+                        {
+                            //obstacle is to the left of the player
+                            playerRect.X += overlap.Width;
+                        }
+                    }
+                    else
+                    {
+                        //Y adjustment
+                        if (obstacle.Y > playerRect.Y)
+                        {
+                            //obstacle is below the player
+                            playerRect.Y -= overlap.Height;
+                        }
+                        else
+                        {
+                            //obstacle is above the player
+                            playerRect.Y += overlap.Height;
+                        }
+                    }
+                }
+            }
+            Vector2 newLoc = new Vector2(playerRect.X, playerRect.Y);
+
+
+            worldLoc.X = (int)playerRect.X;
+            worldLoc.Y = (int)playerRect.Y;
+
         }
     }
 }

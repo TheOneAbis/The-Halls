@@ -7,12 +7,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TheHalls
 {
+    
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Vector2 screenOffset;
+        public static Vector2 screenOffset;
+        //private Vector2 screenOffset;
         private KeyboardState kb;
 
         private Texture2D coinImg;
@@ -70,6 +73,7 @@ namespace TheHalls
 
             player.Move(kb);
             player.Aim(mouse);
+            player.ResolveCollisions(obstacles);
 
             //adjusts the screenOffset to center the player.
             screenOffset = new Vector2(player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2, player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
@@ -88,7 +92,7 @@ namespace TheHalls
             player.Draw(_spriteBatch);
             foreach (GameObject elem in obstacles)
             {
-                elem.Draw(_spriteBatch, screenOffset);
+                elem.Draw(_spriteBatch);
             }
             _spriteBatch.DrawString(arial16, "ScreenOffset: X: " + screenOffset.X + " Y: " + screenOffset.Y, new Vector2(25, 25), Color.Black);
             
