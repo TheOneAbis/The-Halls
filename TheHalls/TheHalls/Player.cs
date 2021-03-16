@@ -14,7 +14,7 @@ namespace TheHalls
         private float arcRotation;
         private float movementSpeed;
 
-        public Player(Vector2 worldLoc, Vector2 screenOffset, Vector2 size, Texture2D image, Texture2D arcImage) : base(worldLoc, size, image)
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D image, Texture2D arcImage) : base(worldLoc, size, image)
         {
             arcImg = arcImage;
             arcRotation = 0;
@@ -80,7 +80,7 @@ namespace TheHalls
 
             // Draw player weapon slash arc
             sb.Draw(arcImg, new Rectangle((int)arcLoc.X,
-                (int)arcLoc.Y, image.Width, image.Height / 3),
+                (int)arcLoc.Y, 80, 32),
                 new Rectangle(0, 0, arcImg.Width, arcImg.Height), Color.White,
                 arcRotation,
                 new Vector2(arcImg.Width / 2, arcImg.Height / 2), SpriteEffects.None, 0);

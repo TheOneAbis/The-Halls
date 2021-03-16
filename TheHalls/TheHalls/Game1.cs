@@ -22,6 +22,7 @@ namespace TheHalls
         private SpriteFont arial16;
 
         private List<GameObject> obstacles;
+        private List<Enemy> enemies;
         private Player player;
 
         private KeyboardState kb;
@@ -44,12 +45,21 @@ namespace TheHalls
 
             obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
             obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
+            obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
 
-
+            enemies = new List<Enemy>();
+            enemies.Add(new Enemy(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
+            enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
+            
+            foreach(Enemy elem in enemies)
+            {
+                elem.Tint = Color.Red;
+            }
 
             player = new Player(new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
-                _graphics.PreferredBackBufferHeight/2 - 24), screenOffset,
-                new Vector2(40, 48), coinImg, arcImg);
+                _graphics.PreferredBackBufferHeight/2 - 24),
+                new Vector2(50, 50), whiteSquare, arcImg);
+            player.Tint = Color.Green;
 
             screenOffset = new Vector2(0, 0);
         }
@@ -76,8 +86,16 @@ namespace TheHalls
             player.Move(kb);
             player.ResolveCollisions(obstacles);
 
+            foreach (Enemy elem in enemies)
+            {
+                elem.Move(player);
+                elem.ResolveCollisions(obstacles);
+            }
+
             //adjusts the screenOffset to center the player.
-            screenOffset = new Vector2(player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2, player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
+            screenOffset = new Vector2(
+                player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2, 
+                player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
 
             prevMouse = Mouse.GetState();
 
@@ -91,6 +109,11 @@ namespace TheHalls
             _spriteBatch.Begin();
 
             player.Draw(_spriteBatch);
+            foreach (Enemy elem in enemies)
+            {
+                elem.Draw(_spriteBatch);
+            }
+
             foreach (GameObject elem in obstacles)
             {
                 elem.Draw(_spriteBatch);
