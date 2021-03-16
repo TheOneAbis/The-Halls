@@ -12,14 +12,13 @@ namespace TheHalls
         private Vector2 arcLoc;
         private Texture2D arcImg;
         private float arcRotation;
-        //private Vector2 offset;
         private float movementSpeed;
 
         public Player(Vector2 worldLoc, Vector2 screenOffset, Vector2 size, Texture2D image, Texture2D arcImage) : base(worldLoc, size, image)
         {
             arcImg = arcImage;
             arcRotation = 0;
-            movementSpeed = 3;
+            movementSpeed = 3.5f;
         }
 
         /// <summary>
@@ -129,20 +128,19 @@ namespace TheHalls
                         //Y adjustment
                         if (obstacle.Y > playerRect.Y)
                         {
-                            //obstacle is below the player
+                            //obstacle is above the player
                             playerRect.Y -= overlap.Height;
                         }
                         else
                         {
-                            //obstacle is above the player
+                            //obstacle is below the player
                             playerRect.Y += overlap.Height;
                         }
                     }
                 }
             }
-            Vector2 newLoc = new Vector2(playerRect.X, playerRect.Y);
 
-
+            //sets the player location to the updated location
             worldLoc.X = (int)playerRect.X;
             worldLoc.Y = (int)playerRect.Y;
 

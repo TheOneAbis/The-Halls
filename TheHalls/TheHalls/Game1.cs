@@ -15,8 +15,6 @@ namespace TheHalls
         private SpriteBatch _spriteBatch;
 
         public static Vector2 screenOffset;
-        //private Vector2 screenOffset;
-        private KeyboardState kb;
 
         private Texture2D coinImg;
         private Texture2D arcImg;
@@ -26,6 +24,7 @@ namespace TheHalls
         private List<GameObject> obstacles;
         private Player player;
 
+        private KeyboardState kb;
         private MouseState mouse;
         private MouseState prevMouse;
 
@@ -45,6 +44,8 @@ namespace TheHalls
 
             obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
             obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
+
+
 
             player = new Player(new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
                 _graphics.PreferredBackBufferHeight/2 - 24), screenOffset,
@@ -71,8 +72,8 @@ namespace TheHalls
             mouse = Mouse.GetState();
             kb = Keyboard.GetState();
 
-            player.Move(kb);
             player.Aim(mouse);
+            player.Move(kb);
             player.ResolveCollisions(obstacles);
 
             //adjusts the screenOffset to center the player.
