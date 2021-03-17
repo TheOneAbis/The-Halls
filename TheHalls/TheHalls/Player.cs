@@ -94,59 +94,5 @@ namespace TheHalls
         {
             get { return (worldLoc - Game1.screenOffset) + (Size / 2); }
         }
-
-        /// <summary>
-        /// Checks the player's location against all of the game objects passed in, and stops the player if they are overlapping.
-        /// </summary>
-        /// <param name="obstacles"></param>
-        public void ResolveCollisions(List<GameObject> obstacles)
-        {
-            Rectangle playerRect = GetRect();
-
-            foreach (GameObject elem in obstacles)
-            {
-                if (!(elem == this || elem is Enemy))
-                {
-                    Rectangle obstacle = elem.GetRect();
-                    if (obstacle.Intersects(playerRect))
-                    {
-                        Rectangle overlap = Rectangle.Intersect(obstacle, playerRect);
-                        if (overlap.Width <= overlap.Height)
-                        {
-                            //X adjustment
-                            if (obstacle.X > playerRect.X)
-                            {
-                                //obstacle is to the right of player 
-                                playerRect.X -= overlap.Width;
-                            }
-                            else
-                            {
-                                //obstacle is to the left of the player
-                                playerRect.X += overlap.Width;
-                            }
-                        }
-                        else
-                        {
-                            //Y adjustment
-                            if (obstacle.Y > playerRect.Y)
-                            {
-                                //obstacle is above the player
-                                playerRect.Y -= overlap.Height;
-                            }
-                            else
-                            {
-                                //obstacle is below the player
-                                playerRect.Y += overlap.Height;
-                            }
-                        }
-                    }
-                }
-            }
-
-            //sets the player location to the updated location
-            worldLoc.X = (int)playerRect.X;
-            worldLoc.Y = (int)playerRect.Y;
-
-        }
     }
 }

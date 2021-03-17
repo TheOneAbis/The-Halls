@@ -48,7 +48,7 @@ namespace TheHalls
             obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
 
             enemies = new List<Enemy>();
-            enemies.Add(new Enemy(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
+            enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
             enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
             
             foreach(Enemy elem in enemies)

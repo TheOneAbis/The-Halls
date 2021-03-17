@@ -76,5 +76,65 @@ namespace TheHalls
         {
             return new Rectangle((int)worldLoc.X, (int)worldLoc.Y, (int)size.X, (int)size.Y);
         }
+
+        /// <summary>
+        /// Checks the player's location against all of the game objects passed in, and stops the player if they are overlapping.
+        /// </summary>
+        /// <param name="obstacles"></param>
+        public bool ResolveCollisions(List<GameObject> obstacles)
+        {
+            bool collides = false;
+            Rectangle rect = GetRect();
+
+            foreach (GameObject elem in obstacles)
+            {
+                if (!(elem == this))
+                {
+                    Rectangle obstacle = elem.GetRect();
+                    if (obstacle.Intersects(rect))
+                    {
+                        collides = true;
+                        Rectangle overlap = Rectangle.Intersect(obstacle, rect);
+                        if (overlap.Width <= overlap.Height)
+                        {
+                            //X adjustment
+                            if (obstacle.X > rect.X)
+                            {
+                                //obstacle is to the right of player 
+                                rect.X -= overlap.Width;
+                            }
+                            else
+                            {
+                                //obstacle is to the left of the player
+                                rect.X += overlap.Width;
+                            }
+                        }
+                        else
+                        {
+                            //Y adjustment
+                            if (obstacle.Y > rect.Y)
+                            {
+                                //obstacle is above the player
+                                rect.Y -= overlap.Height;
+                            }
+                            else
+                            {
+                                //obstacle is below the player
+                                rect.Y += overlap.Height;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //sets the player location to the updated location
+            worldLoc.X = (int)rect.X;
+            worldLoc.Y = (int)rect.Y;
+            if(collides && this is EnemyRanged)
+            {
+                ((EnemyRanged)this).Bounce();
+            }
+            return collides;
+        }
     }
 }
