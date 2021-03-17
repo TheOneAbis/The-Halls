@@ -65,6 +65,10 @@ namespace TheHalls
         /// <returns></returns>
         public bool Collides(GameObject toCheck)
         {
+            if(this == toCheck)
+            {
+                return false;
+            }
             return GetRect().Intersects(toCheck.GetRect());
         }
 

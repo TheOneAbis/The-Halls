@@ -54,6 +54,7 @@ namespace TheHalls
             foreach(Enemy elem in enemies)
             {
                 elem.Tint = Color.Red;
+                obstacles.Add(elem);
             }
 
             player = new Player(new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
@@ -61,7 +62,11 @@ namespace TheHalls
                 new Vector2(50, 50), whiteSquare, arcImg);
             player.Tint = Color.Green;
 
+            obstacles.Add(player);
+
             screenOffset = new Vector2(0, 0);
+
+
         }
 
         protected override void LoadContent()
@@ -82,15 +87,17 @@ namespace TheHalls
             mouse = Mouse.GetState();
             kb = Keyboard.GetState();
 
-            player.Aim(mouse);
-            player.Move(kb);
-            player.ResolveCollisions(obstacles);
 
             foreach (Enemy elem in enemies)
             {
                 elem.Move(player);
                 elem.ResolveCollisions(obstacles);
             }
+
+
+            player.Aim(mouse);
+            player.Move(kb);
+            player.ResolveCollisions(obstacles);
 
             //adjusts the screenOffset to center the player.
             screenOffset = new Vector2(

@@ -36,6 +36,11 @@ namespace TheHalls
 
             foreach (GameObject elem in obstacles)
             {
+                if (elem == this)
+                {
+                    break;
+                }
+
                 Rectangle obstacle = elem.GetRect();
                 if (obstacle.Intersects(enemyRect))
                 {
