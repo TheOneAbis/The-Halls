@@ -31,6 +31,10 @@ namespace TheHalls
             movementSpeed = 2;
         }
 
+        /// <summary>
+        /// This override of Move makes the enemy move in different directions based on where they are in relation to the player.
+        /// </summary>
+        /// <param name="target">the object which the enemy will circle - should be the player</param>
         public override void Move(GameObject target)
         {
             Vector2 towardsPlayer = target.WorldLoc - worldLoc;

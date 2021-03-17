@@ -80,7 +80,7 @@ namespace TheHalls
         /// <summary>
         /// Checks the player's location against all of the game objects passed in, and stops the player if they are overlapping.
         /// </summary>
-        /// <param name="obstacles"></param>
+        /// <param name="obstacles">what game objects to check collision against</param>
         public bool ResolveCollisions(List<GameObject> obstacles)
         {
             bool collides = false;

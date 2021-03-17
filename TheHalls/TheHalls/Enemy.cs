@@ -17,6 +17,10 @@ namespace TheHalls
             movementSpeed = 2.5f;
         }
 
+        /// <summary>
+        /// This has the enemy move directly towards the target - generally the player.
+        /// </summary>
+        /// <param name="target"></param>
         public virtual void Move(GameObject target)
         {
             Vector2 moveDirection = target.WorldLoc - worldLoc;
