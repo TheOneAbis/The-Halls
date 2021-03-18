@@ -68,7 +68,7 @@ namespace TheHalls
             }
         }
 
-        public void Attack(Player player)
+        public virtual void Attack(Player player)
         {
             Vector2 atkDirection = player.WorldLoc - worldLoc;
 

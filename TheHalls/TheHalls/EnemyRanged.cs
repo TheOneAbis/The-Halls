@@ -21,6 +21,7 @@ namespace TheHalls
         private int innerRadius;
         private int outerRadius;
         private int avgRadius;
+        private Projectile projectile;
 
         public EnemyRanged(Vector2 worldLoc, Vector2 size, Texture2D image) : base (worldLoc, size, image)
         {
@@ -37,6 +38,11 @@ namespace TheHalls
         /// <param name="target">the object which the enemy will circle - should be the player</param>
         public override void Move(GameObject target)
         {
+            //if theres a projectile, move it
+            if(projectile != null)
+            {
+                projectile.Update();
+            }
             Vector2 towardsPlayer = target.WorldLoc - worldLoc;
 
             switch (moveState)
@@ -142,6 +148,29 @@ namespace TheHalls
                 case MoveState.Clockwise:
                     moveState = MoveState.CounterClockwise;
                     break;
+            }
+        }
+
+        /// <summary>
+        /// spawns a new projectile
+        /// </summary>
+        /// <param name="player"></param>
+        public override void Attack(Player player)
+        {
+            projectile = new Projectile(worldLoc, new Vector2(20, 50), image, (player.WorldLoc - worldLoc)/20, player);
+        }
+
+        /// <summary>
+        /// draws the ranged enemy and their projectile
+        /// </summary>
+        /// <param name="sb"></param>
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            if (projectile != null)
+            {
+                projectile.Draw(sb);
+
             }
         }
     }
