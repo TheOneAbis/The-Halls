@@ -148,5 +148,10 @@ namespace TheHalls
         {
             get { return (worldLoc - Game1.screenOffset) + (Size / 2); }
         }
+
+        public int Health
+        {
+            get { return health; }
+        }
     }
 }

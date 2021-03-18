@@ -145,7 +145,7 @@ namespace TheHalls
             {
                 elem.Draw(_spriteBatch);
             }
-            _spriteBatch.DrawString(arial16, "ScreenOffset: X: " + screenOffset.X + " Y: " + screenOffset.Y, new Vector2(25, 25), Color.Black);
+            _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
             
             _spriteBatch.End();
 
