@@ -12,6 +12,8 @@ namespace TheHalls
         protected int health;
         protected float movementSpeed;
         protected bool alive;
+        protected int attackCooldown;
+        GameObject attack;
 
         public bool Alive
         {
@@ -23,10 +25,11 @@ namespace TheHalls
             movementSpeed = 2.5f;
             health = 3;
             alive = true;
+            attackCooldown = 90;
         }
 
         /// <summary>
-        /// This has the enemy move directly towards the target - generally the player.
+        /// This has the enemy move directly tsdowards the target - generally the player.
         /// </summary>
         /// <param name="target"></param>
         public virtual void Move(GameObject target)
@@ -39,6 +42,7 @@ namespace TheHalls
             }
 
             worldLoc += (moveDirection * movementSpeed);
+
         }
 
         /// <summary>
@@ -54,6 +58,46 @@ namespace TheHalls
             }
         }
 
+        public void TryAttack(Player player)
+        {
+            attackCooldown--;
+            if (attackCooldown <= 0)
+            {
+                Attack(player);
+                attackCooldown = 90;
+            }
+        }
 
+        public void Attack(Player player)
+        {
+            Vector2 atkDirection = player.WorldLoc - worldLoc;
+
+            if (!(atkDirection.X == 0 && atkDirection.Y == 0))
+            {
+                atkDirection.Normalize();
+            }
+            else
+            {
+                return;
+            }
+
+            attack = new GameObject(atkDirection * 50 + worldLoc, new Vector2(50, 50), image);
+            attack.Tint = Color.Orange;
+            if(attack.Collides(player))
+            {
+                player.TakeDamage(1);
+            }
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+
+            if(attack != null)
+            {
+                attack.Draw(sb);
+                attack = null;
+            }
+        }
     }
 }

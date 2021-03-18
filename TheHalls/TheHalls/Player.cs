@@ -9,19 +9,32 @@ namespace TheHalls
 {
     class Player : GameObject
     {
+        public delegate void GameOver();
+
         private Vector2 arcLoc;
         private Texture2D arcImg;
         private float arcRotation;
         private float movementSpeed;
-        private float health;
+        private int health;
         private Weapon weapon;
         private GameObject attack;
+        private GameOver gameOver;
 
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D image, Texture2D arcImage) : base(worldLoc, size, image)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="worldLoc">location to spawn the player in</param>
+        /// <param name="size">size of the player</param>
+        /// <param name="image">image to display for the player</param>
+        /// <param name="arcImage">image to display for the arc of the players attacks</param>
+        /// <param name="gameOver">method to be called when the player dies</param>
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D image, Texture2D arcImage, GameOver gameOver) : base(worldLoc, size, image)
         {
             arcImg = arcImage;
             arcRotation = 0;
             movementSpeed = 3.5f;
+            this.gameOver = gameOver;
+            health = 3;
         }
 
         /// <summary>
@@ -77,15 +90,30 @@ namespace TheHalls
         /// <param name="targets"></param>
         public void Attack(List<Enemy> targets)
         {
+            //create an attack object
             attack = new GameObject(new Vector2((float)(worldLoc.X + 50 * Math.Sin(arcRotation)), (float)(worldLoc.Y - 50 * Math.Cos(arcRotation))), new Vector2(50, 50), base.image);
             attack.Tint = Color.Orange;
 
+            //check collisions against each enemy
             foreach (Enemy elem in targets)
             {
                 if(attack.Collides(elem))
                 {
                     elem.TakeDamage(1);
                 }
+            }
+        }
+
+        /// <summary>
+        /// subtracts from the players health. if their health is 0, call gameOver.
+        /// </summary>
+        /// <param name="damage"></param>
+        public void TakeDamage(int damage)
+        {
+            health -= damage;
+            if(health <= 0)
+            {
+                gameOver();
             }
         }
 
@@ -108,6 +136,7 @@ namespace TheHalls
             if (attack != null)
             {
                 attack.Draw(sb);
+                attack = null;
             }
         }
 

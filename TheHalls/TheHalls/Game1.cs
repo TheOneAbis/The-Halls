@@ -63,7 +63,7 @@ namespace TheHalls
 
             player = new Player(new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
                 _graphics.PreferredBackBufferHeight/2 - 24),
-                new Vector2(50, 50), whiteSquare, arcImg);
+                new Vector2(50, 50), whiteSquare, arcImg, GameOver);
             player.Tint = Color.Green;
 
             obstacles.Add(player);
@@ -102,6 +102,7 @@ namespace TheHalls
                 }
                 else
                 {
+                    enemies[i].TryAttack(player);
                     enemies[i].Move(player);
                     enemies[i].ResolveCollisions(obstacles);
                 }
@@ -149,6 +150,14 @@ namespace TheHalls
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        
+        /// <summary>
+        /// called when the game ends. for now, just sets the player's color to gray. 
+        /// </summary>
+        public void GameOver()
+        {
+            player.Tint = Color.Gray;
         }
     }
 }
