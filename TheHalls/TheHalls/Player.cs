@@ -13,6 +13,9 @@ namespace TheHalls
         private Texture2D arcImg;
         private float arcRotation;
         private float movementSpeed;
+        private float health;
+        private Weapon weapon;
+        private GameObject attack;
 
         public Player(Vector2 worldLoc, Vector2 size, Texture2D image, Texture2D arcImage) : base(worldLoc, size, image)
         {
@@ -69,6 +72,24 @@ namespace TheHalls
         }
 
         /// <summary>
+        /// spawns a gameObject 50 units away from the player in the direction of arcRotation. checks collision against passed in enemies, dealing damage if they overlap.
+        /// </summary>
+        /// <param name="targets"></param>
+        public void Attack(List<Enemy> targets)
+        {
+            attack = new GameObject(new Vector2((float)(worldLoc.X + 50 * Math.Sin(arcRotation)), (float)(worldLoc.Y - 50 * Math.Cos(arcRotation))), new Vector2(50, 50), base.image);
+            attack.Tint = Color.Orange;
+
+            foreach (Enemy elem in targets)
+            {
+                if(attack.Collides(elem))
+                {
+                    elem.TakeDamage(1);
+                }
+            }
+        }
+
+        /// <summary>
         /// Draws the player and the slash arc to the screen
         /// </summary>
         /// <param name="sb">SpriteBatch from Game1.Draw()</param>
@@ -84,6 +105,10 @@ namespace TheHalls
                 new Rectangle(0, 0, arcImg.Width, arcImg.Height), Color.White,
                 arcRotation,
                 new Vector2(arcImg.Width / 2, arcImg.Height / 2), SpriteEffects.None, 0);
+            if (attack != null)
+            {
+                attack.Draw(sb);
+            }
         }
 
         /// <summary>

@@ -11,10 +11,18 @@ namespace TheHalls
     {
         protected int health;
         protected float movementSpeed;
+        protected bool alive;
+
+        public bool Alive
+        {
+            get { return alive; }
+        }
         
         public Enemy(Vector2 worldLoc, Vector2 size, Texture2D image) : base(worldLoc, size, image)
         {
             movementSpeed = 2.5f;
+            health = 3;
+            alive = true;
         }
 
         /// <summary>
@@ -32,5 +40,20 @@ namespace TheHalls
 
             worldLoc += (moveDirection * movementSpeed);
         }
+
+        /// <summary>
+        /// reduces the enemies health by the amount of damage. if health is <= to 0, they die. 
+        /// </summary>
+        /// <param name="damage"></param>
+        public void TakeDamage(int damage)
+        {
+            health -= damage;
+            if(health <= 0)
+            {
+                alive = false;
+            }
+        }
+
+
     }
 }

@@ -54,6 +54,10 @@ namespace TheHalls
             foreach(Enemy elem in enemies)
             {
                 elem.Tint = Color.Red;
+                if (elem is EnemyRanged)
+                {
+                    elem.Tint = Color.DarkRed;
+                }
                 obstacles.Add(elem);
             }
 
@@ -88,15 +92,30 @@ namespace TheHalls
             kb = Keyboard.GetState();
 
 
-            foreach (Enemy elem in enemies)
+            for (int i = 0; i < enemies.Count; i++)
             {
-                elem.Move(player);
-                elem.ResolveCollisions(obstacles);
+                if(!enemies[i].Alive)
+                {
+                    obstacles.Remove(enemies[i]);
+                    enemies.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    enemies[i].Move(player);
+                    enemies[i].ResolveCollisions(obstacles);
+                }
             }
 
 
             player.Aim(mouse);
             player.Move(kb);
+
+            if(mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
+            {
+                player.Attack(enemies);
+            }
+
             player.ResolveCollisions(obstacles);
 
             //adjusts the screenOffset to center the player.
