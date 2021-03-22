@@ -15,6 +15,7 @@ namespace TheHalls
         private SpriteBatch _spriteBatch;
 
         public static Vector2 screenOffset;
+        public Random rng;
 
         private Texture2D coinImg;
         private Texture2D arcImg;
@@ -45,6 +46,7 @@ namespace TheHalls
 
             base.Initialize();
             obstacles = new List<GameObject>();
+            rng = new Random();
 
             obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
             obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
@@ -110,6 +112,14 @@ namespace TheHalls
             {
                 if(!enemies[i].Alive)
                 {
+                    if (rng.Next(100) < 50)
+                    {
+                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 1, weaponType.Sword));
+                    }
+                    else
+                    {
+                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 1, weaponType.Spear));
+                    }
                     obstacles.Remove(enemies[i]);
                     enemies.RemoveAt(i);
                     i--;
@@ -126,9 +136,12 @@ namespace TheHalls
             player.Aim(mouse);
             player.Move(kb);
 
-            foreach(Weapon elem in weapons)
+            for(int i = 0; i< weapons.Count; i++)
             {
-                elem.PickUp(player);
+                if (weapons[i].PickUp(player))
+                {
+                    weapons.RemoveAt(i);
+                }
             }
 
             if(mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)

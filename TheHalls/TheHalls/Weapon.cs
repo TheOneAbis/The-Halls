@@ -35,13 +35,15 @@ namespace TheHalls
         /// player picks up weapon
         /// </summary>
         /// <param name="player"></param>
-        public void PickUp(Player player)
+        public bool PickUp(Player player)
         {
             if (CheckCollison(player))
             {
                 player.CurrentWeapon = Type;
                 player.WeaponImage = image;
+                return true;
             }
+            return false;
         }
     }
 }
