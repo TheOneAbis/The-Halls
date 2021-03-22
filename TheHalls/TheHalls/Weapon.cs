@@ -28,5 +28,22 @@ namespace TheHalls
             this.damage = damage;
             this.type = type;
         }
+
+        //Methods
+
+        /// <summary>
+        /// player picks up weapon
+        /// </summary>
+        /// <param name="player"></param>
+        public bool PickUp(Player player)
+        {
+            if (CheckCollison(player))
+            {
+                player.CurrentWeapon = Type;
+                player.WeaponImage = image;
+                return true;
+            }
+            return false;
+        }
     }
 }

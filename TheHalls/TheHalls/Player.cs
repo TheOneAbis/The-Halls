@@ -15,11 +15,13 @@ namespace TheHalls
         private Vector2 rightArcSide;
         private Vector2 leftArcSide;
         private Texture2D arcImg;
+        private Texture2D weaponImage;
         private float arcRotation;
         private float movementSpeed;
         private int health;
         private int attackRadius;
         private Weapon weapon;
+        private weaponType weapon;
         private GameObject attack;
         private GameOver gameOver;
 
@@ -31,7 +33,7 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D image, Texture2D arcImage, GameOver gameOver) : base(worldLoc, size, image)
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D image, Texture2D arcImage,Texture2D weaponImage, GameOver gameOver) : base(worldLoc, size, image)
         {
             arcImg = arcImage;
             arcRotation = 0;
@@ -39,6 +41,8 @@ namespace TheHalls
             this.gameOver = gameOver;
             health = 3;
             attackRadius = 100;
+            this.weaponImage = weaponImage;
+            weapon = weaponType.Sword;
         }
 
         /// <summary>
@@ -173,5 +177,8 @@ namespace TheHalls
         {
             get { return health; }
         }
+
+        public weaponType CurrentWeapon { get { return weapon; } set { weapon = value; } }
+        public Texture2D WeaponImage { set { weaponImage = value; } }
     }
 }

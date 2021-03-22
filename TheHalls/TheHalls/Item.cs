@@ -41,5 +41,17 @@ namespace TheHalls
                 return false;
             }
         }
+
+        /// <summary>
+        /// Draws the item when active
+        /// </summary>
+        /// <param name="sb">sprite batch</param>
+        public override void Draw(SpriteBatch sb)
+        {
+            if (active)
+            {
+                base.Draw(sb);
+            }
+        }
     }
 }
