@@ -16,7 +16,6 @@ namespace TheHalls
 
         public static Vector2 screenOffset;
 
-        private Texture2D coinImg;
         private Texture2D arcImg;
         private Texture2D whiteSquare;
         private SpriteFont arial16;
@@ -76,7 +75,6 @@ namespace TheHalls
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            coinImg = Content.Load<Texture2D>("coin");
             arcImg = Content.Load<Texture2D>("Arc");
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
@@ -107,7 +105,6 @@ namespace TheHalls
                     enemies[i].ResolveCollisions(obstacles);
                 }
             }
-
 
             player.Aim(mouse);
             player.Move(kb);

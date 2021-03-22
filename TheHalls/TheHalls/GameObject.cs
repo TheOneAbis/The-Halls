@@ -78,6 +78,14 @@ namespace TheHalls
         }
 
         /// <summary>
+        /// Gets the location of the Game object relative to the screen, rather than the world
+        /// </summary>
+        public Vector2 ScreenLoc
+        {
+            get { return (worldLoc - Game1.screenOffset) + (Size / 2); }
+        }
+
+        /// <summary>
         /// Checks the player's location against all of the game objects passed in, and stops the player if they are overlapping.
         /// </summary>
         /// <param name="obstacles">what game objects to check collision against</param>

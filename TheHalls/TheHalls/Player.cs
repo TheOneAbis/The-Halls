@@ -12,10 +12,13 @@ namespace TheHalls
         public delegate void GameOver();
 
         private Vector2 arcLoc;
+        private Vector2 rightArcSide;
+        private Vector2 leftArcSide;
         private Texture2D arcImg;
         private float arcRotation;
         private float movementSpeed;
         private int health;
+        private int attackRadius;
         private Weapon weapon;
         private GameObject attack;
         private GameOver gameOver;
@@ -35,6 +38,7 @@ namespace TheHalls
             movementSpeed = 3.5f;
             this.gameOver = gameOver;
             health = 3;
+            attackRadius = 100;
         }
 
         /// <summary>
@@ -77,11 +81,16 @@ namespace TheHalls
         /// <param name="mouse">Mouse cursor location</param>
         public void Aim(MouseState mouse)
         {
-            arcLoc = ScreenCenter + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenCenter) * 100);
+            arcLoc = ScreenLoc + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenLoc) * attackRadius);
 
-            arcRotation = mouse.Y - ScreenCenter.Y > 0 ?
-                (float)Math.Acos((arcLoc.X - ScreenCenter.X) / (arcLoc - ScreenCenter).Length()) + (float)(Math.PI / 2) :
-                -1 * (float)Math.Acos((arcLoc.X - ScreenCenter.X) / (arcLoc - ScreenCenter).Length()) + (float)(Math.PI / 2);
+            rightArcSide = new Vector2((float)(ScreenLoc.X + attackRadius * Math.Sin(arcRotation + (Math.PI / 8))),
+                (float)(ScreenLoc.Y - attackRadius * Math.Cos(arcRotation + (Math.PI / 8))));
+            leftArcSide = new Vector2((float)(ScreenLoc.X + 100 * Math.Sin(arcRotation - (Math.PI / 8))),
+                (float)(ScreenLoc.Y - attackRadius * Math.Cos(arcRotation - (Math.PI / 8))));
+
+            arcRotation = mouse.Y - ScreenLoc.Y > 0 ?
+                (float)Math.Acos((arcLoc.X - ScreenLoc.X) / (arcLoc - ScreenLoc).Length()) + (float)(Math.PI / 2) :
+                -1 * (float)Math.Acos((arcLoc.X - ScreenLoc.X) / (arcLoc - ScreenLoc).Length()) + (float)(Math.PI / 2);
         }
 
         /// <summary>
@@ -90,16 +99,34 @@ namespace TheHalls
         /// <param name="targets"></param>
         public void Attack(List<Enemy> targets)
         {
-            //create an attack object
-            attack = new GameObject(new Vector2((float)(worldLoc.X + 50 * Math.Sin(arcRotation)), (float)(worldLoc.Y - 50 * Math.Cos(arcRotation))), new Vector2(50, 50), base.image);
-            attack.Tint = Color.Orange;
+            Vector2 attackScanner;
+            Rectangle enemyScreenRect;
 
-            //check collisions against each enemy
+            // Iterate for each enemy
             foreach (Enemy elem in targets)
             {
-                if(attack.Collides(elem))
+                // This rectangle gets the rectangle location of the enemy relative to the screen
+                enemyScreenRect = new Rectangle((int)(elem.ScreenLoc.X - (elem.Size / 2).X),
+                    (int)(elem.ScreenLoc.Y - (elem.Size / 2).Y), (int)elem.Size.X, (int)elem.Size.Y);
+
+                //     ---   SCAN THE PIE SLICE   ---
+                //  Vector rotates clockwise starting at left side of pie slice
+                for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
                 {
-                    elem.TakeDamage(1);
+                    // At each point of the vector's rotation, check every point along the vector's line
+                    for (int i = 1; i <= attackRadius; i++)
+                    {
+                        // This vector represents every point to check within the pie slice
+                        attackScanner = new Vector2(
+                            (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
+                            (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+
+                        // If the point lies within the enemy's bounds, enemy takes damage from player's attack
+                        if (enemyScreenRect.Contains(attackScanner))
+                        {
+                            elem.TakeDamage(1);
+                        }
+                    }
                 }
             }
         }
@@ -126,27 +153,20 @@ namespace TheHalls
             // Draw player
             base.Draw(sb);
 
-
             // Draw player weapon slash arc
             sb.Draw(arcImg, new Rectangle((int)arcLoc.X,
                 (int)arcLoc.Y, 80, 32),
                 new Rectangle(0, 0, arcImg.Width, arcImg.Height), Color.White,
                 arcRotation,
                 new Vector2(arcImg.Width / 2, arcImg.Height / 2), SpriteEffects.None, 0);
+
+            sb.Draw(image, new Rectangle((int)rightArcSide.X, (int)rightArcSide.Y, 10, 10), Color.White);
+            sb.Draw(image, new Rectangle((int)leftArcSide.X, (int)leftArcSide.Y, 10, 10), Color.White);
             if (attack != null)
             {
                 attack.Draw(sb);
                 attack = null;
             }
-        }
-
-        /// <summary>
-        /// Gets the center of the player's location 
-        /// relative to the camera (the pixel location)
-        /// </summary>
-        public Vector2 ScreenCenter
-        {
-            get { return (worldLoc - Game1.screenOffset) + (Size / 2); }
         }
 
         public int Health
