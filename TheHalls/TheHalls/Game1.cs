@@ -19,11 +19,14 @@ namespace TheHalls
         private Texture2D coinImg;
         private Texture2D arcImg;
         private Texture2D whiteSquare;
+        private Texture2D sword;
+        private Texture2D spear;
         private SpriteFont arial16;
 
         private List<GameObject> obstacles;
         private List<Enemy> enemies;
         private Player player;
+        private List<Weapon> weapons;
 
         private KeyboardState kb;
         private MouseState mouse;
@@ -50,6 +53,10 @@ namespace TheHalls
             enemies = new List<Enemy>();
             enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
             enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
+
+            weapons = new List<Weapon>();
+            weapons.Add(new Weapon(new Rectangle(100, -100, 50, 50), sword, 1, weaponType.Sword));
+            weapons.Add(new Weapon(new Rectangle(-100, 25, 50, 50), spear, 1, weaponType.Spear));
             
             foreach(Enemy elem in enemies)
             {
@@ -61,9 +68,14 @@ namespace TheHalls
                 obstacles.Add(elem);
             }
 
-            player = new Player(new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
+            player = new Player(
+                new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
                 _graphics.PreferredBackBufferHeight/2 - 24),
-                new Vector2(50, 50), whiteSquare, arcImg, GameOver);
+                new Vector2(50, 50),
+                whiteSquare,
+                arcImg,
+                sword,
+                GameOver);
             player.Tint = Color.Green;
 
             obstacles.Add(player);
@@ -80,6 +92,8 @@ namespace TheHalls
             arcImg = Content.Load<Texture2D>("Arc");
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
+            sword = Content.Load<Texture2D>("sword");
+            spear = Content.Load<Texture2D>("spear");
         }
 
         protected override void Update(GameTime gameTime)
@@ -111,6 +125,11 @@ namespace TheHalls
 
             player.Aim(mouse);
             player.Move(kb);
+
+            foreach(Weapon elem in weapons)
+            {
+                elem.PickUp(player);
+            }
 
             if(mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
             {
@@ -146,6 +165,11 @@ namespace TheHalls
                 elem.Draw(_spriteBatch);
             }
             _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
+
+            foreach (Weapon elem in weapons)
+            {
+                elem.Draw(_spriteBatch);
+            }
             
             _spriteBatch.End();
 
