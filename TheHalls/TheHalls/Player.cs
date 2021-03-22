@@ -20,7 +20,6 @@ namespace TheHalls
         private float movementSpeed;
         private int health;
         private int attackRadius;
-        private Weapon weapon;
         private weaponType weapon;
         private GameObject attack;
         private GameOver gameOver;
@@ -87,11 +86,6 @@ namespace TheHalls
         {
             arcLoc = ScreenLoc + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenLoc) * attackRadius);
 
-            rightArcSide = new Vector2((float)(ScreenLoc.X + attackRadius * Math.Sin(arcRotation + (Math.PI / 8))),
-                (float)(ScreenLoc.Y - attackRadius * Math.Cos(arcRotation + (Math.PI / 8))));
-            leftArcSide = new Vector2((float)(ScreenLoc.X + 100 * Math.Sin(arcRotation - (Math.PI / 8))),
-                (float)(ScreenLoc.Y - attackRadius * Math.Cos(arcRotation - (Math.PI / 8))));
-
             arcRotation = mouse.Y - ScreenLoc.Y > 0 ?
                 (float)Math.Acos((arcLoc.X - ScreenLoc.X) / (arcLoc - ScreenLoc).Length()) + (float)(Math.PI / 2) :
                 -1 * (float)Math.Acos((arcLoc.X - ScreenLoc.X) / (arcLoc - ScreenLoc).Length()) + (float)(Math.PI / 2);
@@ -113,7 +107,9 @@ namespace TheHalls
                 enemyScreenRect = new Rectangle((int)(elem.ScreenLoc.X - (elem.Size / 2).X),
                     (int)(elem.ScreenLoc.Y - (elem.Size / 2).Y), (int)elem.Size.X, (int)elem.Size.Y);
 
+
                 //     ---   SCAN THE PIE SLICE   ---
+
                 //  Vector rotates clockwise starting at left side of pie slice
                 for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
                 {
@@ -158,14 +154,15 @@ namespace TheHalls
             base.Draw(sb);
 
             // Draw player weapon slash arc
-            sb.Draw(arcImg, new Rectangle((int)arcLoc.X,
-                (int)arcLoc.Y, 80, 32),
-                new Rectangle(0, 0, arcImg.Width, arcImg.Height), Color.White,
+            sb.Draw(arcImg, 
+                new Rectangle((int)arcLoc.X, (int)arcLoc.Y, 80, 32),
+                new Rectangle(0, 0, arcImg.Width, arcImg.Height), 
+                Color.White,
                 arcRotation,
-                new Vector2(arcImg.Width / 2, arcImg.Height / 2), SpriteEffects.None, 0);
+                new Vector2(arcImg.Width / 2, arcImg.Height / 2), 
+                SpriteEffects.None, 
+                0);
 
-            sb.Draw(image, new Rectangle((int)rightArcSide.X, (int)rightArcSide.Y, 10, 10), Color.White);
-            sb.Draw(image, new Rectangle((int)leftArcSide.X, (int)leftArcSide.Y, 10, 10), Color.White);
             if (attack != null)
             {
                 attack.Draw(sb);
