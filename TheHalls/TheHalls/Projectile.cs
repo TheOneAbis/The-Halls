@@ -39,8 +39,17 @@ namespace TheHalls
         {
             if (active)
             {
-                //sb.Draw();
+                sb.Draw(
+                    image,
+                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), 50, 25),
+                    null,
+                    Tint,
+                    (float)Math.Tan(worldVel.Y / worldVel.X),
+                    new Vector2(image.Width /2, image.Height /2),
+                    SpriteEffects.None,
+                    0f);
                 base.Draw(sb);
+                
             }
         }
     }
