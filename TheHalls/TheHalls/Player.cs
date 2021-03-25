@@ -23,6 +23,7 @@ namespace TheHalls
         private weaponType weapon;
         private GameObject attack;
         private GameOver gameOver;
+        private int damage;
 
         /// <summary>
         /// 
@@ -42,6 +43,7 @@ namespace TheHalls
             attackRadius = 100;
             this.weaponImage = weaponImage;
             weapon = weaponType.Sword;
+            damage = 1;
         }
 
         /// <summary>
@@ -124,10 +126,13 @@ namespace TheHalls
                         // If the point lies within the enemy's bounds, enemy takes damage from player's attack
                         if (enemyScreenRect.Contains(attackScanner))
                         {
-                            elem.TakeDamage(1);
+                            elem.TakeDamage(damage);
+                            //this makes sure the enemy doesn't take more than 1 damage from each attack
+                            goto NextEnemy;
                         }
                     }
                 }
+            NextEnemy:;
             }
         }
 
@@ -173,6 +178,15 @@ namespace TheHalls
         public int Health
         {
             get { return health; }
+        }
+
+        /// <summary>
+        /// the amount of damage the player does with each attack.
+        /// </summary>
+        public int Damage
+        {
+            get { return damage; }
+            set { damage = value; }
         }
 
         public weaponType CurrentWeapon { get { return weapon; } set { weapon = value; } }
