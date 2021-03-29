@@ -192,6 +192,5 @@ namespace TheHalls
 
         public weaponType CurrentWeapon { get { return weapon; } set { weapon = value; } }
         public Texture2D WeaponImage { set { weaponImage = value; } }
-        public int Damage { get { return damage; } set { damage = value; } }
     }
 }

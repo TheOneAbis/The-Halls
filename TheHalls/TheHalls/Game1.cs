@@ -37,10 +37,14 @@ namespace TheHalls
         private List<Weapon> weapons;
 
         private KeyboardState kb;
+        private KeyboardState prevkb;
         private MouseState mouse;
         private MouseState prevMouse;
 
         private GameState gameState;
+
+        // Menu buttons
+        List<Button> buttons;
 
         public Game1()
         {
@@ -93,8 +97,6 @@ namespace TheHalls
             obstacles.Add(player);
 
             screenOffset = new Vector2(0, 0);
-
-
         }
 
         protected override void LoadContent()
@@ -105,21 +107,39 @@ namespace TheHalls
             arial16 = Content.Load<SpriteFont>("arial16");
             sword = Content.Load<Texture2D>("sword");
             spear = Content.Load<Texture2D>("spear");
+
+            //    -- Menu Buttons --
+
+            // Play button
+            buttons = new List<Button>();
+            buttons.Add(new Button(350, 200, 75, 50, whiteSquare, "Play", arial16));
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            // Press F10 fo Emergency Exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.F10))
                 Exit();
 
             // Get mouse and keyboard states
             mouse = Mouse.GetState();
             kb = Keyboard.GetState();
+            Point mouseP = new Point(mouse.X, mouse.Y);
 
             switch (gameState)
             {
                 // Menu State
                 case GameState.Menu:
+
+                    // Exit the game
+                    if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
+                        Exit();
+
+                    // Was the play button clicked?
+                    if (buttons[0].Clicked(mouse, prevMouse))
+                    {
+                        gameState = GameState.Game;
+                    }
                     break;
 
                 // Game State
@@ -170,18 +190,35 @@ namespace TheHalls
                     screenOffset = new Vector2(
                         player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2,
                         player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
+
+                    // Pause the game
+                    if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
+                    {
+                        gameState = GameState.Pause;
+                    }
                     break;
 
                 // Pause State
                 case GameState.Pause:
+                    // Resume the game
+                    if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
+                    {
+                        gameState = GameState.Game;
+                    }
                     break;
 
                 // GameOver State
                 case GameState.GameOver:
+                    // Reset back to menu
+                    if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
+                    {
+                        gameState = GameState.Menu;
+                    }
                     break;
             }
             
             prevMouse = Mouse.GetState();
+            prevkb = Keyboard.GetState();
 
             base.Update(gameTime);
         }
@@ -192,24 +229,48 @@ namespace TheHalls
 
             _spriteBatch.Begin();
 
-            player.Draw(_spriteBatch);
-            foreach (Enemy elem in enemies)
+            switch (gameState)
             {
-                elem.Draw(_spriteBatch);
+                case GameState.Menu:
+
+                    // Draw each menu button to the screen
+                    foreach (Button button in buttons)
+                    {
+                        button.Draw(_spriteBatch, Color.Black);
+                    }
+                    _spriteBatch.DrawString(arial16, "THE HALLS", new Vector2(350, 75), Color.Red);
+                    break;
+
+                case GameState.Game:
+
+                    player.Draw(_spriteBatch);
+                    foreach (Enemy elem in enemies)
+                    {
+                        elem.Draw(_spriteBatch);
+                    }
+
+                    foreach (GameObject elem in obstacles)
+                    {
+                        elem.Draw(_spriteBatch);
+                    }
+                    _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
+                    _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString() + player.Damage, new Vector2(25, 50), Color.Black);
+
+                    foreach (Weapon elem in weapons)
+                    {
+                        elem.Draw(_spriteBatch);
+                    }
+                    break;
+
+                case GameState.Pause:
+                    _spriteBatch.DrawString(arial16, "GAME PAUSED \nPress [Esc] to resume", new Vector2(300, 100), Color.Yellow);
+                    break;
+
+                case GameState.GameOver:
+                    _spriteBatch.DrawString(arial16, "GAME OVER \nPress [Esc] to return to menu", new Vector2(300, 100), Color.Red);
+                    break;
             }
 
-            foreach (GameObject elem in obstacles)
-            {
-                elem.Draw(_spriteBatch);
-            }
-            _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
-            _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString() + player.Damage, new Vector2(25, 50), Color.Black);
-
-            foreach (Weapon elem in weapons)
-            {
-                elem.Draw(_spriteBatch);
-            }
-            
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -221,6 +282,7 @@ namespace TheHalls
         public void GameOver()
         {
             player.Tint = Color.Gray;
+            gameState = GameState.GameOver;
         }
     }
 }
