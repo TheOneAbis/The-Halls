@@ -105,6 +105,13 @@ namespace TheHalls
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
+            sb.Draw(image, new Rectangle(
+                (int)(ScreenLoc.X - (size.X / 2) - 5), 
+                (int)(ScreenLoc.Y - (size.Y / 2) - 15), 
+                (int)((size.X + 10) / 3 * health), 
+                10), 
+                Color.Red);
+
             base.Draw(sb);
 
             if(attack != null)

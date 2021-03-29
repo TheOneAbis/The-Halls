@@ -249,12 +249,12 @@ namespace TheHalls
                         elem.Draw(_spriteBatch);
                     }
 
-            foreach (GameObject elem in obstacles)
-            {
-                elem.Draw(_spriteBatch);
-            }
-            _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
-            _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString(), new Vector2(25, 50), Color.Black);
+                    foreach (GameObject elem in obstacles)
+                    {
+                        elem.Draw(_spriteBatch);
+                    }
+                    _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
+                    _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString(), new Vector2(25, 50), Color.Black);
 
                     foreach (Weapon elem in weapons)
                     {
@@ -263,10 +263,14 @@ namespace TheHalls
                     break;
 
                 case GameState.Pause:
+
+                    // Draw Pause Text
                     _spriteBatch.DrawString(arial16, "GAME PAUSED \nPress [Esc] to resume", new Vector2(300, 100), Color.Yellow);
                     break;
 
                 case GameState.GameOver:
+
+                    // Draw Game over text
                     _spriteBatch.DrawString(arial16, "GAME OVER \nPress [Esc] to return to menu", new Vector2(300, 100), Color.Red);
                     break;
             }
