@@ -233,10 +233,14 @@ namespace TheHalls
                     break;
 
                 case GameState.Pause:
+
+                    // Draw Pause Text
                     _spriteBatch.DrawString(arial16, "GAME PAUSED \nPress [Esc] to resume", new Vector2(300, 100), Color.Yellow);
                     break;
 
                 case GameState.GameOver:
+
+                    // Draw Game over text
                     _spriteBatch.DrawString(arial16, "GAME OVER \nPress [Esc] to return to menu", new Vector2(300, 100), Color.Red);
                     break;
             }
