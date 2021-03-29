@@ -115,7 +115,6 @@ namespace TheHalls
                 //  Vector rotates clockwise starting at left side of pie slice
                 for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
                 {
-                    elem.TakeDamage(damage);
                     // At each point of the vector's rotation, check every point along the vector's line
                     for (int i = 1; i <= attackRadius; i++)
                     {
