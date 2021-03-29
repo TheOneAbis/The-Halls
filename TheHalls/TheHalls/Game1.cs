@@ -249,12 +249,12 @@ namespace TheHalls
                         elem.Draw(_spriteBatch);
                     }
 
-                    foreach (GameObject elem in obstacles)
-                    {
-                        elem.Draw(_spriteBatch);
-                    }
-                    _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
-                    _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString() + player.Damage, new Vector2(25, 50), Color.Black);
+            foreach (GameObject elem in obstacles)
+            {
+                elem.Draw(_spriteBatch);
+            }
+            _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
+            _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString(), new Vector2(25, 50), Color.Black);
 
                     foreach (Weapon elem in weapons)
                     {

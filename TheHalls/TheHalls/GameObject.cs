@@ -13,11 +13,13 @@ namespace TheHalls
     /// </summary>
     class GameObject
     {
+        //Fields
         protected Vector2 worldLoc;
         protected Vector2 size;
         protected Texture2D image;
         protected Color tint;
 
+        //Properties
         public Vector2 WorldLoc
         {
             get { return worldLoc; }
