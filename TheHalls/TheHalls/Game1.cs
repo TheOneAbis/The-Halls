@@ -59,44 +59,7 @@ namespace TheHalls
 
             base.Initialize();
             gameState = GameState.Menu;
-            obstacles = new List<GameObject>();
-            rng = new Random();
 
-            obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
-            obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
-            obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
-
-            enemies = new List<Enemy>();
-            enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
-            enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
-
-            weapons = new List<Weapon>();
-            weapons.Add(new Weapon(new Rectangle(100, -100, 50, 50), sword, 1, weaponType.Sword));
-            weapons.Add(new Weapon(new Rectangle(-100, 25, 50, 50), spear, 1, weaponType.Spear));
-            
-            foreach(Enemy elem in enemies)
-            {
-                elem.Tint = Color.Red;
-                if (elem is EnemyRanged)
-                {
-                    elem.Tint = Color.DarkRed;
-                }
-                obstacles.Add(elem);
-            }
-
-            player = new Player(
-                new Vector2(_graphics.PreferredBackBufferWidth/2 - 20, 
-                _graphics.PreferredBackBufferHeight/2 - 24),
-                new Vector2(50, 50),
-                whiteSquare,
-                arcImg,
-                sword,
-                GameOver);
-            player.Tint = Color.Green;
-
-            obstacles.Add(player);
-
-            screenOffset = new Vector2(0, 0);
         }
 
         protected override void LoadContent()
@@ -138,7 +101,7 @@ namespace TheHalls
                     // Was the play button clicked?
                     if (buttons[0].Clicked(mouse, prevMouse))
                     {
-                        gameState = GameState.Game;
+                        GameStart();
                     }
                     break;
 
@@ -253,8 +216,10 @@ namespace TheHalls
                     {
                         elem.Draw(_spriteBatch);
                     }
+                    //HUD
                     _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
                     _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString(), new Vector2(25, 50), Color.Black);
+                    _spriteBatch.DrawString(arial16, "Damage: " + player.Damage, new Vector2(25, 75), Color.Black);
 
                     foreach (Weapon elem in weapons)
                     {
@@ -281,12 +246,57 @@ namespace TheHalls
         }
         
         /// <summary>
-        /// called when the game ends. for now, just sets the player's color to gray. 
+        /// called when the game ends. sets the game state to game over. 
         /// </summary>
         public void GameOver()
         {
-            player.Tint = Color.Gray;
             gameState = GameState.GameOver;
+        }
+
+        /// <summary>
+        /// changes the gamestate to game. resets obstacles, enemies, weapons and player.
+        /// </summary>
+        private void GameStart()
+        {
+            gameState = GameState.Game;
+            obstacles = new List<GameObject>();
+            rng = new Random();
+
+            obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
+            obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
+            obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
+
+            enemies = new List<Enemy>();
+            enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
+            enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
+
+            weapons = new List<Weapon>();
+            weapons.Add(new Weapon(new Rectangle(100, -100, 50, 50), sword, 1, weaponType.Sword));
+            weapons.Add(new Weapon(new Rectangle(-100, 25, 50, 50), spear, 1, weaponType.Spear));
+
+            foreach (Enemy elem in enemies)
+            {
+                elem.Tint = Color.Red;
+                if (elem is EnemyRanged)
+                {
+                    elem.Tint = Color.DarkRed;
+                }
+                obstacles.Add(elem);
+            }
+
+            player = new Player(
+                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 20,
+                _graphics.PreferredBackBufferHeight / 2 - 24),
+                new Vector2(50, 50),
+                whiteSquare,
+                arcImg,
+                sword,
+                GameOver);
+            player.Tint = Color.Green;
+
+            obstacles.Add(player);
+
+            screenOffset = new Vector2(0, 0);
         }
     }
 }
