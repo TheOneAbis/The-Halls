@@ -10,17 +10,11 @@ using System.Windows.Forms;
 
 namespace TheHallsLevelEditor
 {
-    public partial class Form1 : Form
+    public partial class LevelEditor : Form
     {
-        public Form1()
+        public LevelEditor()
         {
             InitializeComponent();
-        }
-
-        private void newRoom_Click(object sender, EventArgs e)
-        {
-            LevelEditor level = new LevelEditor();
-            level.ShowDialog();
         }
     }
 }
