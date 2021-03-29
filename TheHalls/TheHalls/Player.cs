@@ -42,6 +42,7 @@ namespace TheHalls
             health = 3;
             attackRadius = 100;
             this.weaponImage = weaponImage;
+            damage = 1;
             weapon = weaponType.Sword;
             damage = 1;
         }
@@ -191,5 +192,6 @@ namespace TheHalls
 
         public weaponType CurrentWeapon { get { return weapon; } set { weapon = value; } }
         public Texture2D WeaponImage { set { weaponImage = value; } }
+        public int Damage { get { return damage; } set { damage = value; } }
     }
 }

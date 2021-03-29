@@ -20,6 +20,7 @@ namespace TheHalls
             get { return alive; }
         }
         
+        //Constructor for enemy
         public Enemy(Vector2 worldLoc, Vector2 size, Texture2D image) : base(worldLoc, size, image)
         {
             movementSpeed = 2.5f;
@@ -58,6 +59,10 @@ namespace TheHalls
             }
         }
 
+        /// <summary>
+        /// Tries to attack player
+        /// </summary>
+        /// <param name="player">player being attack</param>
         public void TryAttack(Player player)
         {
             attackCooldown--;
@@ -68,6 +73,10 @@ namespace TheHalls
             }
         }
 
+        /// <summary>
+        /// Attacks player
+        /// </summary>
+        /// <param name="player">player being attack</param>
         public virtual void Attack(Player player)
         {
             Vector2 atkDirection = player.WorldLoc - worldLoc;
@@ -89,6 +98,10 @@ namespace TheHalls
             }
         }
 
+        /// <summary>
+        /// Draws enemys
+        /// </summary>
+        /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
