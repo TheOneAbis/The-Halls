@@ -77,9 +77,6 @@ namespace TheHallsLevelEditor
             if (saveFile.ShowDialog() == DialogResult.OK && saveFile.FileName != "")
             {
                 StreamWriter save = new StreamWriter(saveFile.FileName);
-                save.WriteLine(30);
-                save.WriteLine(30);
-
                 for (int i = 0; i < 30; i++)
                 {
                     for (int j = 0; j < 30; j++)
@@ -99,6 +96,39 @@ namespace TheHallsLevelEditor
 
                 //Displays message box
                 MessageBox.Show("File saved successfully", "File Save");
+            }
+        }
+
+        /// <summary>
+        /// Loads file
+        /// </summary>
+        private void LoadFile(OpenFileDialog file)
+        {
+            StreamReader load = new StreamReader(file.FileName);
+            for (int i = 0; i < 30; i++)
+            {
+                for (int j = 0; j < 30; j++)
+                {
+                    levelMap[i, j].BackColor = Color.FromArgb(int.Parse(load.ReadLine()));
+                }
+            }
+            load.Close();
+            MessageBox.Show("File Loaded successfully", "File Load");
+        }
+
+        /// <summary>
+        /// Loads file upon click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Load_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog loadFile = new OpenFileDialog();
+            loadFile.Title = "Open a Room File";
+            loadFile.Filter = "Room Files| *.room";
+            if (loadFile.ShowDialog() == DialogResult.OK)
+            {
+                LoadFile(loadFile);
             }
         }
     }
