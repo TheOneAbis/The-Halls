@@ -76,6 +76,7 @@ namespace TheHalls
             // Play button
             buttons = new List<Button>();
             buttons.Add(new Button(350, 200, 75, 50, whiteSquare, "Play", arial16));
+            buttons.Add(new Button(350, 300, 110, 50, whiteSquare, "God Mode", arial16));
         }
 
         protected override void Update(GameTime gameTime)
@@ -101,7 +102,11 @@ namespace TheHalls
                     // Was the play button clicked?
                     if (buttons[0].Clicked(mouse, prevMouse))
                     {
-                        GameStart();
+                        GameStart(false);
+                    }
+                    else if(buttons[1].Clicked(mouse, prevMouse))
+                    {
+                        GameStart(true);
                     }
                     break;
 
@@ -252,7 +257,7 @@ namespace TheHalls
         /// <summary>
         /// changes the gamestate to game. resets obstacles, enemies, weapons and player.
         /// </summary>
-        private void GameStart()
+        private void GameStart(bool easyMode)
         {
             gameState = GameState.Game;
             obstacles = new List<GameObject>();
@@ -289,6 +294,10 @@ namespace TheHalls
                 sword,
                 GameOver);
             player.Tint = Color.Green;
+            if (easyMode)
+            {
+                player.Health = int.MaxValue;
+            }
 
             obstacles.Add(player);
 
