@@ -19,11 +19,11 @@ namespace TheHalls
         private float arcRotation;
         private float movementSpeed;
         private int health;
+        private int damage;
         private int attackRadius;
         private weaponType weapon;
         private GameObject attack;
         private GameOver gameOver;
-        private int damage;
 
         /// <summary>
         /// 
@@ -44,7 +44,6 @@ namespace TheHalls
             this.weaponImage = weaponImage;
             damage = 1;
             weapon = weaponType.Sword;
-            damage = 1;
         }
 
         /// <summary>
@@ -116,6 +115,7 @@ namespace TheHalls
                 //  Vector rotates clockwise starting at left side of pie slice
                 for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
                 {
+                    elem.TakeDamage(damage);
                     // At each point of the vector's rotation, check every point along the vector's line
                     for (int i = 1; i <= attackRadius; i++)
                     {
@@ -192,6 +192,5 @@ namespace TheHalls
 
         public weaponType CurrentWeapon { get { return weapon; } set { weapon = value; } }
         public Texture2D WeaponImage { set { weaponImage = value; } }
-        public int Damage { get { return damage; } set { damage = value; } }
     }
 }

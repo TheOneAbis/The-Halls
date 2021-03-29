@@ -31,7 +31,7 @@ namespace TheHalls
         /// <returns>true if colliding with object</returns>
         public bool CheckCollison(Player player)
         {
-            if (this.location.Contains(player.WorldLoc) && active == true)
+            if (location.Contains(player.WorldLoc) && active == true)
             {
                 active = false;
                 return true;

@@ -9,6 +9,7 @@ namespace TheHalls
 {
     class Enemy : GameObject
     {
+        //Fields
         protected int health;
         protected float movementSpeed;
         protected bool alive;
