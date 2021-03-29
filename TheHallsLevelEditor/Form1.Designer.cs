@@ -44,7 +44,7 @@ namespace TheHallsLevelEditor
             // 
             // newRoom
             // 
-            this.newRoom.Location = new System.Drawing.Point(268, 507);
+            this.newRoom.Location = new System.Drawing.Point(268, 497);
             this.newRoom.Name = "newRoom";
             this.newRoom.Size = new System.Drawing.Size(633, 293);
             this.newRoom.TabIndex = 1;
