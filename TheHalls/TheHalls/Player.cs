@@ -17,6 +17,7 @@ namespace TheHalls
         private float arcRotation;
         private float movementSpeed;
         private int health;
+        private int damage;
         private weaponType weapon;
         private GameObject attack;
         private GameOver gameOver;
@@ -37,6 +38,7 @@ namespace TheHalls
             this.gameOver = gameOver;
             health = 3;
             this.weaponImage = weaponImage;
+            damage = 1;
             weapon = weaponType.Sword;
         }
 
@@ -102,7 +104,7 @@ namespace TheHalls
             {
                 if(attack.Collides(elem))
                 {
-                    elem.TakeDamage(1);
+                    elem.TakeDamage(Damage);
                 }
             }
         }
@@ -159,5 +161,6 @@ namespace TheHalls
 
         public weaponType CurrentWeapon { get { return weapon; } set { weapon = value; } }
         public Texture2D WeaponImage { set { weaponImage = value; } }
+        public int Damage { get { return damage; } set { damage = value; } }
     }
 }

@@ -114,11 +114,11 @@ namespace TheHalls
                 {
                     if (rng.Next(100) < 50)
                     {
-                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 1, weaponType.Sword));
+                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, rng.Next(1,4), weaponType.Sword));
                     }
                     else
                     {
-                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 1, weaponType.Spear));
+                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, rng.Next(1,4), weaponType.Spear));
                     }
                     obstacles.Remove(enemies[i]);
                     enemies.RemoveAt(i);
@@ -131,7 +131,6 @@ namespace TheHalls
                     enemies[i].ResolveCollisions(obstacles);
                 }
             }
-
 
             player.Aim(mouse);
             player.Move(kb);
@@ -178,6 +177,7 @@ namespace TheHalls
                 elem.Draw(_spriteBatch);
             }
             _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
+            _spriteBatch.DrawString(arial16, "Damage: " + player.Damage, new Vector2(25, 50), Color.Black);
 
             foreach (Weapon elem in weapons)
             {

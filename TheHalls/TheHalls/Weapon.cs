@@ -41,6 +41,7 @@ namespace TheHalls
             {
                 player.CurrentWeapon = Type;
                 player.WeaponImage = image;
+                player.Damage = damage;
                 return true;
             }
             return false;
