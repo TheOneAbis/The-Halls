@@ -71,6 +71,7 @@ namespace TheHallsLevelEditor
             this.Load.TabIndex = 2;
             this.Load.Text = "Load";
             this.Load.UseVisualStyleBackColor = true;
+            this.Load.Click += new System.EventHandler(this.Load_Click);
             // 
             // LevelEditor
             // 
