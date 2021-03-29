@@ -151,13 +151,13 @@ namespace TheHalls
             }
         }
 
-        /// <summary>
+        /// <summary>s
         /// spawns a new projectile
         /// </summary>
         /// <param name="player"></param>
         public override void Attack(Player player)
         {
-            projectile = new Projectile(worldLoc, new Vector2(20, 20), image, Vector2.Normalize((player.WorldLoc - worldLoc))*10, player);
+            projectile = new Projectile(worldLoc + (Size/2), new Vector2(20, 20), image, Vector2.Normalize((player.WorldLoc - worldLoc))*13, player);
         }
 
         /// <summary>

@@ -9,15 +9,17 @@ namespace TheHalls
 {
     class Projectile : GameObject
     {
-        Player target;
-        Vector2 worldVel;
-        bool active;
+        private Player target;
+        private Vector2 worldVel;
+        private bool active;
+        private float rotation;
 
         public Projectile(Vector2 worldLoc, Vector2 size, Texture2D image, Vector2 worldVel, Player target) : base(worldLoc, size, image)
         {
             this.target = target;
             this.worldVel = worldVel;
             active = true;
+            rotation = (float)Math.Atan(worldVel.Y / worldVel.X);
         }
 
 
@@ -41,14 +43,15 @@ namespace TheHalls
             {
                 sb.Draw(
                     image,
-                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), 50, 25),
+                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X + 12.5), (int)(worldLoc.Y - Game1.screenOffset.Y), 50, 25),
                     null,
                     Tint,
-                    (float)Math.Tan(worldVel.Y / worldVel.X),
+                    rotation,
+                    //Vector2.Zero,
                     new Vector2(image.Width /2, image.Height /2),
                     SpriteEffects.None,
                     0f);
-                base.Draw(sb);
+                //base.Draw(sb);
                 
             }
         }
