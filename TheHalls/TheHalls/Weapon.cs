@@ -22,7 +22,7 @@ namespace TheHalls
         public int Damage { get { return damage; } set { damage = value; } }
         public weaponType Type { get { return type; } }
 
-        //Consturctor
+        //Constructor
         public Weapon(Rectangle location, Texture2D image, int damage, weaponType type): base (location, image)
         {
             this.damage = damage;
