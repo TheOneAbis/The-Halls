@@ -17,7 +17,6 @@ namespace TheHalls
         public static Vector2 screenOffset;
         public Random rng;
 
-        private Texture2D coinImg;
         private Texture2D arcImg;
         private Texture2D whiteSquare;
         private Texture2D sword;
@@ -90,7 +89,6 @@ namespace TheHalls
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            coinImg = Content.Load<Texture2D>("coin");
             arcImg = Content.Load<Texture2D>("Arc");
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
@@ -114,11 +112,11 @@ namespace TheHalls
                 {
                     if (rng.Next(100) < 50)
                     {
-                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, rng.Next(1,4), weaponType.Sword));
+                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 3, weaponType.Sword));
                     }
                     else
                     {
-                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, rng.Next(1,4), weaponType.Spear));
+                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 2, weaponType.Spear));
                     }
                     obstacles.Remove(enemies[i]);
                     enemies.RemoveAt(i);
@@ -177,7 +175,7 @@ namespace TheHalls
                 elem.Draw(_spriteBatch);
             }
             _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
-            _spriteBatch.DrawString(arial16, "Damage: " + player.Damage, new Vector2(25, 50), Color.Black);
+            _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString() + player.Damage, new Vector2(25, 50), Color.Black);
 
             foreach (Weapon elem in weapons)
             {
