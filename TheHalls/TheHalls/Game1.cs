@@ -7,8 +7,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TheHalls
 {
-    
-
+    /// <summary>
+    /// Controls the state of the overall game
+    /// </summary>
+    public enum GameState
+    {
+        Menu,
+        Game,
+        Pause,
+        GameOver
+    }
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -32,6 +40,8 @@ namespace TheHalls
         private MouseState mouse;
         private MouseState prevMouse;
 
+        private GameState gameState;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -44,6 +54,7 @@ namespace TheHalls
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            gameState = GameState.Menu;
             obstacles = new List<GameObject>();
             rng = new Random();
 
@@ -105,54 +116,71 @@ namespace TheHalls
             mouse = Mouse.GetState();
             kb = Keyboard.GetState();
 
-
-            for (int i = 0; i < enemies.Count; i++)
+            switch (gameState)
             {
-                if(!enemies[i].Alive)
-                {
-                    if (rng.Next(100) < 50)
+                // Menu State
+                case GameState.Menu:
+                    break;
+
+                // Game State
+                case GameState.Game:
+                    for (int i = 0; i < enemies.Count; i++)
                     {
-                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 3, weaponType.Sword));
+                        if (!enemies[i].Alive)
+                        {
+                            if (rng.Next(100) < 50)
+                            {
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 3, weaponType.Sword));
+                            }
+                            else
+                            {
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 2, weaponType.Spear));
+                            }
+                            obstacles.Remove(enemies[i]);
+                            enemies.RemoveAt(i);
+                            i--;
+                        }
+                        else
+                        {
+                            enemies[i].TryAttack(player);
+                            enemies[i].Move(player);
+                            enemies[i].ResolveCollisions(obstacles);
+                        }
                     }
-                    else
+
+                    player.Aim(mouse);
+                    player.Move(kb);
+
+                    for (int i = 0; i < weapons.Count; i++)
                     {
-                        weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 2, weaponType.Spear));
+                        if (weapons[i].PickUp(player))
+                        {
+                            weapons.RemoveAt(i);
+                        }
                     }
-                    obstacles.Remove(enemies[i]);
-                    enemies.RemoveAt(i);
-                    i--;
-                }
-                else
-                {
-                    enemies[i].TryAttack(player);
-                    enemies[i].Move(player);
-                    enemies[i].ResolveCollisions(obstacles);
-                }
+
+                    if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
+                    {
+                        player.Attack(enemies);
+                    }
+
+                    player.ResolveCollisions(obstacles);
+
+                    //adjusts the screenOffset to center the player.
+                    screenOffset = new Vector2(
+                        player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2,
+                        player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
+                    break;
+
+                // Pause State
+                case GameState.Pause:
+                    break;
+
+                // GameOver State
+                case GameState.GameOver:
+                    break;
             }
-
-            player.Aim(mouse);
-            player.Move(kb);
-
-            for(int i = 0; i< weapons.Count; i++)
-            {
-                if (weapons[i].PickUp(player))
-                {
-                    weapons.RemoveAt(i);
-                }
-            }
-
-            if(mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
-            {
-                player.Attack(enemies);
-            }
-
-            player.ResolveCollisions(obstacles);
-
-            //adjusts the screenOffset to center the player.
-            screenOffset = new Vector2(
-                player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2, 
-                player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
-
+            
             prevMouse = Mouse.GetState();
 
             base.Update(gameTime);
