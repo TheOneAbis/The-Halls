@@ -18,15 +18,20 @@ namespace TheHalls
     class Room
     {
         protected Dictionary<Direction, Room> adjacentRooms;
-        protected List<GameObject> obstacles;
-        protected GameObject outDoor;
-        protected Direction outDirection;
-        protected Direction inDirection;
-        protected bool set;
+        protected RoomData room;
 
-        public Room()
+        public Room(RoomData room, Room previous, Texture2D obstacle)
         {
+            adjacentRooms[room.inDirection] = previous;
+            this.room = room;
+        }
 
+        public void Draw(SpriteBatch sb)
+        {
+            foreach(GameObject obstacle in room.obstacles)
+            {
+                obstacle.Draw(sb);
+            }
         }
     }
 }
