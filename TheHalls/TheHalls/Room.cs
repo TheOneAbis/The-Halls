@@ -21,9 +21,21 @@ namespace TheHalls
         protected RoomData room;
         protected Vector2 roomOffset;
 
+        public RoomData RoomInfo
+        {
+            get { return room; }
+        }
+
+        //this overload constructs the starter room
+        public Room(RoomData room, Texture2D obstacle)
+        {
+            this.room = room;
+            roomOffset = new Vector2(0, 0);
+        }
+
         public Room(RoomData room, Room previous, Texture2D obstacle, Vector2 roomOffset)
         {
-            adjacentRooms[room.inDirection] = previous;
+            //adjacentRooms[room.inDirection] = previous;
             this.room = room;
             this.roomOffset = roomOffset;
             foreach(GameObject obs in room.obstacles)

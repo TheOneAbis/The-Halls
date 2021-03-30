@@ -32,7 +32,7 @@ namespace TheHalls
         private SpriteFont arial16;
 
         private List<GameObject> obstacles;
-        //private List<Room> rooms;
+        private List<Room> rooms;
         private List<Enemy> enemies;
         private Player player;
         private List<Weapon> weapons;
@@ -43,6 +43,8 @@ namespace TheHalls
         private MouseState prevMouse;
 
         private GameState gameState;
+
+        private List<RoomData> roomTemplates;
 
         // Menu buttons
         List<Button> buttons;
@@ -71,6 +73,7 @@ namespace TheHalls
             arial16 = Content.Load<SpriteFont>("arial16");
             sword = Content.Load<Texture2D>("sword");
             spear = Content.Load<Texture2D>("spear");
+            roomTemplates = LoadRooms();
 
             //    -- Menu Buttons --
 
@@ -265,57 +268,27 @@ namespace TheHalls
         private void GameStart(bool easyMode)
         {
             gameState = GameState.Game;
-            //rooms = new List<Room>();
+            rooms = new List<Room>();
             obstacles = new List<GameObject>();
             rng = new Random();
 
-            /*
-            rooms.Add(
-                new Room(
-                    new RoomData(
-                        new List<GameObject>
-                        {
-                            new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
-                            new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare),
-                            new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
-                        },
-                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
-                        Direction.Down,
-                        Direction.Up,
-                        new List<Vector2>
-                        {
-                            new Vector2(400, 400),
-                            new Vector2(400, 0),
-                        }),
-                        null,
-                        whiteSquare,
-                        new Vector2(0, 0)));
+            //starter room
+            rooms.Add(new Room(
+                roomTemplates[0], whiteSquare));
 
-            rooms.Add(
-                new Room(
-                    new RoomData(
-                        new List<GameObject>
-                        {
-                            new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
-                            new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare),
-                            new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
-                        },
-                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
-                        Direction.Down,
-                        Direction.Up,
-                        new List<Vector2>
-                        {
-                            new Vector2(400, 400),
-                            new Vector2(400, 0),
-                        }),
-                        null,
-                        whiteSquare,
-                        new Vector2(300, 0)));
-            */
+            
+            foreach(Room elem in rooms)
+            {
+                foreach(GameObject obstacle in elem.RoomInfo.obstacles)
+                {
+                    obstacles.Add(obstacle);
+                }
+            }
 
-            obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
-            obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
-            obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
+
+            //obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
+            //obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
+            //obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
 
             enemies = new List<Enemy>();
             enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
@@ -352,6 +325,49 @@ namespace TheHalls
             obstacles.Add(player);
 
             screenOffset = new Vector2(0, 0);
+        }
+
+        /// <summary>
+        /// in the future this will load the rooms from .room files, and return a list of all the rooms. 
+        /// </summary>
+        /// <returns></returns>
+        private List<RoomData> LoadRooms()
+        {
+            return new List<RoomData>
+            {
+                new RoomData(
+                        new List<GameObject>
+                        {
+                            new GameObject(new Vector2(0, 0), new Vector2(50, 500), whiteSquare),
+                            new GameObject(new Vector2(150, 0), new Vector2(400, 50), whiteSquare),
+                            new GameObject(new Vector2(500, 0), new Vector2(50, 500), whiteSquare),
+                            new GameObject(new Vector2(50, 450), new Vector2(500, 50), whiteSquare)
+                        },
+                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                        Direction.Down,
+                        Direction.Up,
+                        new List<Vector2>
+                        {
+                            new Vector2(400, 400),
+                            new Vector2(400, 0),
+                        }),
+                new RoomData(
+                        new List<GameObject>
+                        {
+                            new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
+                            new GameObject(new Vector2(300, 50), new Vector2(200, 50), whiteSquare),
+                            new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
+                        },
+                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                        Direction.Down,
+                        Direction.Up,
+                        new List<Vector2>
+                        {
+                            new Vector2(400, 400),
+                            new Vector2(400, 0),
+                        })
+
+            };
         }
     }
 }
