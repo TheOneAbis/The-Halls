@@ -32,6 +32,7 @@ namespace TheHalls
         private SpriteFont arial16;
 
         private List<GameObject> obstacles;
+        //private List<Room> rooms;
         private List<Enemy> enemies;
         private Player player;
         private List<Weapon> weapons;
@@ -264,8 +265,53 @@ namespace TheHalls
         private void GameStart(bool easyMode)
         {
             gameState = GameState.Game;
+            //rooms = new List<Room>();
             obstacles = new List<GameObject>();
             rng = new Random();
+
+            /*
+            rooms.Add(
+                new Room(
+                    new RoomData(
+                        new List<GameObject>
+                        {
+                            new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
+                            new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare),
+                            new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
+                        },
+                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                        Direction.Down,
+                        Direction.Up,
+                        new List<Vector2>
+                        {
+                            new Vector2(400, 400),
+                            new Vector2(400, 0),
+                        }),
+                        null,
+                        whiteSquare,
+                        new Vector2(0, 0)));
+
+            rooms.Add(
+                new Room(
+                    new RoomData(
+                        new List<GameObject>
+                        {
+                            new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
+                            new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare),
+                            new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
+                        },
+                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                        Direction.Down,
+                        Direction.Up,
+                        new List<Vector2>
+                        {
+                            new Vector2(400, 400),
+                            new Vector2(400, 0),
+                        }),
+                        null,
+                        whiteSquare,
+                        new Vector2(300, 0)));
+            */
 
             obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
             obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));

@@ -23,6 +23,7 @@ namespace TheHalls
         public Vector2 WorldLoc
         {
             get { return worldLoc; }
+            set { worldLoc = value; }
         }
 
         public Vector2 Size
