@@ -34,7 +34,7 @@ namespace TheHalls
         /// This has the enemy move directly tsdowards the target - generally the player.
         /// </summary>
         /// <param name="target"></param>
-        public virtual void Move(GameObject target)
+        public virtual void Move(Player target, List<GameObject> obstacles)
         {
             Vector2 moveDirection = target.WorldLoc - worldLoc;
 

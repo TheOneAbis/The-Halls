@@ -178,6 +178,17 @@ namespace TheHalls
         public int Health
         {
             get { return health; }
+            set 
+            { 
+                if(health <= value)
+                {
+                    health = value;
+                }
+                else
+                {
+                    TakeDamage(health - value);
+                }
+            }
         }
 
         /// <summary>
