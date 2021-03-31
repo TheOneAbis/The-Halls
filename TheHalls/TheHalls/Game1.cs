@@ -33,6 +33,7 @@ namespace TheHalls
 
         private List<GameObject> obstacles;
         private List<Room> rooms;
+        private Room currentRoom;
         private List<Enemy> enemies;
         private Player player;
         private List<Weapon> weapons;
@@ -44,7 +45,8 @@ namespace TheHalls
 
         private GameState gameState;
 
-        private List<RoomData> roomTemplates;
+        //sperate lists for each direction
+        private Dictionary<Direction, List<RoomData>> roomTemplates;
 
         // Menu buttons
         List<Button> buttons;
@@ -274,7 +276,24 @@ namespace TheHalls
 
             //starter room
             rooms.Add(new Room(
-                roomTemplates[0], whiteSquare));
+                new RoomData(
+                        new List<GameObject>
+                        {
+                                new GameObject(new Vector2(0, 0), new Vector2(200, 50), whiteSquare),
+                                new GameObject(new Vector2(0, 0), new Vector2(50, 500), whiteSquare),
+                                new GameObject(new Vector2(300, 0), new Vector2(200, 50), whiteSquare),
+                                new GameObject(new Vector2(450, 0), new Vector2(50, 500), whiteSquare),
+                                new GameObject(new Vector2(0, 450), new Vector2(500, 50), whiteSquare)
+                        },
+                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                        Direction.Down,
+                        Direction.Up,
+                        new List<Vector2>
+                        {
+                            new Vector2(400, 400),
+                            new Vector2(400, 0),
+                        }),
+                whiteSquare));
 
             
             foreach(Room elem in rooms)
@@ -291,8 +310,8 @@ namespace TheHalls
             //obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
 
             enemies = new List<Enemy>();
-            enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
-            enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
+            //enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
+            //enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
 
             weapons = new List<Weapon>();
             weapons.Add(new Weapon(new Rectangle(100, -100, 50, 50), sword, 1, weaponType.Sword));
@@ -325,49 +344,129 @@ namespace TheHalls
             obstacles.Add(player);
 
             screenOffset = new Vector2(0, 0);
+            
+            //currently just to test the the method. this will be called when the player collides with the outdoor of the current room.
+            NextRoom();
+        }
+
+        /// <summary>
+        /// generates a new room at the end of the chain. 
+        /// </summary>
+        public void NextRoom()
+        {
+            Room enterFrom = rooms[rooms.Count - 1];
+            Vector2 roomOffset = enterFrom.RoomOffset;
+            Direction inDirection = Direction.Up;
+
+            //determine what direction the room will be facing, and adjust offset accordingly
+            switch(enterFrom.RoomInfo.outDirection)
+            {
+                case Direction.Down:
+                    roomOffset.Y += 500;
+                    inDirection = Direction.Up;
+                    break;
+
+                case Direction.Up:
+                    roomOffset.Y -= 500;
+                    inDirection = Direction.Down;
+                    break;
+
+                case Direction.Left:
+                    roomOffset.X -= 500;
+                    inDirection = Direction.Right;
+                    break;
+
+                case Direction.Right:
+                    roomOffset.X += 500;
+                    inDirection = Direction.Left;
+                    break;
+            }
+
+            //create the room
+            rooms.Add(new Room(
+                roomTemplates[inDirection][0],
+                enterFrom,
+                whiteSquare,
+                roomOffset
+                ));
+
+            //add to obstacles
+            foreach (GameObject obstacle in rooms[rooms.Count- 1].RoomInfo.obstacles)
+            {
+                obstacles.Add(obstacle);
+            }
+
+            //Spawn enemies
+            foreach (Vector2 elem in rooms[rooms.Count - 1].RoomInfo.enemySpawns)
+            {
+                if (rng.Next(2) == 0)
+                {
+                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), whiteSquare));
+                    enemies[enemies.Count - 1].Tint = Color.DarkRed;
+                }
+                else
+                {
+                    enemies.Add(new Enemy(elem, new Vector2(50, 50), whiteSquare));
+                    enemies[enemies.Count - 1].Tint = Color.Red;
+                }
+            }
         }
 
         /// <summary>
         /// in the future this will load the rooms from .room files, and return a list of all the rooms. 
         /// </summary>
         /// <returns></returns>
-        private List<RoomData> LoadRooms()
+        private Dictionary<Direction, List<RoomData>> LoadRooms()
         {
-            return new List<RoomData>
-            {
-                new RoomData(
-                        new List<GameObject>
-                        {
-                            new GameObject(new Vector2(0, 0), new Vector2(50, 500), whiteSquare),
-                            new GameObject(new Vector2(150, 0), new Vector2(400, 50), whiteSquare),
-                            new GameObject(new Vector2(500, 0), new Vector2(50, 500), whiteSquare),
-                            new GameObject(new Vector2(50, 450), new Vector2(500, 50), whiteSquare)
-                        },
-                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
-                        Direction.Down,
-                        Direction.Up,
-                        new List<Vector2>
-                        {
-                            new Vector2(400, 400),
-                            new Vector2(400, 0),
-                        }),
-                new RoomData(
-                        new List<GameObject>
-                        {
-                            new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
-                            new GameObject(new Vector2(300, 50), new Vector2(200, 50), whiteSquare),
-                            new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
-                        },
-                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
-                        Direction.Down,
-                        Direction.Up,
-                        new List<Vector2>
-                        {
-                            new Vector2(400, 400),
-                            new Vector2(400, 0),
-                        })
+            Dictionary<Direction, List<RoomData>> rooms = new Dictionary<Direction, List<RoomData>>();
 
-            };
+            rooms.Add(Direction.Down,
+                new List<RoomData>
+                {
+
+                    new RoomData(
+                            new List<GameObject>
+                            {
+                                new GameObject(new Vector2(0, 0), new Vector2(500, 50), whiteSquare),
+                                new GameObject(new Vector2(0, 0), new Vector2(50, 200), whiteSquare),
+                                new GameObject(new Vector2(0, 300), new Vector2(50, 200), whiteSquare),
+                                new GameObject(new Vector2(450, 0), new Vector2(50, 500), whiteSquare),
+                                new GameObject(new Vector2(0, 450), new Vector2(200, 50), whiteSquare),
+                                new GameObject(new Vector2(300, 450), new Vector2(200, 50), whiteSquare),
+                            },
+                            new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                            Direction.Down,
+                            Direction.Left,
+                            new List<Vector2>
+                            {
+                                new Vector2(100, 100),
+                                new Vector2(300, 400),
+                            })
+
+                });
+
+            rooms.Add(Direction.Up,
+                new List<RoomData>
+                {
+                    new RoomData(
+                            new List<GameObject>
+                            {
+                                new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
+                                new GameObject(new Vector2(300, 50), new Vector2(200, 50), whiteSquare),
+                                new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
+                            },
+                            new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                            Direction.Up,
+                            Direction.Right,
+                            new List<Vector2>
+                            {
+                                new Vector2(400, 400),
+                                new Vector2(400, 0),
+                            })
+                });
+
+            return rooms;
         }
     }
 }
+

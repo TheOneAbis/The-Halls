@@ -26,6 +26,12 @@ namespace TheHalls
             get { return room; }
         }
 
+        public Vector2 RoomOffset
+        {
+            get { return roomOffset; }
+        }
+
+
         //this overload constructs the starter room
         public Room(RoomData room, Texture2D obstacle)
         {
