@@ -41,6 +41,7 @@ namespace TheHallsLevelEditor
             this.LoadRoom.TabIndex = 0;
             this.LoadRoom.Text = "Load Room";
             this.LoadRoom.UseVisualStyleBackColor = true;
+            this.LoadRoom.Click += new System.EventHandler(this.LoadRoom_Click);
             // 
             // newRoom
             // 
