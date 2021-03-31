@@ -18,12 +18,16 @@ namespace TheHalls
     class Room
     {
         protected Dictionary<Direction, Room> adjacentRooms;
-        protected RoomData room;
+        protected List<GameObject> obstacles;
+        protected GameObject outDoor;
+        protected Direction inDirection;
+        protected Direction outDirection;
+        protected List<Vector2> enemySpawns;
         protected Vector2 roomOffset;
 
-        public RoomData RoomInfo
+        public List<GameObject> Obstacles
         {
-            get { return room; }
+            get { return obstacles; }
         }
 
         public Vector2 RoomOffset
@@ -31,35 +35,57 @@ namespace TheHalls
             get { return roomOffset; }
         }
 
-
-        //this overload constructs the starter room
-        public Room(RoomData room, Texture2D obstacle)
+        public Direction OutDirection
         {
-            this.room = room;
+            get { return outDirection; }
+        }
+
+        public List<Vector2> EnemySpawns
+        {
+            get { return enemySpawns; }
+        }
+        /// <summary>
+        /// this overload constructs the starter room
+        /// </summary>
+        /// <param name="room"></param>
+        /// <param name="obstacle"></param>
+        public Room(RoomData roomTemplate, Texture2D obstacle)
+        {
+            obstacles = roomTemplate.Obstacles;
+            outDoor = roomTemplate.OutDoor;
+            inDirection = roomTemplate.InDirection;
+            outDirection = roomTemplate.OutDirection;
+            enemySpawns = roomTemplate.EnemySpawns;
+
             roomOffset = new Vector2(0, 0);
         }
 
-        public Room(RoomData room, Room previous, Texture2D obstacle, Vector2 roomOffset)
+        public Room(RoomData roomTemplate, Room previous, Texture2D obstacle, Vector2 roomOffset)
         {
             //adjacentRooms[room.inDirection] = previous;
-            this.room = room;
+            obstacles = roomTemplate.Obstacles;
+            outDoor = roomTemplate.OutDoor;
+            inDirection = roomTemplate.InDirection;
+            outDirection = roomTemplate.OutDirection; 
+            enemySpawns = roomTemplate.EnemySpawns;
+
             this.roomOffset = roomOffset;
-            foreach(GameObject obs in room.obstacles)
+            foreach(GameObject obs in obstacles)
             {
                 obs.WorldLoc += roomOffset;
             }
             //foreach did work on this for some reason
-            for(int i = 0; i < room.enemySpawns.Count; i++)
+            for(int i = 0; i < enemySpawns.Count; i++)
             {
-                room.enemySpawns[i] += roomOffset;
+                enemySpawns[i] += roomOffset;
             }
 
-            room.outDoor.WorldLoc += roomOffset;
+            outDoor.WorldLoc += roomOffset;
         }
 
         public void Draw(SpriteBatch sb)
         {
-            foreach(GameObject obstacle in room.obstacles)
+            foreach(GameObject obstacle in obstacles)
             {
                 obstacle.Draw(sb);
             }

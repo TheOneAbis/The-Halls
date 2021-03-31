@@ -23,7 +23,7 @@ namespace TheHalls
         }
 
 
-        public void Update()
+        public void Update(List<GameObject> obstacles)
         {
             if (active)
             {
@@ -32,6 +32,14 @@ namespace TheHalls
                 if (Collides(target))
                 {
                     target.TakeDamage(1);
+                    active = false;
+                }
+            }
+
+            foreach(GameObject elem in obstacles)
+            {
+                if(Collides(elem))
+                {
                     active = false;
                 }
             }

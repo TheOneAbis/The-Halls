@@ -31,6 +31,11 @@ namespace TheHalls
             get { return size; }
         }
 
+        public Texture2D Image
+        {
+            get { return image; }
+        }
+
         public Color Tint
         {
             get { return tint; }

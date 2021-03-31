@@ -137,7 +137,7 @@ namespace TheHalls
                         else
                         {
                             enemies[i].TryAttack(player);
-                            enemies[i].Move(player);
+                            enemies[i].Move(player, obstacles);
                             enemies[i].ResolveCollisions(obstacles);
                         }
                     }
@@ -298,7 +298,7 @@ namespace TheHalls
             
             foreach(Room elem in rooms)
             {
-                foreach(GameObject obstacle in elem.RoomInfo.obstacles)
+                foreach(GameObject obstacle in elem.Obstacles)
                 {
                     obstacles.Add(obstacle);
                 }
@@ -359,7 +359,7 @@ namespace TheHalls
             Direction inDirection = Direction.Up;
 
             //determine what direction the room will be facing, and adjust offset accordingly
-            switch(enterFrom.RoomInfo.outDirection)
+            switch(enterFrom.OutDirection)
             {
                 case Direction.Down:
                     roomOffset.Y += 500;
@@ -391,13 +391,13 @@ namespace TheHalls
                 ));
 
             //add to obstacles
-            foreach (GameObject obstacle in rooms[rooms.Count- 1].RoomInfo.obstacles)
+            foreach (GameObject obstacle in rooms[rooms.Count- 1].Obstacles)
             {
                 obstacles.Add(obstacle);
             }
 
             //Spawn enemies
-            foreach (Vector2 elem in rooms[rooms.Count - 1].RoomInfo.enemySpawns)
+            foreach (Vector2 elem in rooms[rooms.Count - 1].EnemySpawns)
             {
                 if (rng.Next(2) == 0)
                 {
