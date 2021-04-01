@@ -217,7 +217,6 @@ namespace TheHalls
 
                 case GameState.Game:
 
-                    player.Draw(_spriteBatch);
                     foreach (Enemy elem in enemies)
                     {
                         elem.Draw(_spriteBatch);
@@ -236,6 +235,7 @@ namespace TheHalls
                     {
                         elem.Draw(_spriteBatch);
                     }
+                    player.Draw(_spriteBatch);
                     break;
 
                 case GameState.Pause:
