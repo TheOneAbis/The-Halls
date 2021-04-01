@@ -319,11 +319,6 @@ namespace TheHalls
 
             foreach (Enemy elem in enemies)
             {
-                elem.Tint = Color.Red;
-                if (elem is EnemyRanged)
-                {
-                    elem.Tint = Color.DarkRed;
-                }
                 obstacles.Add(elem);
             }
 

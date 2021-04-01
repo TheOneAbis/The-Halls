@@ -28,6 +28,7 @@ namespace TheHalls
             health = 3;
             alive = true;
             attackCooldown = 90;
+            Tint = Color.Red;
         }
 
         /// <summary>

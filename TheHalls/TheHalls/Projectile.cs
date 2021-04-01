@@ -20,6 +20,7 @@ namespace TheHalls
             this.worldVel = worldVel;
             active = true;
             rotation = (float)Math.Atan(worldVel.Y / worldVel.X);
+            Tint = Color.Orange;
         }
 
 
@@ -59,8 +60,6 @@ namespace TheHalls
                     new Vector2(image.Width /2, image.Height /2),
                     SpriteEffects.None,
                     0f);
-                //base.Draw(sb);
-                
             }
         }
     }
