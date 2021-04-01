@@ -16,11 +16,26 @@ namespace TheHallsLevelEditor
         private PictureBox[,] levelMap;
         private bool changes;
 
+        /// <summary>
+        /// Creates new level
+        /// </summary>
         public LevelEditor()
         {
             levelMap = new PictureBox[30, 30];
             InitializeComponent();
             CreateTile();
+        }
+
+        /// <summary>
+        /// Loads level
+        /// </summary>
+        /// <param name="file"></param>
+        public LevelEditor(OpenFileDialog file)
+        {
+            levelMap = new PictureBox[30, 30];
+            InitializeComponent();
+            CreateTile();
+            LoadFile(file);
         }
 
         /// <summary>
