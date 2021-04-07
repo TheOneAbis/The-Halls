@@ -68,6 +68,9 @@ namespace TheHalls
             base.Initialize();
 
             //startup code
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
             gameState = GameState.Menu;
             buttons = new List<Button>();
             rng = new Random();
@@ -75,10 +78,10 @@ namespace TheHalls
             //    -- Menu Buttons --
 
             // Play button
-            buttons.Add(new Button(350, 200, 75, 50, whiteSquare, "Play", arial16));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 38, _graphics.PreferredBackBufferHeight /2 - 25, 75, 50, whiteSquare, "Play", arial16));
 
             // God mode
-            buttons.Add(new Button(350, 300, 110, 50, whiteSquare, "God Mode", arial16));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 55, _graphics.PreferredBackBufferHeight / 2 + 75, 110, 50, whiteSquare, "God Mode", arial16));
         }
 
         protected override void LoadContent()
@@ -233,20 +236,27 @@ namespace TheHalls
                     {
                         button.Draw(_spriteBatch, Color.Black);
                     }
-                    _spriteBatch.DrawString(arial16, "THE HALLS", new Vector2(350, 75), Color.Red);
+                    _spriteBatch.DrawString(
+                        arial16, "THE HALLS", 
+                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (arial16.MeasureString("THE HALLS").X/2), 
+                        _graphics.PreferredBackBufferHeight /2 - 150), 
+                        Color.Red);
+
                     break;
 
                 case GameState.Game:
+
+
+                    foreach (GameObject elem in obstacles)
+                    {
+                        elem.Draw(_spriteBatch);
+                    }
 
                     foreach (Enemy elem in enemies)
                     {
                         elem.Draw(_spriteBatch);
                     }
 
-                    foreach (GameObject elem in obstacles)
-                    {
-                        elem.Draw(_spriteBatch);
-                    }
                     //HUD
                     _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
                     _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString(), new Vector2(25, 50), Color.Black);
@@ -262,13 +272,38 @@ namespace TheHalls
                 case GameState.Pause:
 
                     // Draw Pause Text
-                    _spriteBatch.DrawString(arial16, "GAME PAUSED \nPress [Space] to resume \nPress [Esc] to return to menu", new Vector2(300, 100), Color.Yellow);
+                    _spriteBatch.DrawString(arial16, 
+                        "GAME PAUSED", 
+                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (arial16.MeasureString("GAME PAUSED").X /2), 100), 
+                        Color.Yellow);
+
+                    _spriteBatch.DrawString(arial16, 
+                        "\nPress [Space] to continue",
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Space] to continue").X / 2), 100), 
+                        Color.Yellow);
+
+                    _spriteBatch.DrawString(arial16, 
+                        "\n\nPress [Esc] to return to menu", 
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 100), 
+                        Color.Yellow);
+
                     break;
 
                 case GameState.GameOver:
 
                     // Draw Game over text
-                    _spriteBatch.DrawString(arial16, "GAME OVER \nPress [Esc] to return to menu", new Vector2(300, 100), Color.Red);
+                    _spriteBatch.DrawString(arial16, 
+                        "GAME OVER", 
+                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (arial16.MeasureString("GAME OVER").X /2), 100), 
+                        Color.Red);
+                     _spriteBatch.DrawString(arial16, 
+                        "\nPress [Esc] to return to menu", 
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 100), 
+                        Color.Red);
+                    _spriteBatch.DrawString(arial16,
+                        $"\n\nRoom #{rooms.Count -1}",
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString($"\n\nRoom #{rooms.Count -1}").X / 2), 100),
+                        Color.Red);
                     break;
             }
 
@@ -331,8 +366,8 @@ namespace TheHalls
 
             //init player            
             player = new Player(
-                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 20,
-                _graphics.PreferredBackBufferHeight / 2 - 24),
+                new Vector2(250,
+                250),
                 new Vector2(50, 50),
                 whiteSquare,
                 arcImg,
