@@ -33,7 +33,7 @@ namespace TheHalls
 
         private List<GameObject> obstacles;
         private List<Room> rooms;
-        private Room currentRoom;
+        private Room lastRoom;
         private List<Enemy> enemies;
         private Player player;
         private List<Weapon> weapons;
@@ -132,6 +132,11 @@ namespace TheHalls
                             }
                             obstacles.Remove(enemies[i]);
                             enemies.RemoveAt(i);
+                            if(enemies.Count == 0)
+                            {
+                                obstacles.Remove(lastRoom.OutDoor);
+                                NextRoom();
+                            }
                             i--;
                         }
                         else
@@ -377,34 +382,38 @@ namespace TheHalls
                     break;
             }
 
-            //create the room
-            rooms.Add(new Room(
+            lastRoom = new Room(
                 roomTemplates[inDirection][0],
                 enterFrom,
                 whiteSquare,
                 roomOffset
-                ));
+                );
+
+            //create the room
+            rooms.Add(lastRoom);
 
             //add to obstacles
-            foreach (GameObject obstacle in rooms[rooms.Count- 1].Obstacles)
+            foreach (GameObject obstacle in lastRoom.Obstacles)
             {
                 obstacles.Add(obstacle);
             }
 
             //Spawn enemies
-            foreach (Vector2 elem in rooms[rooms.Count - 1].EnemySpawns)
+            foreach (Vector2 elem in lastRoom.EnemySpawns)
             {
                 if (rng.Next(2) == 0)
                 {
                     enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), whiteSquare));
-                    enemies[enemies.Count - 1].Tint = Color.DarkRed;
+                    //enemies[enemies.Count - 1].Tint = Color.DarkRed;
                 }
                 else
                 {
                     enemies.Add(new Enemy(elem, new Vector2(50, 50), whiteSquare));
-                    enemies[enemies.Count - 1].Tint = Color.Red;
+                    //enemies[enemies.Count - 1].Tint = Color.Red;
                 }
             }
+            obstacles.Add(lastRoom.OutDoor);
+            lastRoom.OutDoor.Tint = Color.Brown;
         }
 
         /// <summary>
@@ -422,16 +431,23 @@ namespace TheHalls
                     new RoomData(
                             new List<GameObject>
                             {
-                                new GameObject(new Vector2(0, 0), new Vector2(500, 50), whiteSquare),
-                                new GameObject(new Vector2(0, 0), new Vector2(50, 200), whiteSquare),
-                                new GameObject(new Vector2(0, 300), new Vector2(50, 200), whiteSquare),
+                                //top wall
+                                new GameObject(new Vector2(0, 0), new Vector2(200, 50), whiteSquare),
+                                new GameObject(new Vector2(300, 0), new Vector2(200, 50), whiteSquare),
+
+                                //left wall
+                                new GameObject(new Vector2(0, 0), new Vector2(50, 500), whiteSquare),
+
+                                //right wall
                                 new GameObject(new Vector2(450, 0), new Vector2(50, 500), whiteSquare),
+
+                                //bottom wall
                                 new GameObject(new Vector2(0, 450), new Vector2(200, 50), whiteSquare),
                                 new GameObject(new Vector2(300, 450), new Vector2(200, 50), whiteSquare),
                             },
-                            new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
+                            new GameObject(new Vector2(200, 0), new Vector2(100, 50), whiteSquare),
                             Direction.Down,
-                            Direction.Left,
+                            Direction.Up,
                             new List<Vector2>
                             {
                                 new Vector2(100, 100),
@@ -459,7 +475,6 @@ namespace TheHalls
                                 new Vector2(400, 0),
                             })
                 });
-
             return rooms;
         }
     }

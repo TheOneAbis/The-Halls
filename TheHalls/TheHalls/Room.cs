@@ -40,6 +40,11 @@ namespace TheHalls
             get { return outDirection; }
         }
 
+        public GameObject OutDoor
+        {
+            get { return outDoor; }
+        }
+
         public List<Vector2> EnemySpawns
         {
             get { return enemySpawns; }
