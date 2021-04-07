@@ -17,16 +17,18 @@ namespace TheHalls
         //Fields
         private int damage;
         private weaponType type;
+        private SpriteFont dmgFont;
 
         //Properties
         public int Damage { get { return damage; } set { damage = value; } }
         public weaponType Type { get { return type; } }
 
         //Constructor
-        public Weapon(Rectangle location, Texture2D image, int damage, weaponType type): base (location, image)
+        public Weapon(Rectangle location, Texture2D image, int damage, weaponType type, SpriteFont dmgFont): base (location, image)
         {
             this.damage = damage;
             this.type = type;
+            this.dmgFont = dmgFont;
         }
 
         //Methods
@@ -45,6 +47,15 @@ namespace TheHalls
                 return true;
             }
             return false;
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            if (active)
+            {
+                base.Draw(sb);
+                sb.DrawString(dmgFont, damage.ToString(), worldLoc - Game1.screenOffset, Color.Black);
+            }
         }
     }
 }

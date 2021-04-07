@@ -137,11 +137,11 @@ namespace TheHalls
                         {
                             if (rng.Next(100) < 50)
                             {
-                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 3, weaponType.Sword));
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 3, weaponType.Sword, arial16));
                             }
                             else
                             {
-                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 2, weaponType.Spear));
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 2, weaponType.Spear, arial16));
                             }
                             obstacles.Remove(enemies[i]);
                             enemies.RemoveAt(i);
@@ -155,7 +155,7 @@ namespace TheHalls
                         else
                         {
                             //if the enemy is still alive, update it's AI and collisions
-                            enemies[i].TryAttack(player);
+                            enemies[i].TryAttack(player, gameTime);
                             enemies[i].Move(player, obstacles);
                             enemies[i].ResolveCollisions(obstacles);
                         }
@@ -252,20 +252,38 @@ namespace TheHalls
                         elem.Draw(_spriteBatch);
                     }
 
+                    foreach (Weapon elem in weapons)
+                    {
+                        elem.Draw(_spriteBatch);
+                    }
+
                     foreach (Enemy elem in enemies)
                     {
                         elem.Draw(_spriteBatch);
                     }
 
                     //HUD
-                    _spriteBatch.DrawString(arial16, "Health: " + player.Health, new Vector2(25, 25), Color.Black);
-                    _spriteBatch.DrawString(arial16, "Weapon: " + player.CurrentWeapon.ToString(), new Vector2(25, 50), Color.Black);
-                    _spriteBatch.DrawString(arial16, "Damage: " + player.Damage, new Vector2(25, 75), Color.Black);
-
-                    foreach (Weapon elem in weapons)
+                    //health
+                    for(int i = 0; i < player.Health; i++)
                     {
-                        elem.Draw(_spriteBatch);
+                        _spriteBatch.Draw(whiteSquare, new Rectangle(10 + (60 * i), 10, 50, 50), Color.IndianRed);
                     }
+
+                    //weapon
+                    switch(player.CurrentWeapon)
+                    {
+                        case weaponType.Spear:
+                            _spriteBatch.Draw(spear, new Rectangle(10, _graphics.PreferredBackBufferHeight - 60, 50, 50), Color.White);
+                            break;
+
+                        case weaponType.Sword:
+                            _spriteBatch.Draw(sword, new Rectangle(10, _graphics.PreferredBackBufferHeight - 60, 50, 50), Color.White);
+                            break;
+                    }
+                    // weapon damage
+                    _spriteBatch.DrawString(arial16, player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 60), Color.Black);
+
+
                     player.Draw(_spriteBatch);
                     break;
 
@@ -443,11 +461,11 @@ namespace TheHalls
             {
                 if (rng.Next(2) == 0)
                 {
-                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), whiteSquare));
+                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), whiteSquare, 1.5));
                 }
                 else
                 {
-                    enemies.Add(new Enemy(elem, new Vector2(50, 50), whiteSquare));
+                    enemies.Add(new Enemy(elem, new Vector2(50, 50), whiteSquare, 1.5));
                 }
             }
 

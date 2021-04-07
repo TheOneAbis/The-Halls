@@ -13,7 +13,8 @@ namespace TheHalls
         protected int health;
         protected float movementSpeed;
         protected bool alive;
-        protected int attackCooldown;
+        protected double attackCooldown;
+        protected double attackInterval;
         GameObject attack;
 
         public bool Alive
@@ -22,12 +23,13 @@ namespace TheHalls
         }
         
         //Constructor for enemy
-        public Enemy(Vector2 worldLoc, Vector2 size, Texture2D image) : base(worldLoc, size, image)
+        public Enemy(Vector2 worldLoc, Vector2 size, Texture2D image, double attackInterval) : base(worldLoc, size, image)
         {
             movementSpeed = 2.5f;
             health = 3;
             alive = true;
-            attackCooldown = 90;
+            attackCooldown = attackInterval;
+            this.attackInterval = attackInterval;
             Tint = Color.Red;
         }
 
@@ -65,13 +67,13 @@ namespace TheHalls
         /// Tries to attack player
         /// </summary>
         /// <param name="player">player being attack</param>
-        public void TryAttack(Player player)
+        public void TryAttack(Player player, GameTime gameTime)
         {
-            attackCooldown--;
+            attackCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
             if (attackCooldown <= 0)
             {
                 Attack(player);
-                attackCooldown = 90;
+                attackCooldown = attackInterval;
             }
         }
 

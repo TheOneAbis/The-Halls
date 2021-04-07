@@ -23,7 +23,7 @@ namespace TheHalls
         private int avgRadius;
         private Projectile projectile;
 
-        public EnemyRanged(Vector2 worldLoc, Vector2 size, Texture2D image) : base (worldLoc, size, image)
+        public EnemyRanged(Vector2 worldLoc, Vector2 size, Texture2D image, double attackInterval) : base (worldLoc, size, image, attackInterval)
         {
             moveState = MoveState.Inward;
             innerRadius = 100;

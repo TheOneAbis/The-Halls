@@ -11,7 +11,7 @@ namespace TheHalls
     {
         //Fields
         private Rectangle location;
-        private bool active;
+        protected bool active;
 
         //Properties
         public Rectangle Location { get { return location; } set { location = value; } }
