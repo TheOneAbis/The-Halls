@@ -25,19 +25,26 @@ namespace TheHalls
         public static Vector2 screenOffset;
         public Random rng;
 
+        //loaded content
         private Texture2D arcImg;
         private Texture2D whiteSquare;
         private Texture2D sword;
         private Texture2D spear;
         private SpriteFont arial16;
+        //seperate lists for each direction
+        private Dictionary<Direction, List<RoomData>> roomTemplates;
 
+        //game objects
         private List<GameObject> obstacles;
-        private List<Room> rooms;
-        private Room lastRoom;
         private List<Enemy> enemies;
         private Player player;
         private List<Weapon> weapons;
 
+        //rooms
+        private List<Room> rooms;
+        private Room lastRoom;
+
+        //input
         private KeyboardState kb;
         private KeyboardState prevkb;
         private MouseState mouse;
@@ -45,8 +52,6 @@ namespace TheHalls
 
         private GameState gameState;
 
-        //sperate lists for each direction
-        private Dictionary<Direction, List<RoomData>> roomTemplates;
 
         // Menu buttons
         List<Button> buttons;
@@ -60,11 +65,20 @@ namespace TheHalls
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
-            gameState = GameState.Menu;
 
+            //startup code
+            gameState = GameState.Menu;
+            buttons = new List<Button>();
+            rng = new Random();
+
+            //    -- Menu Buttons --
+
+            // Play button
+            buttons.Add(new Button(350, 200, 75, 50, whiteSquare, "Play", arial16));
+
+            // God mode
+            buttons.Add(new Button(350, 300, 110, 50, whiteSquare, "God Mode", arial16));
         }
 
         protected override void LoadContent()
@@ -76,13 +90,6 @@ namespace TheHalls
             sword = Content.Load<Texture2D>("sword");
             spear = Content.Load<Texture2D>("spear");
             roomTemplates = LoadRooms();
-
-            //    -- Menu Buttons --
-
-            // Play button
-            buttons = new List<Button>();
-            buttons.Add(new Button(350, 200, 75, 50, whiteSquare, "Play", arial16));
-            buttons.Add(new Button(350, 300, 110, 50, whiteSquare, "God Mode", arial16));
         }
 
         protected override void Update(GameTime gameTime)
@@ -110,6 +117,7 @@ namespace TheHalls
                     {
                         GameStart(false);
                     }
+                    // was god mode button clicked?
                     else if(buttons[1].Clicked(mouse, prevMouse))
                     {
                         GameStart(true);
@@ -118,6 +126,8 @@ namespace TheHalls
 
                 // Game State
                 case GameState.Game:
+
+                    //clearout dead enemies, spawn drops and open the door if applicable
                     for (int i = 0; i < enemies.Count; i++)
                     {
                         if (!enemies[i].Alive)
@@ -141,15 +151,24 @@ namespace TheHalls
                         }
                         else
                         {
+                            //if the enemy is still alive, update it's AI and collisions
                             enemies[i].TryAttack(player);
                             enemies[i].Move(player, obstacles);
                             enemies[i].ResolveCollisions(obstacles);
                         }
                     }
 
+                    //Update the player by input
                     player.Aim(mouse);
                     player.Move(kb);
+                    player.ResolveCollisions(obstacles);
 
+                    if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
+                    {
+                        player.Attack(enemies);
+                    }
+
+                    //weapon pickups
                     for (int i = 0; i < weapons.Count; i++)
                     {
                         if (weapons[i].PickUp(player))
@@ -157,13 +176,6 @@ namespace TheHalls
                             weapons.RemoveAt(i);
                         }
                     }
-
-                    if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
-                    {
-                        player.Attack(enemies);
-                    }
-
-                    player.ResolveCollisions(obstacles);
 
                     //adjusts the screenOffset to center the player.
                     screenOffset = new Vector2(
@@ -180,9 +192,13 @@ namespace TheHalls
                 // Pause State
                 case GameState.Pause:
                     // Resume the game
-                    if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
+                    if (kb.IsKeyDown(Keys.Space) && prevkb.IsKeyUp(Keys.Space))
                     {
                         gameState = GameState.Game;
+                    }
+                    else if(kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
+                    {
+                        gameState = GameState.Menu;
                     }
                     break;
 
@@ -204,7 +220,7 @@ namespace TheHalls
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Gray);
 
             _spriteBatch.Begin();
 
@@ -246,7 +262,7 @@ namespace TheHalls
                 case GameState.Pause:
 
                     // Draw Pause Text
-                    _spriteBatch.DrawString(arial16, "GAME PAUSED \nPress [Esc] to resume", new Vector2(300, 100), Color.Yellow);
+                    _spriteBatch.DrawString(arial16, "GAME PAUSED \nPress [Space] to resume \nPress [Esc] to return to menu", new Vector2(300, 100), Color.Yellow);
                     break;
 
                 case GameState.GameOver:
@@ -275,9 +291,12 @@ namespace TheHalls
         private void GameStart(bool easyMode)
         {
             gameState = GameState.Game;
+            
+
             rooms = new List<Room>();
             obstacles = new List<GameObject>();
-            rng = new Random();
+            enemies = new List<Enemy>();
+            weapons = new List<Weapon>();
 
             //starter room
             rooms.Add(new Room(
@@ -300,33 +319,17 @@ namespace TheHalls
                         }),
                 whiteSquare));
 
-            
+            //add starter room to obstacles
             foreach(Room elem in rooms)
             {
                 foreach(GameObject obstacle in elem.Obstacles)
                 {
                     obstacles.Add(obstacle);
+                    obstacle.Tint = Color.DarkGray;
                 }
             }
 
-
-            //obstacles.Add(new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare));
-            //obstacles.Add(new GameObject(new Vector2(200, 50), new Vector2(300, 50), whiteSquare));
-            //obstacles.Add(new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare));
-
-            enemies = new List<Enemy>();
-            //enemies.Add(new EnemyRanged(new Vector2(300, 300), new Vector2(50, 50), whiteSquare));
-            //enemies.Add(new Enemy(new Vector2(-50, -50), new Vector2(50, 50), whiteSquare));
-
-            weapons = new List<Weapon>();
-            weapons.Add(new Weapon(new Rectangle(100, -100, 50, 50), sword, 1, weaponType.Sword));
-            weapons.Add(new Weapon(new Rectangle(-100, 25, 50, 50), spear, 1, weaponType.Spear));
-
-            foreach (Enemy elem in enemies)
-            {
-                obstacles.Add(elem);
-            }
-
+            //init player            
             player = new Player(
                 new Vector2(_graphics.PreferredBackBufferWidth / 2 - 20,
                 _graphics.PreferredBackBufferHeight / 2 - 24),
@@ -345,7 +348,6 @@ namespace TheHalls
 
             screenOffset = new Vector2(0, 0);
             
-            //currently just to test the the method. this will be called when the player collides with the outdoor of the current room.
             NextRoom();
         }
 
@@ -358,7 +360,7 @@ namespace TheHalls
             Vector2 roomOffset = enterFrom.RoomOffset;
             Direction inDirection = Direction.Up;
 
-            //determine what direction the room will be facing, and adjust offset accordingly
+            //determine what direction the room will be facing, and adjust room offset accordingly
             switch(enterFrom.OutDirection)
             {
                 case Direction.Down:
@@ -382,6 +384,8 @@ namespace TheHalls
                     break;
             }
 
+            //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
+            //create the room
             lastRoom = new Room(
                 roomTemplates[inDirection][0],
                 enterFrom,
@@ -389,13 +393,14 @@ namespace TheHalls
                 roomOffset
                 );
 
-            //create the room
+            //add the room
             rooms.Add(lastRoom);
 
             //add to obstacles
             foreach (GameObject obstacle in lastRoom.Obstacles)
             {
                 obstacles.Add(obstacle);
+                obstacle.Tint = Color.DarkGray;
             }
 
             //Spawn enemies
@@ -404,14 +409,14 @@ namespace TheHalls
                 if (rng.Next(2) == 0)
                 {
                     enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), whiteSquare));
-                    //enemies[enemies.Count - 1].Tint = Color.DarkRed;
                 }
                 else
                 {
                     enemies.Add(new Enemy(elem, new Vector2(50, 50), whiteSquare));
-                    //enemies[enemies.Count - 1].Tint = Color.Red;
                 }
             }
+
+            //creates the exit door, which opens when the enemies are defeated.
             obstacles.Add(lastRoom.OutDoor);
             lastRoom.OutDoor.Tint = Color.Brown;
         }
@@ -427,9 +432,8 @@ namespace TheHalls
             rooms.Add(Direction.Down,
                 new List<RoomData>
                 {
-
                     new RoomData(
-                            new List<GameObject>
+                            new List<GameObject> //obstacles
                             {
                                 //top wall
                                 new GameObject(new Vector2(0, 0), new Vector2(200, 50), whiteSquare),
@@ -445,17 +449,17 @@ namespace TheHalls
                                 new GameObject(new Vector2(0, 450), new Vector2(200, 50), whiteSquare),
                                 new GameObject(new Vector2(300, 450), new Vector2(200, 50), whiteSquare),
                             },
-                            new GameObject(new Vector2(200, 0), new Vector2(100, 50), whiteSquare),
-                            Direction.Down,
-                            Direction.Up,
-                            new List<Vector2>
+                            new GameObject(new Vector2(200, 0), new Vector2(100, 50), whiteSquare), //outDoor
+                            Direction.Down, //inDirection
+                            Direction.Up, //outDirection
+                            new List<Vector2> //enemySpawns
                             {
                                 new Vector2(100, 100),
                                 new Vector2(300, 400),
                             })
 
                 });
-
+            /*
             rooms.Add(Direction.Up,
                 new List<RoomData>
                 {
@@ -475,6 +479,7 @@ namespace TheHalls
                                 new Vector2(400, 0),
                             })
                 });
+            */
             return rooms;
         }
     }
