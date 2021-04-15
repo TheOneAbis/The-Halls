@@ -30,6 +30,18 @@ namespace TheHalls
         private Texture2D whiteSquare;
         private Texture2D sword;
         private Texture2D spear;
+
+        // Character images
+        private Texture2D rangedWalkSheet;
+        private Texture2D rangedHurtSheet;
+        private Texture2D rangedAttackSheet;
+        private Texture2D rangedDeathSheet;
+
+        private Texture2D meleeWalkSheet;
+        private Texture2D meleeHurtSheet;
+        private Texture2D meleeAttackSheet;
+        private Texture2D meleeDeathSheet;
+
         private SpriteFont arial16;
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
@@ -92,12 +104,24 @@ namespace TheHalls
             arial16 = Content.Load<SpriteFont>("arial16");
             sword = Content.Load<Texture2D>("sword");
             spear = Content.Load<Texture2D>("spear");
+
+            // Load character sprites
+            rangedWalkSheet = Content.Load<Texture2D>("RangedWalk");
+            rangedHurtSheet = Content.Load<Texture2D>("RangedHurt");
+            rangedAttackSheet = Content.Load<Texture2D>("RangedAttack");
+            rangedDeathSheet = Content.Load<Texture2D>("RangedDeath");
+
+            meleeWalkSheet = Content.Load<Texture2D>("SkeletonWalk");
+            meleeHurtSheet = Content.Load<Texture2D>("SkeletonHurt");
+            meleeAttackSheet = Content.Load<Texture2D>("SkeletonAttack");
+            meleeDeathSheet = Content.Load<Texture2D>("SkeletonDeath");
+
             roomTemplates = LoadRooms();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            // Press F10 fo Emergency Exit
+            // Press F10 for Emergency Exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.F10))
                 Exit();
 
@@ -154,7 +178,7 @@ namespace TheHalls
                         }
                         else
                         {
-                            //if the enemy is still alive, update it's AI and collisions
+                            //if the enemy is still alive, update its AI and collisions
                             enemies[i].TryAttack(player, gameTime);
                             enemies[i].Move(player, obstacles);
                             enemies[i].ResolveCollisions(obstacles);
@@ -461,11 +485,25 @@ namespace TheHalls
             {
                 if (rng.Next(2) == 0)
                 {
-                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), whiteSquare, 1.5));
+                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), 
+                        new Texture2D[] { 
+                            rangedWalkSheet, 
+                            rangedAttackSheet, 
+                            rangedHurtSheet, 
+                            rangedDeathSheet,
+                            whiteSquare}, 
+                        1.5));
                 }
                 else
                 {
-                    enemies.Add(new Enemy(elem, new Vector2(50, 50), whiteSquare, 1.5));
+                    enemies.Add(new Enemy(elem, new Vector2(50, 50),
+                        new Texture2D[] {
+                            meleeWalkSheet,
+                            meleeAttackSheet,
+                            meleeHurtSheet,
+                            meleeDeathSheet,
+                            whiteSquare}, 
+                        1.5));
                 }
             }
 

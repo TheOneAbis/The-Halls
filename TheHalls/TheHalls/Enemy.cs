@@ -16,6 +16,10 @@ namespace TheHalls
         protected double attackCooldown;
         protected double attackInterval;
         GameObject attack;
+        protected Texture2D[] animSheets;
+        private int animTimer;
+        private int animationFPS;
+        private int srcRectX;
 
         public bool Alive
         {
@@ -23,7 +27,7 @@ namespace TheHalls
         }
         
         //Constructor for enemy
-        public Enemy(Vector2 worldLoc, Vector2 size, Texture2D image, double attackInterval) : base(worldLoc, size, image)
+        public Enemy(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, double attackInterval) : base(worldLoc, size, spriteSheets[spriteSheets.Length - 1])
         {
             movementSpeed = 2.5f;
             health = 3;
@@ -31,6 +35,10 @@ namespace TheHalls
             attackCooldown = attackInterval;
             this.attackInterval = attackInterval;
             Tint = Color.Red;
+            animSheets = spriteSheets;
+            animTimer = 0;
+            srcRectX = 55;
+            animationFPS = 6;
         }
 
         /// <summary>
@@ -108,15 +116,33 @@ namespace TheHalls
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
-            // HP Bar
-            sb.Draw(image, new Rectangle(
-                (int)(ScreenLoc.X - (size.X / 2) - 5), 
-                (int)(ScreenLoc.Y - (size.Y / 2) - 15), 
-                (int)((size.X + 10) / 3 * health), 
-                10), 
+            // HP rectangle
+            sb.Draw(animSheets[animSheets.Length - 1], new Rectangle(
+                (int)(ScreenLoc.X - (size.X / 2) - 5),
+                (int)(ScreenLoc.Y - (size.Y / 2) - 15),
+                (int)((size.X + 10) / 3 * health),
+                10),
                 Color.Red);
 
-            base.Draw(sb);
+            // Draw enemy sprite animation frames
+
+            
+            if (animTimer % animationFPS == 0)
+            {
+                if (srcRectX >= 450)
+                {
+                    srcRectX = 55;
+                }
+                else
+                {
+                    srcRectX += 150;
+                }
+            }
+            animTimer++;
+            
+            sb.Draw(animSheets[0],
+               new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
+               new Rectangle(srcRectX, 50, 45, 52), Tint);
 
             if(attack != null)
             {
