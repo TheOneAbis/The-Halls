@@ -37,27 +37,32 @@ namespace TheHallsLevelEditor
             // 
             // Level
             // 
-            this.Level.Location = new System.Drawing.Point(385, 52);
+            this.Level.Location = new System.Drawing.Point(144, 22);
+            this.Level.Margin = new System.Windows.Forms.Padding(1);
             this.Level.Name = "Level";
-            this.Level.Size = new System.Drawing.Size(901, 826);
+            this.Level.Padding = new System.Windows.Forms.Padding(1);
+            this.Level.Size = new System.Drawing.Size(338, 346);
             this.Level.TabIndex = 0;
             this.Level.TabStop = false;
             this.Level.Text = "Level";
             // 
             // ObjectBox
             // 
-            this.ObjectBox.Location = new System.Drawing.Point(29, 103);
+            this.ObjectBox.Location = new System.Drawing.Point(11, 43);
+            this.ObjectBox.Margin = new System.Windows.Forms.Padding(1);
             this.ObjectBox.Name = "ObjectBox";
-            this.ObjectBox.Size = new System.Drawing.Size(315, 559);
+            this.ObjectBox.Padding = new System.Windows.Forms.Padding(1);
+            this.ObjectBox.Size = new System.Drawing.Size(118, 234);
             this.ObjectBox.TabIndex = 1;
             this.ObjectBox.TabStop = false;
             this.ObjectBox.Text = "Objects";
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(29, 677);
+            this.Save.Location = new System.Drawing.Point(11, 284);
+            this.Save.Margin = new System.Windows.Forms.Padding(1);
             this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(296, 123);
+            this.Save.Size = new System.Drawing.Size(111, 52);
             this.Save.TabIndex = 0;
             this.Save.Text = "Save";
             this.Save.UseVisualStyleBackColor = true;
@@ -65,9 +70,10 @@ namespace TheHallsLevelEditor
             // 
             // Load
             // 
-            this.Load.Location = new System.Drawing.Point(29, 806);
+            this.Load.Location = new System.Drawing.Point(11, 338);
+            this.Load.Margin = new System.Windows.Forms.Padding(1);
             this.Load.Name = "Load";
-            this.Load.Size = new System.Drawing.Size(296, 123);
+            this.Load.Size = new System.Drawing.Size(111, 52);
             this.Load.TabIndex = 2;
             this.Load.Text = "Load";
             this.Load.UseVisualStyleBackColor = true;
@@ -75,13 +81,14 @@ namespace TheHallsLevelEditor
             // 
             // LevelEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1362, 1024);
+            this.ClientSize = new System.Drawing.Size(511, 429);
             this.Controls.Add(this.Load);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.ObjectBox);
             this.Controls.Add(this.Level);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "LevelEditor";
             this.Text = "LevelEditor";
             this.ResumeLayout(false);
