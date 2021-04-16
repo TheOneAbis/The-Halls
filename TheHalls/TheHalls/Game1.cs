@@ -188,7 +188,7 @@ namespace TheHalls
                     }
 
                     //Update the player by input
-                    player.Aim(mouse);
+                    player.Aim(mouse, enemies);
                     player.Move(kb);
                     player.ResolveCollisions(obstacles);
 
