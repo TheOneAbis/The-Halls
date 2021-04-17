@@ -30,7 +30,7 @@ namespace TheHalls
         }
         
         //Constructor for enemy
-        public Enemy(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval) : base(worldLoc, size, spriteSheets, 6, 45)
+        public Enemy(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D attackImg) : base(worldLoc, size, spriteSheets, 6, 45)
         {
             movementSpeed = 2.5f;
             maxHealth = Health;
