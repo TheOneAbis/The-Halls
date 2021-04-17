@@ -28,7 +28,7 @@ namespace TheHalls
         private int srcRectX;
         private Texture2D projectileImage;
 
-        public EnemyRanged(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, double attackInterval, Texture2D projectile) : base (worldLoc, size, spriteSheets, attackInterval, projectile)
+        public EnemyRanged(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D projectile) : base (worldLoc, size, Health, spriteSheets, attackInterval, projectile)
         {
             moveState = MoveState.Inward;
             innerRadius = 100;
@@ -181,7 +181,7 @@ namespace TheHalls
             sb.Draw(animSheets[animSheets.Length - 1], new Rectangle(
                 (int)(ScreenLoc.X - (size.X / 2) - 5),
                 (int)(ScreenLoc.Y - (size.Y / 2) - 15),
-                (int)((size.X + 10) / 3 * health),
+                (int)((size.X + 10) / maxHealth * currentHealth),
                 10),
                 Color.Red);
 

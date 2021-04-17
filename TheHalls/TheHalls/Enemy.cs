@@ -10,12 +10,14 @@ namespace TheHalls
     class Enemy : GameObject
     {
         //Fields
-        protected int health;
+        protected int maxHealth;
+        protected int currentHealth;
         protected float movementSpeed;
         protected bool alive;
         protected double attackCooldown;
         protected double attackInterval;
         GameObject attack;
+
         protected Texture2D[] animSheets;
         protected Texture2D attackImg;
         private int animTimer;
@@ -28,10 +30,11 @@ namespace TheHalls
         }
         
         //Constructor for enemy
-        public Enemy(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, double attackInterval, Texture2D attackImg) : base(worldLoc, size, spriteSheets, 6, 45)
+        public Enemy(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval) : base(worldLoc, size, spriteSheets, 6, 45)
         {
             movementSpeed = 2.5f;
-            health = 3;
+            maxHealth = Health;
+            currentHealth = Health;
             alive = true;
             attackCooldown = attackInterval;
             this.attackInterval = attackInterval;
@@ -66,8 +69,8 @@ namespace TheHalls
         /// <param name="damage"></param>
         public void TakeDamage(int damage)
         {
-            health -= damage;
-            if(health <= 0)
+            currentHealth -= damage;
+            if(currentHealth <= 0)
             {
                 alive = false;
             }
@@ -124,7 +127,7 @@ namespace TheHalls
             sb.Draw(animSheets[animSheets.Length - 1], new Rectangle(
                 (int)(ScreenLoc.X - (size.X / 2) - 5),
                 (int)(ScreenLoc.Y - (size.Y / 2) - 15),
-                (int)((size.X + 10) / 3 * health),
+                (int)((size.X + 10) / maxHealth * currentHealth),
                 10),
                 Color.Red);
 

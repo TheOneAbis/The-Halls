@@ -24,6 +24,7 @@ namespace TheHalls
         private weaponType weapon;
         private GameObject attack;
         private GameOver gameOver;
+        private Color arcOpacity;
 
         /// <summary>
         /// 
@@ -37,6 +38,7 @@ namespace TheHalls
         {
             arcImg = arcImage;
             arcRotation = 0;
+            arcOpacity = new Color(0, 0, 0, 40);
             movementSpeed = 3.5f;
             this.gameOver = gameOver;
             health = 3;
@@ -84,13 +86,25 @@ namespace TheHalls
         /// Updates player's weapon slash arc vector and arc rotation
         /// </summary>
         /// <param name="mouse">Mouse cursor location</param>
-        public void Aim(MouseState mouse)
+        public void Aim(MouseState mouse, List<Enemy> targets)
         {
             arcLoc = ScreenLoc + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenLoc) * attackRadius);
 
             arcRotation = mouse.Y - ScreenLoc.Y > 0 ?
                 (float)Math.Acos((arcLoc.X - ScreenLoc.X) / (arcLoc - ScreenLoc).Length()) + (float)(Math.PI / 2) :
                 -1 * (float)Math.Acos((arcLoc.X - ScreenLoc.X) / (arcLoc - ScreenLoc).Length()) + (float)(Math.PI / 2);
+
+            // By default, there are no enemies in range yet
+            arcOpacity.A = 40;
+
+            // Are any enemies in attack range?
+            foreach (Enemy elem in targets)
+            {
+                if (ScanAttackArc(elem))
+                {
+                    arcOpacity.A = 255;
+                }
+            }
         }
 
         /// <summary>
@@ -99,41 +113,46 @@ namespace TheHalls
         /// <param name="targets"></param>
         public void Attack(List<Enemy> targets)
         {
-            Vector2 attackScanner;
-            Rectangle enemyScreenRect;
-
             // Iterate for each enemy
             foreach (Enemy elem in targets)
             {
-                // This rectangle gets the rectangle location of the enemy relative to the screen
-                enemyScreenRect = new Rectangle((int)(elem.ScreenLoc.X - (elem.Size / 2).X),
-                    (int)(elem.ScreenLoc.Y - (elem.Size / 2).Y), (int)elem.Size.X, (int)elem.Size.Y);
-
-
-                //     ---   SCAN THE PIE SLICE   ---
-
-                //  Vector rotates clockwise starting at left side of pie slice
-                for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
+                if (ScanAttackArc(elem))
                 {
-                    // At each point of the vector's rotation, check every point along the vector's line
-                    for (int i = 1; i <= attackRadius; i++)
-                    {
-                        // This vector represents every point to check within the pie slice
-                        attackScanner = new Vector2(
-                            (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
-                            (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+                    elem.TakeDamage(damage);
+                }
+            }
+        }
 
-                        // If the point lies within the enemy's bounds, enemy takes damage from player's attack
-                        if (enemyScreenRect.Contains(attackScanner))
-                        {
-                            elem.TakeDamage(damage);
-                            //this makes sure the enemy doesn't take more than 1 damage from each attack
-                            goto NextEnemy;
-                        }
+        private bool ScanAttackArc(Enemy target)
+        {
+            Vector2 attackScanner;
+            Rectangle enemyScreenRect;
+
+            // This rectangle gets the rectangle location of the enemy relative to the screen
+            enemyScreenRect = new Rectangle((int)(target.ScreenLoc.X - (target.Size / 2).X),
+                (int)(target.ScreenLoc.Y - (target.Size / 2).Y), (int)target.Size.X, (int)target.Size.Y);
+
+            //     ---   SCAN THE PIE SLICE   ---
+
+            //  Vector rotates clockwise starting at left side of pie slice
+            for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
+            {
+                // At each point of the vector's rotation, check every point along the vector's line
+                for (int i = 1; i <= attackRadius; i++)
+                {
+                    // This vector represents every point to check within the pie slice
+                    attackScanner = new Vector2(
+                        (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
+                        (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+
+                    // If the point lies within the enemy's bounds, enemy takes damage from player's attack
+                    if (enemyScreenRect.Contains(attackScanner))
+                    {
+                        return true;
                     }
                 }
-            NextEnemy:;
             }
+            return false;
         }
 
         /// <summary>
@@ -162,7 +181,7 @@ namespace TheHalls
             sb.Draw(arcImg, 
                 new Rectangle((int)arcLoc.X, (int)arcLoc.Y, 80, 32),
                 new Rectangle(0, 0, arcImg.Width, arcImg.Height), 
-                Color.White,
+                arcOpacity,
                 arcRotation,
                 new Vector2(arcImg.Width / 2, arcImg.Height / 2), 
                 SpriteEffects.None, 

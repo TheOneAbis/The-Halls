@@ -64,6 +64,8 @@ namespace TheHalls
 
         private GameState gameState;
 
+        // Enemy Health
+        private int enemyHealth;
 
         // Menu buttons
         List<Button> buttons;
@@ -186,7 +188,7 @@ namespace TheHalls
                     }
 
                     //Update the player by input
-                    player.Aim(mouse);
+                    player.Aim(mouse, enemies);
                     player.Move(kb);
                     player.ResolveCollisions(obstacles);
 
@@ -368,7 +370,7 @@ namespace TheHalls
         private void GameStart(bool easyMode)
         {
             gameState = GameState.Game;
-            
+            enemyHealth = 2;
 
             rooms = new List<Room>();
             obstacles = new List<GameObject>();
@@ -418,7 +420,7 @@ namespace TheHalls
             player.Tint = Color.Green;
             if (easyMode)
             {
-                player.Health = int.MaxValue;
+                player.Health = 9999;
             }
 
             obstacles.Add(player);
@@ -436,6 +438,11 @@ namespace TheHalls
             Room enterFrom = rooms[rooms.Count - 1];
             Vector2 roomOffset = enterFrom.RoomOffset;
             Direction inDirection = Direction.Up;
+
+            if ((rooms.Count - 1) % 3 == 0)
+            {
+                enemyHealth++;
+            }
 
             //determine what direction the room will be facing, and adjust room offset accordingly
             switch(enterFrom.OutDirection)
@@ -485,7 +492,7 @@ namespace TheHalls
             {
                 if (rng.Next(2) == 0)
                 {
-                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), 
+                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), enemyHealth,
                         new Texture2D[] { 
                             rangedWalkSheet, 
                             rangedAttackSheet, 
@@ -497,7 +504,7 @@ namespace TheHalls
                 }
                 else
                 {
-                    enemies.Add(new Enemy(elem, new Vector2(50, 50),
+                    enemies.Add(new Enemy(elem, new Vector2(50, 50), enemyHealth,
                         new Texture2D[] {
                             meleeWalkSheet,
                             meleeAttackSheet,

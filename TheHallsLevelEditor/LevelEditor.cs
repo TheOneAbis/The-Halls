@@ -15,6 +15,7 @@ namespace TheHallsLevelEditor
     {
         private PictureBox[,] levelMap;
         private bool changes;
+        
 
         /// <summary>
         /// Creates new level
