@@ -19,6 +19,16 @@ namespace TheHalls
         protected Texture2D image;
         protected Color tint;
 
+        protected bool animated;
+        protected Texture2D[] spriteSheets;
+        protected int currentAnim;
+        protected int currentFrameX;
+
+        protected float animFps;
+        protected int frameSizeX;
+        protected int animFramesElapsed;
+
+
         //Properties
         public Vector2 WorldLoc
         {
@@ -54,8 +64,30 @@ namespace TheHalls
             this.size = size;
             this.image = image;
             tint = Color.White;
+            animated = false;
         }
 
+        /// <summary>
+        /// creates a new animated gameObj
+        /// </summary>
+        /// <param name="worldLoc"></param>
+        /// <param name="size"></param>
+        /// <param name="spriteSheets"></param>
+        /// <param name="animFps"></param>
+        /// <param name="frameSizeX"></param>
+        public GameObject(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, float animFps, int frameSizeX)
+        {
+            this.worldLoc = worldLoc;
+            this.size = size;
+            this.spriteSheets = spriteSheets;
+            this.animFps = animFps;
+            this.frameSizeX = frameSizeX;
+            tint = Color.White;
+            animated = true;
+
+            currentFrameX = 0;
+            currentAnim = 0;
+        }
         /// <summary>
         /// draws the object, adjusted to the screenOffset.
         /// </summary>
@@ -63,7 +95,24 @@ namespace TheHalls
         /// <param name="screenOffset"></param>
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(image, new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y), tint);
+            if (animated)
+            {
+                animFramesElapsed++;
+                if (animFramesElapsed > animFps)
+                {
+                    animFramesElapsed = 0;
+                    currentFrameX += frameSizeX;
+                    currentFrameX %= spriteSheets[currentAnim].Width;
+                }
+
+                sb.Draw(spriteSheets[currentAnim],
+                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
+                    new Rectangle(currentFrameX, 0, frameSizeX, spriteSheets[currentAnim].Height), Tint);
+            }
+            else
+            {
+                sb.Draw(image, new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y), tint);
+            }
         }
 
         /// <summary>
@@ -151,6 +200,13 @@ namespace TheHalls
                 ((EnemyRanged)this).Bounce();
             }
             return collides;
+        }
+
+        public void PlayAnimation(int animIndex, bool looping)
+        {
+            currentAnim = animIndex;
+            currentFrameX = 0;
+            animFramesElapsed = 0; 
         }
     }
 }

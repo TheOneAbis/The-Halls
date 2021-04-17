@@ -17,6 +17,7 @@ namespace TheHalls
         protected double attackInterval;
         GameObject attack;
         protected Texture2D[] animSheets;
+        protected Texture2D attackImg;
         private int animTimer;
         private int animationFPS;
         private int srcRectX;
@@ -27,7 +28,7 @@ namespace TheHalls
         }
         
         //Constructor for enemy
-        public Enemy(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, double attackInterval) : base(worldLoc, size, spriteSheets[spriteSheets.Length - 1])
+        public Enemy(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, double attackInterval, Texture2D attackImg) : base(worldLoc, size, spriteSheets, 6, 45)
         {
             movementSpeed = 2.5f;
             health = 3;
@@ -39,6 +40,7 @@ namespace TheHalls
             animTimer = 0;
             srcRectX = 55;
             animationFPS = 6;
+            this.attackImg = attackImg;
         }
 
         /// <summary>
@@ -102,12 +104,14 @@ namespace TheHalls
                 return;
             }
 
-            attack = new GameObject(atkDirection * 50 + worldLoc, new Vector2(50, 50), image);
+            attack = new GameObject(atkDirection * 50 + worldLoc, new Vector2(50, 50), attackImg);
             attack.Tint = Color.Orange;
             if(attack.Collides(player))
             {
                 player.TakeDamage(1);
             }
+
+            //PlayAnimation(1, false);
         }
 
         /// <summary>
@@ -125,8 +129,8 @@ namespace TheHalls
                 Color.Red);
 
             // Draw enemy sprite animation frames
-
-            
+            base.Draw(sb);
+            /*
             if (animTimer % animationFPS == 0)
             {
                 if (srcRectX >= 450)
@@ -143,7 +147,7 @@ namespace TheHalls
             sb.Draw(animSheets[0],
                new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
                new Rectangle(srcRectX, 50, 45, 52), Tint);
-
+            */
             if(attack != null)
             {
                 attack.Draw(sb);
