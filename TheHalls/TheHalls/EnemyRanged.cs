@@ -56,6 +56,13 @@ namespace TheHalls
             }
             Vector2 towardsPlayer = target.WorldLoc - worldLoc;
 
+            // If enemy was knocked back by a player hit
+            if (knockback.Length() > 0)
+            {
+                worldLoc += knockback;
+                knockback *= .8f; // Reduce knockback vector
+            }
+
             switch (moveState)
             {
                 case MoveState.Inward:

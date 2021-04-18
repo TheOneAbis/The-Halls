@@ -383,7 +383,7 @@ namespace TheHalls
         {
             gameState = GameState.Game;
             enemyHealth = 2;
-            numEnemies = 1;
+            numEnemies = 2;
             nextEnemIncrease = rng.Next(3, 7);
 
             rooms = new List<Room>();
@@ -516,14 +516,14 @@ namespace TheHalls
             for (int i = 0; i < numEnemies; i++)
             {
                 // Create a random spawn location for the enemy
-                Vector2 enemySpawn = new Vector2(rng.Next(200, 401), rng.Next(-200, 1)) + enterFrom.RoomOffset;
+                Vector2 enemySpawn = new Vector2(rng.Next(50, 400), rng.Next(50, 400)) + roomOffset;
 
                 // Make sure the enemy spawn location is not inside a wall, we don't want that
                 foreach (GameObject obstacle in enterFrom.Obstacles)
                 {
                     while (obstacle.GetRect().Contains(enemySpawn))
                     {
-                        enemySpawn = new Vector2(rng.Next(200, 401), rng.Next(-200, 1)) + enterFrom.RoomOffset;
+                        enemySpawn = new Vector2(rng.Next(50, 400), rng.Next(50, 400)) + roomOffset;
                     }
                 }
                 
@@ -536,7 +536,7 @@ namespace TheHalls
                             rangedHurtSheet, 
                             rangedDeathSheet,
                             whiteSquare}, 
-                        5,
+                        3,
                         whiteSquare));
                 }
                 else

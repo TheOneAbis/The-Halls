@@ -118,7 +118,7 @@ namespace TheHalls
             {
                 if (ScanAttackArc(elem))
                 {
-                    elem.TakeDamage(damage);
+                    elem.TakeDamage(damage, this);
                 }
             }
         }

@@ -24,6 +24,8 @@ namespace TheHalls
         private int animationFPS;
         private int srcRectX;
 
+        protected Vector2 knockback;
+
         public bool Alive
         {
             get { return alive; }
@@ -44,6 +46,7 @@ namespace TheHalls
             srcRectX = 55;
             animationFPS = 6;
             this.attackImg = attackImg;
+            knockback = Vector2.Zero;
         }
 
         /// <summary>
@@ -61,15 +64,26 @@ namespace TheHalls
 
             worldLoc += (moveDirection * movementSpeed);
 
+            // If enemy was knocked back by a player hit
+            if (knockback.Length() > 0)
+            {
+                worldLoc += knockback;
+                knockback *= .92f; // Reduce knockback vector
+            }
         }
 
         /// <summary>
-        /// reduces the enemies health by the amount of damage. if health is <= to 0, they die. 
+        /// reduces the enemies health by the amount of damage, also knocking them back. if health is <= to 0, they die. 
         /// </summary>
-        /// <param name="damage"></param>
-        public void TakeDamage(int damage)
+        /// <param name="damage">The amount of damage to do to the enemy</param>
+        /// <param name="dmgSource"> The source of the damage being dealt to this enemy</param>
+        public void TakeDamage(int damage, Player dmgSource)
         {
             currentHealth -= damage;
+
+            // Set knockback vector 
+            knockback = (ScreenLoc - dmgSource.ScreenLoc) / 7;
+
             if(currentHealth <= 0)
             {
                 alive = false;
