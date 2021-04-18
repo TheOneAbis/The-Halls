@@ -30,7 +30,7 @@ namespace TheHalls
         }
         
         //Constructor for enemy
-        public Enemy(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D attackImg) : base(worldLoc, size, spriteSheets, 6, 45)
+        public Enemy(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D attackImg) : base(worldLoc, size, spriteSheets, 6, 150)
         {
             movementSpeed = 2.5f;
             maxHealth = Health;
@@ -87,6 +87,10 @@ namespace TheHalls
             {
                 Attack(player);
                 attackCooldown = attackInterval;
+            }
+            else if(attackCooldown <= .8 && base.currentAnim != 1)
+            {
+                PlayAnimation(1, false);
             }
         }
 

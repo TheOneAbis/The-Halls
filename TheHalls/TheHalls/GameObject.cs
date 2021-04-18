@@ -22,6 +22,7 @@ namespace TheHalls
         protected bool animated;
         protected Texture2D[] spriteSheets;
         protected int currentAnim;
+        protected int returnAnim;
         protected int currentFrameX;
 
         protected float animFps;
@@ -85,7 +86,7 @@ namespace TheHalls
             tint = Color.White;
             animated = true;
 
-            currentFrameX = 0;
+            currentFrameX = 55;
             currentAnim = 0;
         }
         /// <summary>
@@ -102,12 +103,16 @@ namespace TheHalls
                 {
                     animFramesElapsed = 0;
                     currentFrameX += frameSizeX;
-                    currentFrameX %= spriteSheets[currentAnim].Width;
+                    if(currentFrameX > currentFrameX % spriteSheets[currentAnim].Width)
+                    {
+                        currentFrameX %= spriteSheets[currentAnim].Width;
+                        currentAnim = returnAnim;
+                    }
                 }
 
                 sb.Draw(spriteSheets[currentAnim],
                     new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
-                    new Rectangle(currentFrameX, 0, frameSizeX, spriteSheets[currentAnim].Height), Tint);
+                    new Rectangle(currentFrameX, 50, 45, 52), Tint);
             }
             else
             {
@@ -204,8 +209,16 @@ namespace TheHalls
 
         public void PlayAnimation(int animIndex, bool looping)
         {
+            if(!looping)
+            {
+                returnAnim = currentAnim;
+            }
+            else
+            {
+                returnAnim = animIndex;
+            }
             currentAnim = animIndex;
-            currentFrameX = 0;
+            currentFrameX = 55;
             animFramesElapsed = 0; 
         }
     }

@@ -113,7 +113,7 @@ namespace TheHalls
             rangedAttackSheet = Content.Load<Texture2D>("RangedAttack");
             rangedDeathSheet = Content.Load<Texture2D>("RangedDeath");
 
-            meleeWalkSheet = Content.Load<Texture2D>("SkeletonWalkCropped");
+            meleeWalkSheet = Content.Load<Texture2D>("SkeletonWalk");
             meleeHurtSheet = Content.Load<Texture2D>("SkeletonHurt");
             meleeAttackSheet = Content.Load<Texture2D>("SkeletonAttack");
             meleeDeathSheet = Content.Load<Texture2D>("SkeletonDeath");
@@ -499,7 +499,7 @@ namespace TheHalls
                             rangedHurtSheet, 
                             rangedDeathSheet,
                             whiteSquare}, 
-                        1.5,
+                        5,
                         whiteSquare));
                 }
                 else
