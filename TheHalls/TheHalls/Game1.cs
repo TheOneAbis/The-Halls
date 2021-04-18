@@ -65,7 +65,8 @@ namespace TheHalls
         private GameState gameState;
 
         private int enemyHealth;  // Enemy Health
-        private int numEnemies;   // Starting number of enemies in a room
+        private int numEnemies;   // Number of enemies in a room
+        private int nextEnemIncrease; // Tracks how many more rooms until the number of enemies that spawn increases
 
         // Menu buttons
         List<Button> buttons;
@@ -383,6 +384,7 @@ namespace TheHalls
             gameState = GameState.Game;
             enemyHealth = 2;
             numEnemies = 1;
+            nextEnemIncrease = rng.Next(3, 7);
 
             rooms = new List<Room>();
             obstacles = new List<GameObject>();
@@ -451,16 +453,20 @@ namespace TheHalls
             Vector2 roomOffset = enterFrom.RoomOffset;
             Direction inDirection = Direction.Up;
 
+            // Decrease number of rooms until increase enemy count
+            nextEnemIncrease--;
+
             // Enemy health increases every 3 rooms
             if ((rooms.Count - 1) % 3 == 0)
             {
                 enemyHealth++;
             }
 
-            // Every 4 rooms increase number of enemy spawns
-            if ((rooms.Count - 1) % 4 == 0) 
+            // Increase number of enemy spawns if player reached the room where this will happen
+            if (nextEnemIncrease <= 0) 
             {
                 numEnemies++;
+                nextEnemIncrease = rng.Next(2, 6);
             }
 
             //determine what direction the room will be facing, and adjust room offset accordingly
