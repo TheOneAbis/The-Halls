@@ -64,8 +64,8 @@ namespace TheHalls
 
         private GameState gameState;
 
-        // Enemy Health
-        private int enemyHealth;
+        private int enemyHealth;  // Enemy Health
+        private int numEnemies;   // Starting number of enemies in a room
 
         // Menu buttons
         List<Button> buttons;
@@ -181,7 +181,18 @@ namespace TheHalls
                         else
                         {
                             //if the enemy is still alive, update its AI and collisions
-                            enemies[i].TryAttack(player, gameTime);
+                            // Check if player is in enemy attack range (For Melee enemies only)
+                            if (enemies[i] is EnemyRanged)
+                            {
+                                enemies[i].TryAttack(player, gameTime);
+                            }
+                            else
+                            {
+                                if ((enemies[i].ScreenLoc - player.ScreenLoc).Length() < 100)
+                                {
+                                    enemies[i].TryAttack(player, gameTime);
+                                }
+                            }
                             enemies[i].Move(player, obstacles);
                             enemies[i].ResolveCollisions(obstacles);
                         }
@@ -371,6 +382,7 @@ namespace TheHalls
         {
             gameState = GameState.Game;
             enemyHealth = 2;
+            numEnemies = 1;
 
             rooms = new List<Room>();
             obstacles = new List<GameObject>();
@@ -439,9 +451,16 @@ namespace TheHalls
             Vector2 roomOffset = enterFrom.RoomOffset;
             Direction inDirection = Direction.Up;
 
+            // Enemy health increases every 3 rooms
             if ((rooms.Count - 1) % 3 == 0)
             {
                 enemyHealth++;
+            }
+
+            // Every 4 rooms increase number of enemy spawns
+            if ((rooms.Count - 1) % 4 == 0) 
+            {
+                numEnemies++;
             }
 
             //determine what direction the room will be facing, and adjust room offset accordingly
@@ -488,11 +507,23 @@ namespace TheHalls
             }
 
             //Spawn enemies
-            foreach (Vector2 elem in lastRoom.EnemySpawns)
+            for (int i = 0; i < numEnemies; i++)
             {
+                // Create a random spawn location for the enemy
+                Vector2 enemySpawn = new Vector2(rng.Next(200, 401), rng.Next(-200, 1)) + enterFrom.RoomOffset;
+
+                // Make sure the enemy spawn location is not inside a wall, we don't want that
+                foreach (GameObject obstacle in enterFrom.Obstacles)
+                {
+                    while (obstacle.GetRect().Contains(enemySpawn))
+                    {
+                        enemySpawn = new Vector2(rng.Next(200, 401), rng.Next(-200, 1)) + enterFrom.RoomOffset;
+                    }
+                }
+                
                 if (rng.Next(2) == 0)
                 {
-                    enemies.Add(new EnemyRanged(elem, new Vector2(50, 50), enemyHealth,
+                    enemies.Add(new EnemyRanged(enemySpawn, new Vector2(50, 50), enemyHealth,
                         new Texture2D[] { 
                             rangedWalkSheet, 
                             rangedAttackSheet, 
@@ -504,7 +535,7 @@ namespace TheHalls
                 }
                 else
                 {
-                    enemies.Add(new Enemy(elem, new Vector2(50, 50), enemyHealth,
+                    enemies.Add(new Enemy(enemySpawn, new Vector2(50, 50), enemyHealth,
                         new Texture2D[] {
                             meleeWalkSheet,
                             meleeAttackSheet,
