@@ -162,13 +162,13 @@ namespace TheHalls
                     {
                         if (!enemies[i].Alive)
                         {
-                            if (rng.Next(100) < 50)
+                            if (rng.Next(2) == 0)
                             {
-                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, 3, weaponType.Sword, arial16));
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1, weaponType.Sword, arial16));
                             }
                             else
                             {
-                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, 2, weaponType.Spear, arial16));
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, weaponType.Spear, arial16));
                             }
                             obstacles.Remove(enemies[i]);
                             enemies.RemoveAt(i);
@@ -189,7 +189,7 @@ namespace TheHalls
                             }
                             else
                             {
-                                if ((enemies[i].ScreenLoc - player.ScreenLoc).Length() < 100)
+                                if ((enemies[i].ScreenLoc - player.ScreenLoc).Length() < 200)
                                 {
                                     enemies[i].TryAttack(player, gameTime);
                                 }
