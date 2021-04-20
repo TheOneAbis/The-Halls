@@ -145,10 +145,15 @@ namespace TheHallsLevelEditor
             {
                 for (int j = 0; j < 30; j++)
                 {
+
                     mapImgIndices[i, j] = load.ReadInt32();
                     if (mapImgIndices[i, j] != -1)
                     {
                         levelMap[i, j].Image = SpriteList.SmallImageList.Images[mapImgIndices[i, j]];
+                    }
+                    else
+                    {
+                        levelMap[i, j].Image = null;
                     }
                 }
             }
