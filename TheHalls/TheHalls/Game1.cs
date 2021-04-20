@@ -31,6 +31,7 @@ namespace TheHalls
         private Texture2D whiteSquare;
         private Texture2D sword;
         private Texture2D spear;
+        private Texture2D hearts;
 
         // Character images
         private Texture2D rangedWalkSheet;
@@ -109,6 +110,8 @@ namespace TheHalls
             arial16 = Content.Load<SpriteFont>("arial16");
             sword = Content.Load<Texture2D>("SwordNoBackground");
             spear = Content.Load<Texture2D>("SpearNoBackground");
+            hearts = Content.Load<Texture2D>("hearts");
+
             debugSquare = whiteSquare;
 
             // Load character sprites
@@ -308,7 +311,7 @@ namespace TheHalls
                     //health
                     for(int i = 0; i < player.Health; i++)
                     {
-                        _spriteBatch.Draw(whiteSquare, new Rectangle(10 + (60 * i), 10, 50, 50), Color.IndianRed);
+                        _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
                     }
 
                     //weapon
@@ -456,6 +459,12 @@ namespace TheHalls
             Room enterFrom = rooms[rooms.Count - 1];
             Vector2 roomOffset = enterFrom.RoomOffset;
             Direction inDirection = Direction.Up;
+
+            if(rooms.Count % 5 == 0)
+            {
+                player.Health++;
+                player.Damage++;
+            }
 
             // Decrease number of rooms until increase enemy count
             nextEnemIncrease--;
