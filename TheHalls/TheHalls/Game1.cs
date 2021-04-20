@@ -45,6 +45,9 @@ namespace TheHalls
         private Texture2D meleeAttackSheet;
         private Texture2D meleeDeathSheet;
 
+        // Dungeon Tilesprites
+        private Texture2D tiles;
+
         private SpriteFont arial16;
         private SpriteFont fffforward20;
         //seperate lists for each direction
@@ -127,6 +130,9 @@ namespace TheHalls
             meleeHurtSheet = Content.Load<Texture2D>("SkeletonHurt");
             meleeAttackSheet = Content.Load<Texture2D>("SkeletonAttack");
             meleeDeathSheet = Content.Load<Texture2D>("SkeletonDeath");
+
+            // Load tileset
+            tiles = Content.Load<Texture2D>("dungeon_");
 
             roomTemplates = LoadRooms();
         }
@@ -293,10 +299,10 @@ namespace TheHalls
 
                 case GameState.Game:
 
-
+                    // Draw obstacles and tiles
                     foreach (GameObject elem in obstacles)
                     {
-                        elem.Draw(_spriteBatch);
+                        elem.Draw(_spriteBatch, new Rectangle(0, 64, 16, 16));
                     }
 
                     foreach (Weapon elem in weapons)
@@ -405,11 +411,49 @@ namespace TheHalls
                 new RoomData(
                         new List<GameObject>
                         {
-                                new GameObject(new Vector2(0, 0), new Vector2(200, 50), whiteSquare),
-                                new GameObject(new Vector2(0, 0), new Vector2(50, 500), whiteSquare),
-                                new GameObject(new Vector2(300, 0), new Vector2(200, 50), whiteSquare),
-                                new GameObject(new Vector2(450, 0), new Vector2(50, 500), whiteSquare),
-                                new GameObject(new Vector2(0, 450), new Vector2(500, 50), whiteSquare)
+                                // Top left wall
+                                new GameObject(new Vector2(0, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(50, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(100, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(150, 0), new Vector2(50, 50), tiles),
+
+                                // left wall
+                                new GameObject(new Vector2(0, 50), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 100), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 150), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 200), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 250), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 300), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 350), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 400), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 450), new Vector2(50, 50), tiles),
+
+                                // top right wall
+                                new GameObject(new Vector2(300, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(350, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(400, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 0), new Vector2(50, 50), tiles),
+
+                                // right wall
+                                new GameObject(new Vector2(450, 50), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 100), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 150), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 200), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 250), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 300), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 350), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 400), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 450), new Vector2(50, 50), tiles),
+
+                                // bottom wall
+                                new GameObject(new Vector2(50, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(100, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(150, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(200, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(250, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(300, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(350, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(400, 450), new Vector2(50, 50), tiles)
                         },
                         new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
                         Direction.Down,
@@ -419,7 +463,7 @@ namespace TheHalls
                             new Vector2(400, 400),
                             new Vector2(400, 0),
                         }),
-                whiteSquare));
+                tiles));
 
             //add starter room to obstacles
             foreach(Room elem in rooms)
@@ -427,7 +471,7 @@ namespace TheHalls
                 foreach(GameObject obstacle in elem.Obstacles)
                 {
                     obstacles.Add(obstacle);
-                    obstacle.Tint = Color.DarkGray;
+                    //obstacle.Tint = Color.DarkGray;
                 }
             }
 
@@ -513,7 +557,7 @@ namespace TheHalls
             lastRoom = new Room(
                 roomTemplates[inDirection][0],
                 enterFrom,
-                whiteSquare,
+                tiles,
                 roomOffset
                 );
 
@@ -524,7 +568,7 @@ namespace TheHalls
             foreach (GameObject obstacle in lastRoom.Obstacles)
             {
                 obstacles.Add(obstacle);
-                obstacle.Tint = Color.DarkGray;
+                //obstacle.Tint = Color.DarkGray;
             }
 
             //Spawn enemies
@@ -587,19 +631,48 @@ namespace TheHalls
                     new RoomData(
                             new List<GameObject> //obstacles
                             {
-                                //top wall
-                                new GameObject(new Vector2(0, 0), new Vector2(200, 50), whiteSquare),
-                                new GameObject(new Vector2(300, 0), new Vector2(200, 50), whiteSquare),
+                                // Top left wall
+                                new GameObject(new Vector2(0, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(50, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(100, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(150, 0), new Vector2(50, 50), tiles),
 
-                                //left wall
-                                new GameObject(new Vector2(0, 0), new Vector2(50, 500), whiteSquare),
+                                // left wall
+                                new GameObject(new Vector2(0, 50), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 100), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 150), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 200), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 250), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 300), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 350), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 400), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(0, 450), new Vector2(50, 50), tiles),
 
-                                //right wall
-                                new GameObject(new Vector2(450, 0), new Vector2(50, 500), whiteSquare),
+                                // top right wall
+                                new GameObject(new Vector2(300, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(350, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(400, 0), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 0), new Vector2(50, 50), tiles),
 
-                                //bottom wall
-                                new GameObject(new Vector2(0, 450), new Vector2(200, 50), whiteSquare),
-                                new GameObject(new Vector2(300, 450), new Vector2(200, 50), whiteSquare),
+                                // right wall
+                                new GameObject(new Vector2(450, 50), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 100), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 150), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 200), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 250), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 300), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 350), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 400), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(450, 450), new Vector2(50, 50), tiles),
+
+                                // bottom wall
+                                new GameObject(new Vector2(50, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(100, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(150, 450), new Vector2(50, 50), tiles),
+
+                                new GameObject(new Vector2(300, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(350, 450), new Vector2(50, 50), tiles),
+                                new GameObject(new Vector2(400, 450), new Vector2(50, 50), tiles)
                             },
                             new GameObject(new Vector2(200, 0), new Vector2(100, 50), whiteSquare), //outDoor
                             Direction.Down, //inDirection

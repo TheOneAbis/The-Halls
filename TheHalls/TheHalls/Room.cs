@@ -24,6 +24,7 @@ namespace TheHalls
         protected Direction outDirection;
         protected List<Vector2> enemySpawns;
         protected Vector2 roomOffset;
+        protected Texture2D tiles;
 
         public List<GameObject> Obstacles
         {
@@ -54,18 +55,19 @@ namespace TheHalls
         /// </summary>
         /// <param name="room"></param>
         /// <param name="obstacle"></param>
-        public Room(RoomData roomTemplate, Texture2D obstacle)
+        public Room(RoomData roomTemplate, Texture2D tiles)
         {
             obstacles = roomTemplate.Obstacles;
             outDoor = roomTemplate.OutDoor;
             inDirection = roomTemplate.InDirection;
             outDirection = roomTemplate.OutDirection;
             enemySpawns = roomTemplate.EnemySpawns;
+            this.tiles = tiles;
 
             roomOffset = new Vector2(0, 0);
         }
 
-        public Room(RoomData roomTemplate, Room previous, Texture2D obstacle, Vector2 roomOffset)
+        public Room(RoomData roomTemplate, Room previous, Texture2D tiles, Vector2 roomOffset)
         {
             //adjacentRooms[room.inDirection] = previous;
             obstacles = roomTemplate.Obstacles;
@@ -73,6 +75,7 @@ namespace TheHalls
             inDirection = roomTemplate.InDirection;
             outDirection = roomTemplate.OutDirection; 
             enemySpawns = roomTemplate.EnemySpawns;
+            this.tiles = tiles;
 
             this.roomOffset = roomOffset;
             foreach(GameObject obs in obstacles)
@@ -92,7 +95,7 @@ namespace TheHalls
         {
             foreach(GameObject obstacle in obstacles)
             {
-                obstacle.Draw(sb);
+                obstacle.Draw(sb, new Rectangle(0, 48, 12, 12));
             }
         }
     }

@@ -118,8 +118,25 @@ namespace TheHalls
             }
             else
             {
-                sb.Draw(image, new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y), tint);
+                sb.Draw(image, 
+                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), 
+                    (int)(worldLoc.Y - Game1.screenOffset.Y), 
+                    (int)size.X, (int)size.Y), tint);
             }
+        }
+
+        /// <summary>
+        /// Overload of original Draw method that should only take non-animated objects,
+        /// Utilizes a source rect for drawing from tile sprite sheets
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="srcRect"></param>
+        public virtual void Draw(SpriteBatch sb, Rectangle srcRect)
+        {
+            sb.Draw(image,
+                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X),
+                    (int)(worldLoc.Y - Game1.screenOffset.Y),
+                    (int)size.X, (int)size.Y), srcRect, tint);
         }
 
         /// <summary>
