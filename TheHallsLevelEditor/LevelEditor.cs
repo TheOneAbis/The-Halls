@@ -14,6 +14,7 @@ namespace TheHallsLevelEditor
     public partial class LevelEditor : Form
     {
         private PictureBox[,] levelMap;
+        private int[,] mapImgIndices;
         private bool changes;
         
 
@@ -58,6 +59,7 @@ namespace TheHallsLevelEditor
                     levelMap[i, j].Location = new Point((i * tileWidth) + 10, (j * tileHeight) + 20);
                     levelMap[i, j].Click += changeTile;
                     Level.Controls.Add(levelMap[i, j]);
+                    mapImgIndices[i, j] = 0;
                 }
             }
         }
@@ -75,6 +77,17 @@ namespace TheHallsLevelEditor
                 ListViewItem item = SpriteList.SelectedItems[0];
                 Image img = item.ImageList.Images[item.ImageIndex];
                 ((PictureBox)sender).Image = img;
+
+                for (int i = 0; i < 30; i++)
+                {
+                    for (int j = 0; j < 30; j++)
+                    {
+                        if (levelMap[i, j] == sender)
+                        {
+                            mapImgIndices[i, j] = item.ImageIndex;
+                        }
+                    }
+                }
             }
 
 
@@ -103,7 +116,7 @@ namespace TheHallsLevelEditor
                 {
                     for (int j = 0; j < 30; j++)
                     {
-                        save.Write(levelMap[i, j].Image.ToString());
+                        save.Write(mapImgIndices[i, j]);
                     }
                 }
                 save.Close();
@@ -131,7 +144,8 @@ namespace TheHallsLevelEditor
             {
                 for (int j = 0; j < 30; j++)
                 {
-                    levelMap[i, j].Image = ;
+                    mapImgIndices[i, j] = load.ReadInt32();
+                    levelMap[i, j].Image = SpriteList.SmallImageList.Images[mapImgIndices[i, j]];
                 }
             }
             load.Close();
