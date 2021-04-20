@@ -75,7 +75,7 @@ namespace TheHallsLevelEditor
 
             if (SpriteList.SelectedItems.Count > 0)
             {
-                var item = SpriteList.SelectedItems[0];
+                ListViewItem item = SpriteList.SelectedItems[0];
                 Image img = item.ImageList.Images[item.ImageIndex];
                 ((PictureBox)sender).Image = img;
             }
@@ -101,12 +101,12 @@ namespace TheHallsLevelEditor
             saveFile.Title = "Save a Level file";
             if (saveFile.ShowDialog() == DialogResult.OK && saveFile.FileName != "")
             {
-                StreamWriter save = new StreamWriter(saveFile.FileName);
+                BinaryWriter save = new BinaryWriter(File.OpenWrite(saveFile.FileName));
                 for (int i = 0; i < 30; i++)
                 {
                     for (int j = 0; j < 30; j++)
                     {
-                        save.WriteLine(levelMap[i, j].BackColor.ToArgb());
+                        save.Write(levelMap[i, j].Image.ToString());
                     }
                 }
                 save.Close();
@@ -129,12 +129,12 @@ namespace TheHallsLevelEditor
         /// </summary>
         private void LoadFile(OpenFileDialog file)
         {
-            StreamReader load = new StreamReader(file.FileName);
+            BinaryReader load = new BinaryReader(file.OpenFile());
             for (int i = 0; i < 30; i++)
             {
                 for (int j = 0; j < 30; j++)
                 {
-                    levelMap[i, j].BackColor = Color.FromArgb(int.Parse(load.ReadLine()));
+                    levelMap[i, j].Image = ;
                 }
             }
             load.Close();
