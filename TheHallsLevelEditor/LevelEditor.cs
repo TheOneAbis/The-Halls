@@ -60,7 +60,6 @@ namespace TheHallsLevelEditor
                     Level.Controls.Add(levelMap[i, j]);
                 }
             }
-
         }
 
         /// <summary>
@@ -70,8 +69,6 @@ namespace TheHallsLevelEditor
         /// <param name="e"></param>
         private void changeTile(object sender, EventArgs e)
         {
-
-
 
             if (SpriteList.SelectedItems.Count > 0)
             {
