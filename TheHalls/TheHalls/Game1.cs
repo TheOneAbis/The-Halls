@@ -46,6 +46,7 @@ namespace TheHalls
         private Texture2D meleeDeathSheet;
 
         private SpriteFont arial16;
+        private SpriteFont fffforward20;
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
 
@@ -108,6 +109,7 @@ namespace TheHalls
             arcImg = Content.Load<Texture2D>("Arc");
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
+            fffforward20 = Content.Load<SpriteFont>("FFF Forward20");
             sword = Content.Load<Texture2D>("SwordNoBackground");
             spear = Content.Load<Texture2D>("SpearNoBackground");
             hearts = Content.Load<Texture2D>("hearts");
@@ -282,9 +284,9 @@ namespace TheHalls
                         button.Draw(_spriteBatch, Color.Black);
                     }
                     _spriteBatch.DrawString(
-                        arial16, "THE HALLS", 
-                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (arial16.MeasureString("THE HALLS").X/2), 
-                        _graphics.PreferredBackBufferHeight /2 - 150), 
+                        fffforward20, "THE HALLS", 
+                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (fffforward20.MeasureString("THE HALLS").X/2), 
+                        _graphics.PreferredBackBufferHeight /2 - 200), 
                         Color.Red);
 
                     break;
@@ -335,19 +337,19 @@ namespace TheHalls
                 case GameState.Pause:
 
                     // Draw Pause Text
-                    _spriteBatch.DrawString(arial16, 
+                    _spriteBatch.DrawString(fffforward20, 
                         "GAME PAUSED", 
-                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (arial16.MeasureString("GAME PAUSED").X /2), 100), 
+                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (fffforward20.MeasureString("GAME PAUSED").X /2), 100), 
                         Color.Yellow);
 
                     _spriteBatch.DrawString(arial16, 
                         "\nPress [Space] to continue",
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Space] to continue").X / 2), 100), 
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Space] to continue").X / 2), 300), 
                         Color.Yellow);
 
                     _spriteBatch.DrawString(arial16, 
                         "\n\nPress [Esc] to return to menu", 
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 100), 
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 300), 
                         Color.Yellow);
 
                     break;
@@ -355,13 +357,13 @@ namespace TheHalls
                 case GameState.GameOver:
 
                     // Draw Game over text
-                    _spriteBatch.DrawString(arial16, 
+                    _spriteBatch.DrawString(fffforward20, 
                         "GAME OVER", 
-                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (arial16.MeasureString("GAME OVER").X /2), 100), 
+                        new Vector2(_graphics.PreferredBackBufferWidth /2 - (fffforward20.MeasureString("GAME OVER").X /2), 100), 
                         Color.Red);
                      _spriteBatch.DrawString(arial16, 
                         "\nPress [Esc] to return to menu", 
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 100), 
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 300), 
                         Color.Red);
                     _spriteBatch.DrawString(arial16,
                         $"\n\nRoom #{rooms.Count -1}",
