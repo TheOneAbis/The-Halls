@@ -25,6 +25,8 @@ namespace TheHalls
         private Color arcOpacity;
         private double attackSpeed;
 
+        private Vector2 prevMoveDirection;
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,7 +35,7 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D image, Texture2D arcImage,Texture2D weaponImage, GameOver gameOver) : base(worldLoc, size, image)
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImage,Texture2D weaponImage, GameOver gameOver) : base(worldLoc, size, spriteSheets, 6, 16, 8)
         {
             arcImg = arcImage;
             arcRotation = 0;
@@ -46,6 +48,7 @@ namespace TheHalls
             damage = 1;
             weapon = weaponType.Sword;
             attackSpeed = 36;
+            prevMoveDirection = Vector2.Zero;
         }
 
         /// <summary>
@@ -53,6 +56,8 @@ namespace TheHalls
         /// </summary>
         public void Move(KeyboardState kb)
         {
+            
+
             // Move player
             Vector2 moveDirection = new Vector2(0, 0);
             if (kb.IsKeyDown(Keys.W))
@@ -80,7 +85,35 @@ namespace TheHalls
                 moveDirection.Normalize();
             }
 
+            if (prevMoveDirection != moveDirection)
+            {
+                if(moveDirection.X > .2)
+                {
+                    PlayAnimation(1, true);
+                }
+                else if(moveDirection.X < -.2)
+                {
+                    PlayAnimation(2, true);
+                }
+                else
+                {
+                    if(moveDirection.Y > 0)
+                    {
+                        PlayAnimation(3, true);
+                    }
+                    else if(moveDirection.Y < 0)
+                    {
+                        PlayAnimation(4, true);
+                    }
+                    else
+                    {
+                        PlayAnimation(0, true);
+                    }
+                }
+            }
+
             worldLoc += (moveDirection * movementSpeed);
+            prevMoveDirection = moveDirection;
         }
 
         /// <summary>

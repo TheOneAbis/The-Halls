@@ -45,6 +45,12 @@ namespace TheHalls
         private Texture2D meleeAttackSheet;
         private Texture2D meleeDeathSheet;
 
+        private Texture2D playerIdleR;
+        private Texture2D playerWalkR;
+        private Texture2D playerWalkL;
+        private Texture2D playerWalkUp;
+        private Texture2D playerWalkDown;
+
         // Dungeon Tilesprites
         private Texture2D tiles;
 
@@ -130,6 +136,12 @@ namespace TheHalls
             meleeHurtSheet = Content.Load<Texture2D>("SkeletonHurt");
             meleeAttackSheet = Content.Load<Texture2D>("SkeletonAttack");
             meleeDeathSheet = Content.Load<Texture2D>("SkeletonDeath");
+
+            playerIdleR = Content.Load<Texture2D>("PlayerIdleR");
+            playerWalkR = Content.Load<Texture2D>("PlayerWalkR");
+            playerWalkL = Content.Load<Texture2D>("PlayerWalkL");
+            playerWalkUp = Content.Load<Texture2D>("PlayerWalkUp");
+            playerWalkDown = Content.Load<Texture2D>("PlayerWalkD");
 
             // Load tileset
             tiles = Content.Load<Texture2D>("dungeon_");
@@ -302,7 +314,11 @@ namespace TheHalls
                     // Draw obstacles and tiles
                     foreach (GameObject elem in obstacles)
                     {
-                        elem.Draw(_spriteBatch, new Rectangle(0, 64, 16, 16));
+                        if (!elem.Animated)
+                        {
+                            elem.Draw(_spriteBatch, new Rectangle(0, 64, 16, 16));
+                        }
+
                     }
 
                     foreach (Weapon elem in weapons)
@@ -480,7 +496,14 @@ namespace TheHalls
                 new Vector2(250,
                 250),
                 new Vector2(50, 50),
-                whiteSquare,
+                new Texture2D[]
+                {
+                    playerIdleR,
+                    playerWalkR,
+                    playerWalkR,
+                    playerWalkDown,
+                    playerWalkUp
+                },
                 arcImg,
                 sword,
                 GameOver);

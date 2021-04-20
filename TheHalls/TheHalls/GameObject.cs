@@ -54,6 +54,11 @@ namespace TheHalls
             set { tint = value; }
         }
 
+        public bool Animated
+        {
+            get { return animated; }
+        }
+
         /// <summary>
         /// creates a new gameObject at the given location with the given size and image.
         /// </summary>
