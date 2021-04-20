@@ -12,8 +12,6 @@ namespace TheHalls
         public delegate void GameOver();
 
         private Vector2 arcLoc;
-        private Vector2 rightArcSide;
-        private Vector2 leftArcSide;
         private Texture2D arcImg;
         private Texture2D weaponImage;
         private float arcRotation;
@@ -25,6 +23,7 @@ namespace TheHalls
         private GameObject attack;
         private GameOver gameOver;
         private Color arcOpacity;
+        private double attackSpeed;
 
         /// <summary>
         /// 
@@ -46,6 +45,7 @@ namespace TheHalls
             this.weaponImage = weaponImage;
             damage = 1;
             weapon = weaponType.Sword;
+            attackSpeed = 36;
         }
 
         /// <summary>
@@ -53,6 +53,7 @@ namespace TheHalls
         /// </summary>
         public void Move(KeyboardState kb)
         {
+            // Move player
             Vector2 moveDirection = new Vector2(0, 0);
             if (kb.IsKeyDown(Keys.W))
             {
@@ -88,6 +89,9 @@ namespace TheHalls
         /// <param name="mouse">Mouse cursor location</param>
         public void Aim(MouseState mouse, List<Enemy> targets)
         {
+            // Decrement attack cooldown
+            attackSpeed--;
+
             arcLoc = ScreenLoc + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenLoc) * attackRadius);
 
             arcRotation = mouse.Y - ScreenLoc.Y > 0 ?
@@ -113,12 +117,27 @@ namespace TheHalls
         /// <param name="targets"></param>
         public void Attack(List<Enemy> targets)
         {
-            // Iterate for each enemy
-            foreach (Enemy elem in targets)
+            if (attackSpeed <= 0)
             {
-                if (ScanAttackArc(elem))
+                // Iterate for each enemy
+                foreach (Enemy elem in targets)
                 {
-                    elem.TakeDamage(damage, this);
+                    if (ScanAttackArc(elem))
+                    {
+                        elem.TakeDamage(damage, this);
+                    }
+
+                    // Set attack cooldown based on weapon type
+                    switch (weapon)
+                    {
+                        case weaponType.Sword:
+                            attackSpeed = 36;
+                            break;
+
+                        case weaponType.Spear:
+                            attackSpeed = 55;
+                            break;
+                    }
                 }
             }
         }
@@ -132,26 +151,53 @@ namespace TheHalls
             enemyScreenRect = new Rectangle((int)(target.ScreenLoc.X - (target.Size / 2).X),
                 (int)(target.ScreenLoc.Y - (target.Size / 2).Y), (int)target.Size.X, (int)target.Size.Y);
 
-            //     ---   SCAN THE PIE SLICE   ---
-
-            //  Vector rotates clockwise starting at left side of pie slice
-            for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
+            switch (weapon)
             {
-                // At each point of the vector's rotation, check every point along the vector's line
-                for (int i = 1; i <= attackRadius; i++)
-                {
-                    // This vector represents every point to check within the pie slice
-                    attackScanner = new Vector2(
-                        (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
-                        (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+                // SWORD ATTACKING ALGORITHM
+                case weaponType.Sword:
 
-                    // If the point lies within the enemy's bounds, enemy takes damage from player's attack
-                    if (enemyScreenRect.Contains(attackScanner))
+                    //     ---   SCAN THE PIE SLICE   ---
+
+                    //  Vector rotates clockwise starting at left side of pie slice
+                    for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
                     {
-                        return true;
+                        // At each point of the vector's rotation, check every point along the vector's line
+                        for (int i = 1; i <= attackRadius; i++)
+                        {
+                            // This vector represents every point to check within the pie slice
+                            attackScanner = new Vector2(
+                                (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
+                                (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+
+                            // If the point lies within the enemy's bounds, enemy takes damage from player's attack
+                            if (enemyScreenRect.Contains(attackScanner))
+                            {
+                                return true;
+                            }
+                        }
                     }
-                }
+                    break;
+
+                // SPEAR ATTACKING ALGORITHM
+                case weaponType.Spear:
+
+                    for (int i = 1; i <= attackRadius; i++)
+                    {
+                        // This vector represents every point to check within the pie slice
+                        attackScanner = new Vector2(
+                            (float)(ScreenLoc.X + i * Math.Sin(arcRotation)),
+                            (float)(ScreenLoc.Y - i * Math.Cos(arcRotation)));
+
+                        // If the point lies within the enemy's bounds, enemy takes damage from player's attack
+                        if (enemyScreenRect.Contains(attackScanner))
+                        {
+                            return true;
+                        }
+                    }
+                    break;
             }
+
+            // If nothing detected
             return false;
         }
 
@@ -219,7 +265,25 @@ namespace TheHalls
             set { damage = value; }
         }
 
-        public weaponType CurrentWeapon { get { return weapon; } set { weapon = value; } }
+        public weaponType CurrentWeapon 
+        { 
+            get { return weapon; } 
+            set 
+            { 
+                weapon = value;
+
+                // Set attack radius based on what weapon is equipped
+                switch (weapon)
+                {
+                    case weaponType.Sword:
+                        attackRadius = 100;
+                        break;
+                    case weaponType.Spear:
+                        attackRadius = 150;
+                        break;
+                }
+            } 
+        }
         public Texture2D WeaponImage { set { weaponImage = value; } }
     }
 }

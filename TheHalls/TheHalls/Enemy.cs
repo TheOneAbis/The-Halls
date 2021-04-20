@@ -20,9 +20,6 @@ namespace TheHalls
 
         protected Texture2D[] animSheets;
         protected Texture2D attackImg;
-        private int animTimer;
-        private int animationFPS;
-        private int srcRectX;
 
         protected Vector2 knockback;
 
@@ -47,9 +44,6 @@ namespace TheHalls
             this.attackInterval = attackInterval;
             Tint = Color.Red;
             animSheets = spriteSheets;
-            animTimer = 0;
-            srcRectX = 55;
-            animationFPS = 6;
             this.attackImg = attackImg;
             knockback = Vector2.Zero;
         }
