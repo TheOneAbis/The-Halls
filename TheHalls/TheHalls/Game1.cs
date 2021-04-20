@@ -23,6 +23,7 @@ namespace TheHalls
         private SpriteBatch _spriteBatch;
 
         public static Vector2 screenOffset;
+        public static Texture2D debugSquare;
         public Random rng;
 
         //loaded content
@@ -36,6 +37,7 @@ namespace TheHalls
         private Texture2D rangedHurtSheet;
         private Texture2D rangedAttackSheet;
         private Texture2D rangedDeathSheet;
+        private Texture2D rangedProjectile;
 
         private Texture2D meleeWalkSheet;
         private Texture2D meleeHurtSheet;
@@ -107,12 +109,14 @@ namespace TheHalls
             arial16 = Content.Load<SpriteFont>("arial16");
             sword = Content.Load<Texture2D>("SwordNoBackground");
             spear = Content.Load<Texture2D>("SpearNoBackground");
+            debugSquare = whiteSquare;
 
             // Load character sprites
             rangedWalkSheet = Content.Load<Texture2D>("RangedWalk");
             rangedHurtSheet = Content.Load<Texture2D>("RangedHurt");
             rangedAttackSheet = Content.Load<Texture2D>("RangedAttack");
             rangedDeathSheet = Content.Load<Texture2D>("RangedDeath");
+            rangedProjectile = Content.Load<Texture2D>("projectile_sprite");
 
             meleeWalkSheet = Content.Load<Texture2D>("SkeletonWalk");
             meleeHurtSheet = Content.Load<Texture2D>("SkeletonHurt");
@@ -537,7 +541,7 @@ namespace TheHalls
                             rangedDeathSheet,
                             whiteSquare}, 
                         3,
-                        whiteSquare));
+                        rangedProjectile));
                 }
                 else
                 {

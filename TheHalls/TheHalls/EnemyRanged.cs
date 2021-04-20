@@ -175,7 +175,7 @@ namespace TheHalls
         /// <param name="player"></param>
         public override void Attack(Player player)
         {
-            projectile = new Projectile(worldLoc + (Size/2), new Vector2(20, 20), projectileImage, Vector2.Normalize((player.WorldLoc - worldLoc))*13, player);
+            projectile = new Projectile(worldLoc + (Size/2), new Vector2(30, 30), projectileImage, Vector2.Normalize((player.WorldLoc - worldLoc))*10, player);
         }
 
         /// <summary>

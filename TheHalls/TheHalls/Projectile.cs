@@ -14,7 +14,7 @@ namespace TheHalls
         private bool active;
         private float rotation;
 
-        public Projectile(Vector2 worldLoc, Vector2 size, Texture2D image, Vector2 worldVel, Player target) : base(worldLoc, size, image)
+        public Projectile(Vector2 worldLoc, Vector2 size, Texture2D image, Vector2 worldVel, Player target) : base(worldLoc, size, new Texture2D[] { image } , 6, 48, 0)
         {
             this.target = target;
             this.worldVel = worldVel;
@@ -45,21 +45,12 @@ namespace TheHalls
                 }
             }
         }
-
+        
         public override void Draw(SpriteBatch sb)
         {
             if (active)
             {
-                sb.Draw(
-                    image,
-                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X + 12.5), (int)(worldLoc.Y - Game1.screenOffset.Y), 50, 25),
-                    null,
-                    Tint,
-                    rotation,
-                    //Vector2.Zero,
-                    new Vector2(image.Width /2, image.Height /2),
-                    SpriteEffects.None,
-                    0f);
+                base.Draw(sb);
             }
         }
     }

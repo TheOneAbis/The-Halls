@@ -24,6 +24,7 @@ namespace TheHalls
         protected int currentAnim;
         protected int returnAnim;
         protected int currentFrameX;
+        protected int frameOffsetY;
 
         protected float animFps;
         protected int frameSizeX;
@@ -76,13 +77,14 @@ namespace TheHalls
         /// <param name="spriteSheets"></param>
         /// <param name="animFps"></param>
         /// <param name="frameSizeX"></param>
-        public GameObject(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, float animFps, int frameSizeX)
+        public GameObject(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, float animFps, int frameSizeX, int frameOffsetY)
         {
             this.worldLoc = worldLoc;
             this.size = size;
             this.spriteSheets = spriteSheets;
             this.animFps = animFps;
             this.frameSizeX = frameSizeX;
+            this.frameOffsetY = frameOffsetY;
             tint = Color.White;
             animated = true;
 
@@ -112,7 +114,7 @@ namespace TheHalls
 
                 sb.Draw(spriteSheets[currentAnim],
                     new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
-                    new Rectangle(currentFrameX, 50, 45, 52), Tint);
+                    new Rectangle(currentFrameX, frameOffsetY, 45, 52), Tint);
             }
             else
             {
