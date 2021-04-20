@@ -66,7 +66,6 @@ namespace TheHalls
             {
                 moveDirection.Normalize();
             }
-
             worldLoc += (moveDirection * movementSpeed);
 
             // If enemy was knocked back by a player hit

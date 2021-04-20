@@ -105,8 +105,8 @@ namespace TheHalls
             arcImg = Content.Load<Texture2D>("Arc");
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
-            sword = Content.Load<Texture2D>("sword");
-            spear = Content.Load<Texture2D>("spear");
+            sword = Content.Load<Texture2D>("SwordNoBackground");
+            spear = Content.Load<Texture2D>("SpearNoBackground");
 
             // Load character sprites
             rangedWalkSheet = Content.Load<Texture2D>("RangedWalk");
@@ -541,7 +541,7 @@ namespace TheHalls
                 }
                 else
                 {
-                    enemies.Add(new Enemy(enemySpawn, new Vector2(50, 50), enemyHealth,
+                    enemies.Add(new Enemy(enemySpawn, new Vector2(50, 50), enemyHealth + 1,
                         new Texture2D[] {
                             meleeWalkSheet,
                             meleeAttackSheet,
