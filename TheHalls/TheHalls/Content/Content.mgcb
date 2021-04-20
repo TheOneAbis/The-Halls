@@ -49,6 +49,13 @@
 /processorParam:TextureFormat=Color
 /build:dungeon_.png
 
+#begin FFF Forward20.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:FFF Forward20.spritefont
+
 #begin File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
