@@ -70,7 +70,16 @@ namespace TheHallsLevelEditor
         /// <param name="e"></param>
         private void changeTile(object sender, EventArgs e)
         {
-            ((PictureBox)sender).BackColor = Color.Black;
+
+
+
+            if (SpriteList.SelectedItems.Count > 0)
+            {
+                var item = SpriteList.SelectedItems[0];
+                Image img = item.ImageList.Images[item.ImageIndex];
+                ((PictureBox)sender).Image = img;
+            }
+
 
             if (changes == false)
             {
