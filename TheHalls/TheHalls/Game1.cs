@@ -333,9 +333,17 @@ namespace TheHalls
 
                     //HUD
                     //health
-                    for(int i = 0; i < player.Health; i++)
+                    if (player.Health > 10)
                     {
-                        _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
+                        _spriteBatch.Draw(hearts, new Rectangle(10, 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
+                        _spriteBatch.DrawString(fffforward20, " X " + player.Health, new Vector2(80, 25), Color.Black);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < player.Health; i++)
+                        {
+                            _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
+                        }
                     }
 
                     //weapon
