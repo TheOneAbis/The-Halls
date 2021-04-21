@@ -46,7 +46,7 @@ namespace TheHalls
             movementSpeed = 3.5f;
             this.gameOver = gameOver;
             health = 3;
-            attackRadius = 100;
+            attackRadius = 75;
             this.weaponImage = weaponImage;
             damage = 1;
             weapon = weaponType.Sword;
@@ -322,10 +322,10 @@ namespace TheHalls
                 switch (weapon)
                 {
                     case weaponType.Sword:
-                        attackRadius = 100;
+                        attackRadius = 75;
                         break;
                     case weaponType.Spear:
-                        attackRadius = 150;
+                        attackRadius = 125;
                         break;
                 }
             } 
