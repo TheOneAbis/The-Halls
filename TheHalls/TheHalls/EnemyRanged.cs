@@ -193,6 +193,7 @@ namespace TheHalls
                 Color.Red);
 
             // Draw enemy sprite animation frames
+            /*
             if (animTimer % animationFPS == 0)
             {
                 if (srcRectX >= 1105)
@@ -209,6 +210,8 @@ namespace TheHalls
             sb.Draw(animSheets[0],
                new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
                new Rectangle(srcRectX, 60, 45, 45), Tint);
+            */
+            base.Draw(sb);
 
             if (projectile != null)
             {

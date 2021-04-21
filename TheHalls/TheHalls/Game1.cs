@@ -32,6 +32,7 @@ namespace TheHalls
         private Texture2D sword;
         private Texture2D spear;
         private Texture2D hearts;
+        private Texture2D titleBG;
 
         // Character images
         private Texture2D rangedWalkSheet;
@@ -115,13 +116,15 @@ namespace TheHalls
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            arcImg = Content.Load<Texture2D>("Arc");
+            arcImg = Content.Load<Texture2D>("atkIndicatorSword");
+
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
             fffforward20 = Content.Load<SpriteFont>("FFF Forward20");
             sword = Content.Load<Texture2D>("SwordNoBackground");
             spear = Content.Load<Texture2D>("SpearNoBackground");
             hearts = Content.Load<Texture2D>("hearts");
+            titleBG = Content.Load<Texture2D>("TitleBG");
 
             debugSquare = whiteSquare;
 
@@ -295,7 +298,7 @@ namespace TheHalls
             switch (gameState)
             {
                 case GameState.Menu:
-
+                    _spriteBatch.Draw(titleBG, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
                     // Draw each menu button to the screen
                     foreach (Button button in buttons)
                     {

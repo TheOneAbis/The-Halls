@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:Arc.png
 
+#begin atkIndicatorSword.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:atkIndicatorSword.png
+
 #begin coin.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -326,6 +338,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SwordNoBackground.png
+
+#begin TitleBG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TitleBG.png
 
 #begin WhiteSquare.png
 /importer:TextureImporter

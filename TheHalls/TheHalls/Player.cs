@@ -39,7 +39,7 @@ namespace TheHalls
         {
             arcImg = arcImage;
             arcRotation = 0;
-            arcOpacity = new Color(0, 0, 0, 40);
+            arcOpacity = new Color(155, 155, 155, 255);
             movementSpeed = 3.5f;
             this.gameOver = gameOver;
             health = 3;
@@ -132,14 +132,18 @@ namespace TheHalls
                 -1 * (float)Math.Acos((arcLoc.X - ScreenLoc.X) / (arcLoc - ScreenLoc).Length()) + (float)(Math.PI / 2);
 
             // By default, there are no enemies in range yet
-            arcOpacity.A = 40;
+            
 
             // Are any enemies in attack range?
-            foreach (Enemy elem in targets)
+            if (attackSpeed <= 0)
             {
-                if (ScanAttackArc(elem))
+                arcOpacity = new Color(155, 155, 155, 255);
+                foreach (Enemy elem in targets)
                 {
-                    arcOpacity.A = 255;
+                    if (ScanAttackArc(elem))
+                    {
+                        arcOpacity = new Color(255, 255, 255, 255);
+                    }
                 }
             }
         }
@@ -155,9 +159,11 @@ namespace TheHalls
                 // Iterate for each enemy
                 foreach (Enemy elem in targets)
                 {
+
                     if (ScanAttackArc(elem))
                     {
                         elem.TakeDamage(damage, this);
+                        arcOpacity = new Color(255, 155, 155, 255);
                     }
 
                     // Set attack cooldown based on weapon type
