@@ -12,7 +12,8 @@ namespace TheHalls
         public delegate void GameOver();
 
         private Vector2 arcLoc;
-        private Texture2D arcImg;
+        private Texture2D arcImgSword;
+        private Texture2D arcImgSpear;
         private Texture2D weaponImage;
         private float arcRotation;
         private float movementSpeed;
@@ -35,9 +36,11 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImage,Texture2D weaponImage, GameOver gameOver) : base(worldLoc, size, spriteSheets, 6, new Vector2(18, 18), new Vector2(7, 7), 32)
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D weaponImage, GameOver gameOver) : base(worldLoc, size, spriteSheets, 6, new Vector2(18, 18), new Vector2(7, 7), 32)
         {
-            arcImg = arcImage;
+            arcImgSword = arcImageSword;
+            arcImgSpear = arcImageSpear;
+
             arcRotation = 0;
             arcOpacity = new Color(155, 155, 155, 255);
             movementSpeed = 3.5f;
@@ -261,7 +264,11 @@ namespace TheHalls
         {
             // Draw player
             base.Draw(sb);
-
+            Texture2D arcImg = arcImgSword;
+            if(weapon == weaponType.Spear)
+            {
+                arcImg = arcImgSpear;
+            }
             // Draw player weapon slash arc
             sb.Draw(arcImg, 
                 new Rectangle((int)arcLoc.X, (int)arcLoc.Y, 80, 32),

@@ -27,7 +27,8 @@ namespace TheHalls
         public Random rng;
 
         //loaded content
-        private Texture2D arcImg;
+        private Texture2D arcImgSword;
+        private Texture2D arcImgSpear;
         private Texture2D whiteSquare;
         private Texture2D sword;
         private Texture2D spear;
@@ -116,7 +117,8 @@ namespace TheHalls
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            arcImg = Content.Load<Texture2D>("atkIndicatorSword");
+            arcImgSword = Content.Load<Texture2D>("atkIndicatorSword");
+            arcImgSpear = Content.Load<Texture2D>("atkIndicatorSpear");
 
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
             arial16 = Content.Load<SpriteFont>("arial16");
@@ -468,7 +470,8 @@ namespace TheHalls
                     playerWalkDown,
                     playerWalkUp
                 },
-                arcImg,
+                arcImgSword,
+                arcImgSpear,
                 sword,
                 GameOver);
             if (easyMode)
