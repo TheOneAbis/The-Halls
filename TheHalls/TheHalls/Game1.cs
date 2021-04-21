@@ -75,7 +75,7 @@ namespace TheHalls
         private MouseState mouse;
         private MouseState prevMouse;
 
-        private GameState gameState;
+        public static GameState gameState;
 
         private int enemyHealth;  // Enemy Health
         private int numEnemies;   // Number of enemies in a room
@@ -309,63 +309,9 @@ namespace TheHalls
 
                     break;
 
-                case GameState.Game:
-
-                    // Draw obstacles and tiles
-                    foreach (GameObject elem in obstacles)
-                    {
-                        if (!elem.Animated)
-                        {
-                            elem.Draw(_spriteBatch, new Rectangle(0, 64, 16, 16));
-                        }
-
-                    }
-
-                    foreach (Weapon elem in weapons)
-                    {
-                        elem.Draw(_spriteBatch);
-                    }
-
-                    foreach (Enemy elem in enemies)
-                    {
-                        elem.Draw(_spriteBatch);
-                    }
-
-                    //HUD
-                    //health
-                    if (player.Health > 10)
-                    {
-                        _spriteBatch.Draw(hearts, new Rectangle(10, 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
-                        _spriteBatch.DrawString(fffforward20, " X " + player.Health, new Vector2(80, 25), Color.Black);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < player.Health; i++)
-                        {
-                            _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
-                        }
-                    }
-
-                    //weapon
-                    switch(player.CurrentWeapon)
-                    {
-                        case weaponType.Spear:
-                            _spriteBatch.Draw(spear, new Rectangle(10, _graphics.PreferredBackBufferHeight - 60, 50, 50), Color.White);
-                            break;
-
-                        case weaponType.Sword:
-                            _spriteBatch.Draw(sword, new Rectangle(10, _graphics.PreferredBackBufferHeight - 60, 50, 50), Color.White);
-                            break;
-                    }
-                    // weapon damage
-                    _spriteBatch.DrawString(arial16, player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 60), Color.Black);
-
-
-                    player.Draw(_spriteBatch);
-                    break;
-
                 case GameState.Pause:
-
+                    GameDraw();
+                    _spriteBatch.Draw(whiteSquare, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), new Color(0, 0, 0, .4f));
                     // Draw Pause Text
                     _spriteBatch.DrawString(fffforward20, 
                         "GAME PAUSED", 
@@ -384,8 +330,15 @@ namespace TheHalls
 
                     break;
 
-                case GameState.GameOver:
 
+                case GameState.Game:
+                    GameDraw();
+                    break;
+
+
+                case GameState.GameOver:
+                    GameDraw();
+                    _spriteBatch.Draw(whiteSquare, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), new Color(0, 0, 0, .4f));
                     // Draw Game over text
                     _spriteBatch.DrawString(fffforward20, 
                         "GAME OVER", 
@@ -736,6 +689,66 @@ namespace TheHalls
                 });
             */
             return rooms;
+        }
+
+
+        /// <summary>
+        /// draws the game
+        /// </summary>
+        public void GameDraw()
+        {
+
+            // Draw obstacles and tiles
+            foreach (GameObject elem in obstacles)
+            {
+                if (!elem.Animated)
+                {
+                    elem.Draw(_spriteBatch, new Rectangle(0, 64, 16, 16));
+                }
+
+            }
+
+            foreach (Weapon elem in weapons)
+            {
+                elem.Draw(_spriteBatch);
+            }
+
+            foreach (Enemy elem in enemies)
+            {
+                elem.Draw(_spriteBatch);
+            }
+
+            //HUD
+            //health
+            if (player.Health > 10)
+            {
+                _spriteBatch.Draw(hearts, new Rectangle(10, 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
+                _spriteBatch.DrawString(fffforward20, " X " + player.Health, new Vector2(80, 25), Color.Black);
+            }
+            else
+            {
+                for (int i = 0; i < player.Health; i++)
+                {
+                    _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
+                }
+            }
+
+            //weapon
+            switch (player.CurrentWeapon)
+            {
+                case weaponType.Spear:
+                    _spriteBatch.Draw(spear, new Rectangle(10, _graphics.PreferredBackBufferHeight - 60, 50, 50), Color.White);
+                    break;
+
+                case weaponType.Sword:
+                    _spriteBatch.Draw(sword, new Rectangle(10, _graphics.PreferredBackBufferHeight - 60, 50, 50), Color.White);
+                    break;
+            }
+            // weapon damage
+            _spriteBatch.DrawString(arial16, player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 60), Color.Black);
+
+
+            player.Draw(_spriteBatch);
         }
     }
 }

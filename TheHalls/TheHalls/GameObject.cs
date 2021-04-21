@@ -107,7 +107,11 @@ namespace TheHalls
         {
             if (animated)
             {
-                animFramesElapsed++;
+                if(Game1.gameState == GameState.Game)
+                {
+                    animFramesElapsed++;
+                }
+                
                 if (animFramesElapsed > animFps)
                 {
                     animFramesElapsed = 0;
