@@ -24,11 +24,12 @@ namespace TheHalls
         protected int currentAnim;
         protected int returnAnim;
         protected int currentFrameX;
-        protected int frameOffsetY;
+        protected Vector2 frameOffset;
 
         protected float animFps;
-        protected int frameSizeX;
+        protected Vector2 frameSize;
         protected int animFramesElapsed;
+        protected int interframeDistX;
 
 
         //Properties
@@ -82,19 +83,20 @@ namespace TheHalls
         /// <param name="spriteSheets"></param>
         /// <param name="animFps"></param>
         /// <param name="frameSizeX"></param>
-        public GameObject(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, float animFps, int frameSizeX, int frameOffsetY)
+        public GameObject(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, float animFps, Vector2 frameSize, Vector2 frameOffset, int interframeDistX)
         {
             this.worldLoc = worldLoc;
             this.size = size;
             this.spriteSheets = spriteSheets;
             this.animFps = animFps;
-            this.frameSizeX = frameSizeX;
-            this.frameOffsetY = frameOffsetY;
+            this.frameSize = frameSize;
+            this.frameOffset = frameOffset;
             tint = Color.White;
             animated = true;
 
-            currentFrameX = 55;
+            currentFrameX = (int)frameOffset.X;
             currentAnim = 0;
+            this.interframeDistX = interframeDistX;
         }
         /// <summary>
         /// draws the object, adjusted to the screenOffset.
@@ -109,17 +111,17 @@ namespace TheHalls
                 if (animFramesElapsed > animFps)
                 {
                     animFramesElapsed = 0;
-                    currentFrameX += frameSizeX;
+                    currentFrameX += interframeDistX;
                     if(currentFrameX > currentFrameX % spriteSheets[currentAnim].Width)
                     {
-                        currentFrameX %= spriteSheets[currentAnim].Width;
+                        currentFrameX = (int)frameOffset.X;
                         currentAnim = returnAnim;
                     }
                 }
 
                 sb.Draw(spriteSheets[currentAnim],
                     new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
-                    new Rectangle(currentFrameX, frameOffsetY, 45, 52), Tint);
+                    new Rectangle(currentFrameX, (int)frameOffset.Y, (int)frameSize.X, (int)frameSize.Y), Tint);
             }
             else
             {
@@ -242,7 +244,7 @@ namespace TheHalls
                 returnAnim = animIndex;
             }
             currentAnim = animIndex;
-            currentFrameX = 55;
+            currentFrameX = (int)frameOffset.X;
             animFramesElapsed = 0; 
         }
     }

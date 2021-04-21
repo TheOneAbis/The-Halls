@@ -54,7 +54,7 @@ namespace TheHalls
         // Dungeon Tilesprites
         private Texture2D tiles;
 
-        private SpriteFont arial16;
+        public static SpriteFont arial16;
         private SpriteFont fffforward20;
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
@@ -500,14 +500,13 @@ namespace TheHalls
                 {
                     playerIdleR,
                     playerWalkR,
-                    playerWalkR,
+                    playerWalkL,
                     playerWalkDown,
                     playerWalkUp
                 },
                 arcImg,
                 sword,
                 GameOver);
-            player.Tint = Color.Green;
             if (easyMode)
             {
                 player.Health = 9999;

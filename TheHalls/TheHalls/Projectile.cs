@@ -14,7 +14,7 @@ namespace TheHalls
         private bool active;
         private float rotation;
 
-        public Projectile(Vector2 worldLoc, Vector2 size, Texture2D image, Vector2 worldVel, Player target) : base(worldLoc, size, new Texture2D[] { image } , 6, 48, 0)
+        public Projectile(Vector2 worldLoc, Vector2 size, Texture2D image, Vector2 worldVel, Player target) : base(worldLoc, size, new Texture2D[] { image } , 6, new Vector2(48, 48), new Vector2(0, 0), 48)
         {
             this.target = target;
             this.worldVel = worldVel;

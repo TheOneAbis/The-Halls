@@ -35,7 +35,7 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImage,Texture2D weaponImage, GameOver gameOver) : base(worldLoc, size, spriteSheets, 6, 16, 8)
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImage,Texture2D weaponImage, GameOver gameOver) : base(worldLoc, size, spriteSheets, 6, new Vector2(18, 18), new Vector2(7, 7), 32)
         {
             arcImg = arcImage;
             arcRotation = 0;
