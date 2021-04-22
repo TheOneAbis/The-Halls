@@ -140,12 +140,12 @@ namespace TheHalls
             // Are any enemies in attack range?
             if (attackSpeed <= 0)
             {
-                arcOpacity = new Color(155, 155, 155, 255);
+                arcOpacity = Color.DarkGray;
                 foreach (Enemy elem in targets)
                 {
                     if (ScanAttackArc(elem))
                     {
-                        arcOpacity = new Color(255, 255, 255, 255);
+                        arcOpacity = Color.White;
                     }
                 }
             }
@@ -159,14 +159,15 @@ namespace TheHalls
         {
             if (attackSpeed <= 0)
             {
+                arcOpacity = new Color(255, 155, 155, 255);
                 // Iterate for each enemy
                 foreach (Enemy elem in targets)
                 {
-
+                    
                     if (ScanAttackArc(elem))
                     {
                         elem.TakeDamage(damage, this);
-                        arcOpacity = new Color(255, 155, 155, 255);
+                        arcOpacity = Color.IndianRed;
                     }
 
                     // Set attack cooldown based on weapon type
@@ -325,7 +326,7 @@ namespace TheHalls
                         attackRadius = 75;
                         break;
                     case weaponType.Spear:
-                        attackRadius = 125;
+                        attackRadius = 125; 
                         break;
                 }
             } 

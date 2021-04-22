@@ -80,7 +80,7 @@ namespace TheHalls
             currentHealth -= damage;
 
             // Set knockback vector 
-            knockback = (ScreenLoc - dmgSource.ScreenLoc) / 7;
+            knockback = Vector2.Normalize((ScreenLoc - dmgSource.ScreenLoc)) * 12;
 
             if(currentHealth <= 0)
             {
