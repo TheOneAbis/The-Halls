@@ -45,13 +45,13 @@ namespace TheHallsLevelEditor
         /// </summary>
         public void CreateTile()
         {
-            int tileWidth = Level.Size.Width/ 30;
-            int tileHeight = Level.Size.Height / 30;
+            int tileWidth = Level.Size.Width/ 20;
+            int tileHeight = Level.Size.Width / 20;
             mapImgIndices = new int[30, 30];
             changes = false;
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 20; i++)
             {
-                for (int j = 0; j < 30; j++)
+                for (int j = 0; j < 20; j++)
                 {
                     levelMap[i, j] = new PictureBox();
                     levelMap[i, j].Width = tileWidth;
@@ -83,9 +83,9 @@ namespace TheHallsLevelEditor
                     Image img = item.ImageList.Images[item.ImageIndex];
                     ((PictureBox)sender).Image = img;
 
-                    for (int i = 0; i < 30; i++)
+                    for (int i = 0; i < 20; i++)
                     {
-                        for (int j = 0; j < 30; j++)
+                        for (int j = 0; j < 20; j++)
                         {
                             if (levelMap[i, j] == sender)
                             {
@@ -116,9 +116,9 @@ namespace TheHallsLevelEditor
             if (saveFile.ShowDialog() == DialogResult.OK && saveFile.FileName != "")
             {
                 BinaryWriter save = new BinaryWriter(File.OpenWrite(saveFile.FileName));
-                for (int i = 0; i < 30; i++)
+                for (int i = 0; i < 20; i++)
                 {
-                    for (int j = 0; j < 30; j++)
+                    for (int j = 0; j < 20; j++)
                     {
                         save.Write(mapImgIndices[i, j]);
                     }
@@ -144,9 +144,9 @@ namespace TheHallsLevelEditor
         private void LoadFile(OpenFileDialog file)
         {
             BinaryReader load = new BinaryReader(file.OpenFile());
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 20; i++)
             {
-                for (int j = 0; j < 30; j++)
+                for (int j = 0; j < 20; j++)
                 {
 
                     mapImgIndices[i, j] = load.ReadInt32();
@@ -190,9 +190,9 @@ namespace TheHallsLevelEditor
         {
             if (e.Button == MouseButtons.Right) 
             {
-                for (int i = 0; i < 30; i++)
+                for (int i = 0; i < 20; i++)
                 {
-                    for (int j = 0; j < 30; j++)
+                    for (int j = 0; j < 20; j++)
                     {
                         if (levelMap[i, j] == ((PictureBox)sender))
                         {

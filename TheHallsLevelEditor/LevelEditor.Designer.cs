@@ -171,7 +171,7 @@ namespace TheHallsLevelEditor
             this.Level.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.Level.Name = "Level";
             this.Level.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
-            this.Level.Size = new System.Drawing.Size(760, 770);
+            this.Level.Size = new System.Drawing.Size(710, 720);
             this.Level.TabIndex = 0;
             this.Level.TabStop = false;
             this.Level.Text = "Level";
@@ -535,7 +535,7 @@ namespace TheHallsLevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1040, 797);
+            this.ClientSize = new System.Drawing.Size(1046, 797);
             this.Controls.Add(this.SpriteList);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.Load);
