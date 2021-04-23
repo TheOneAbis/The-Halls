@@ -45,8 +45,8 @@ namespace TheHallsLevelEditor
         /// </summary>
         public void CreateTile()
         {
-            int tileWidth = Level.Size.Width/ 20;
-            int tileHeight = Level.Size.Height / 20;
+            int tileWidth = Level.Size.Width/ 30;
+            int tileHeight = Level.Size.Height / 30;
             mapImgIndices = new int[30, 30];
             changes = false;
             for (int i = 0; i < 30; i++)
@@ -57,12 +57,13 @@ namespace TheHallsLevelEditor
                     levelMap[i, j].Width = tileWidth;
                     levelMap[i, j].Height = tileHeight;
                     levelMap[i, j].BackColor = Color.White;
-                    levelMap[i, j].Location = new Point((i * tileWidth), (j * tileHeight));
+                    levelMap[i, j].Location = new Point((i * tileWidth) + 10, (j * tileHeight) + 20);
                     levelMap[i, j].MouseClick += changeTile;
                     levelMap[i, j].MouseClick += PictureBox_RightClick;
                     levelMap[i, j].SizeMode = PictureBoxSizeMode.StretchImage;
+                    levelMap[i, j].Image = SpriteList.Items[0].ImageList.Images[60];
                     Level.Controls.Add(levelMap[i, j]);
-                    mapImgIndices[i, j] = -1;
+                    mapImgIndices[i, j] = 60;
                 }
             }
         }
