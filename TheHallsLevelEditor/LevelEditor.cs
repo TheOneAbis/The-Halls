@@ -45,8 +45,8 @@ namespace TheHallsLevelEditor
         /// </summary>
         public void CreateTile()
         {
-            int tileWidth = Level.Size.Width/30;
-            int tileHeight = Level.Size.Height / 30;
+            int tileWidth = Level.Size.Width/ 20;
+            int tileHeight = Level.Size.Height / 20;
             mapImgIndices = new int[30, 30];
             changes = false;
             for (int i = 0; i < 30; i++)
@@ -58,7 +58,8 @@ namespace TheHallsLevelEditor
                     levelMap[i, j].Height = tileHeight;
                     levelMap[i, j].BackColor = Color.White;
                     levelMap[i, j].Location = new Point((i * tileWidth), (j * tileHeight));
-                    levelMap[i, j].Click += changeTile;
+                    levelMap[i, j].MouseClick += changeTile;
+                    levelMap[i, j].MouseClick += PictureBox_RightClick;
                     levelMap[i, j].SizeMode = PictureBoxSizeMode.StretchImage;
                     Level.Controls.Add(levelMap[i, j]);
                     mapImgIndices[i, j] = -1;
@@ -71,34 +72,34 @@ namespace TheHallsLevelEditor
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void changeTile(object sender, EventArgs e)
+        private void changeTile(object sender, MouseEventArgs e)
         {
-
-            if (SpriteList.SelectedItems.Count > 0)
+            if (e.Button == MouseButtons.Left)
             {
-                ListViewItem item = SpriteList.SelectedItems[0];
-                Image img = item.ImageList.Images[item.ImageIndex];
-                ((PictureBox)sender).Image = img;
-
-                for (int i = 0; i < 30; i++)
+                if (SpriteList.SelectedItems.Count > 0)
                 {
-                    for (int j = 0; j < 30; j++)
+                    ListViewItem item = SpriteList.SelectedItems[0];
+                    Image img = item.ImageList.Images[item.ImageIndex];
+                    ((PictureBox)sender).Image = img;
+
+                    for (int i = 0; i < 30; i++)
                     {
-                        if (levelMap[i, j] == sender)
+                        for (int j = 0; j < 30; j++)
                         {
-                            mapImgIndices[i, j] = item.ImageIndex;
+                            if (levelMap[i, j] == sender)
+                            {
+                                mapImgIndices[i, j] = item.ImageIndex;
+                            }
                         }
                     }
                 }
+
+                if (changes == false)
+                {
+                    Text = Text + " *";
+                    changes = true;
+                }
             }
-
-
-            if (changes == false)
-            {
-                Text = Text + " *";
-                changes = true;
-            }
-
         }
 
         /// <summary>
@@ -175,6 +176,30 @@ namespace TheHallsLevelEditor
             if (loadFile.ShowDialog() == DialogResult.OK)
             {
                 LoadFile(loadFile);
+            }
+        }
+
+        /// <summary>
+        /// Erases the picturebox, setting it to no image and 
+        /// the corresponding image index to -1
+        /// </summary>
+        /// <param name="sender">the clicked picturebox</param>
+        /// <param name="e">Mouse right-click</param>
+        private void PictureBox_RightClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right) 
+            {
+                for (int i = 0; i < 30; i++)
+                {
+                    for (int j = 0; j < 30; j++)
+                    {
+                        if (levelMap[i, j] == ((PictureBox)sender))
+                        {
+                            ((PictureBox)sender).Image = null;
+                            mapImgIndices[i, j] = -1;
+                        }
+                    }
+                }
             }
         }
     }
