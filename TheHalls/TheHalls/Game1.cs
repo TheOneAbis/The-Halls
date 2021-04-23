@@ -142,11 +142,17 @@ namespace TheHalls
             meleeAttackSheet = Content.Load<Texture2D>("SkeletonAttack");
             meleeDeathSheet = Content.Load<Texture2D>("SkeletonDeath");
 
-            playerIdleR = Content.Load<Texture2D>("PlayerIdleNew");
-            playerWalkR = Content.Load<Texture2D>("PlayerWalkRightNew");
-            playerWalkL = Content.Load<Texture2D>("PlayerWalkLeftNew");
-            playerWalkUp = Content.Load<Texture2D>("PlayerWalkUpNew");
-            playerWalkDown = Content.Load<Texture2D>("PlayerWalkDownNew");
+            //playerIdleR = Content.Load<Texture2D>("PlayerIdleNew");
+            //playerWalkR = Content.Load<Texture2D>("PlayerWalkRightNew");
+            //playerWalkL = Content.Load<Texture2D>("PlayerWalkLeftNew");
+            //playerWalkUp = Content.Load<Texture2D>("PlayerWalkUpNew");
+            //playerWalkDown = Content.Load<Texture2D>("PlayerWalkDownNew");
+
+            playerIdleR = Content.Load<Texture2D>("CharIdleR");
+            playerWalkR = Content.Load<Texture2D>("CharWalkR");
+            playerWalkL = Content.Load<Texture2D>("CharWalkL");
+            playerWalkUp = Content.Load<Texture2D>("CharWalkU");
+            playerWalkDown = Content.Load<Texture2D>("CharWalkD");
 
             // Load tileset
             tiles = Content.Load<Texture2D>("dungeon_");

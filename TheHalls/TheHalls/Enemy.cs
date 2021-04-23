@@ -140,7 +140,13 @@ namespace TheHalls
         public override void Draw(SpriteBatch sb)
         {
             // HP rectangle
-            sb.Draw(animSheets[animSheets.Length - 1], new Rectangle(
+            sb.Draw(Game1.debugSquare, new Rectangle(
+                (int)(ScreenLoc.X - (size.X / 2) - 5),
+                (int)(ScreenLoc.Y - (size.Y / 2) - 15),
+                (int)((size.X + 10)),
+                10),
+                Color.DarkGray);
+            sb.Draw(Game1.debugSquare, new Rectangle(
                 (int)(ScreenLoc.X - (size.X / 2) - 5),
                 (int)(ScreenLoc.Y - (size.Y / 2) - 15),
                 (int)((size.X + 10) / maxHealth * currentHealth),
