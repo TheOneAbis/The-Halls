@@ -203,5 +203,10 @@ namespace TheHallsLevelEditor
                 }
             }
         }
+
+        private void SpriteList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
