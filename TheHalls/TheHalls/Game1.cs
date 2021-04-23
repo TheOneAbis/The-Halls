@@ -30,8 +30,8 @@ namespace TheHalls
         private Texture2D arcImgSword;
         private Texture2D arcImgSpear;
         private Texture2D whiteSquare;
-        private Texture2D sword;
-        private Texture2D spear;
+        public static Texture2D sword;
+        public static Texture2D spear;
         private Texture2D hearts;
         private Texture2D titleBG;
 
