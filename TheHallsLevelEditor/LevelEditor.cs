@@ -45,8 +45,8 @@ namespace TheHallsLevelEditor
         /// </summary>
         public void CreateTile()
         {
-            int tileWidth = Level.Size.Width/30;
-            int tileHeight = Level.Size.Height / 30;
+            int tileWidth = Level.Size.Width/ 10;
+            int tileHeight = Level.Size.Height / 10;
             mapImgIndices = new int[30, 30];
             changes = false;
             for (int i = 0; i < 30; i++)
@@ -176,6 +176,12 @@ namespace TheHallsLevelEditor
             {
                 LoadFile(loadFile);
             }
+        }
+
+        private void PictureBox_RightClick(object sender, EventArgs e)
+        {
+            sender = (PictureBox)sender;
+
         }
     }
 }
