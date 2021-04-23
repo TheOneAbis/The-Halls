@@ -168,11 +168,11 @@ namespace TheHallsLevelEditor
             // 
             // Level
             // 
-            this.Level.Location = new System.Drawing.Point(384, 52);
-            this.Level.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Level.Location = new System.Drawing.Point(274, 22);
+            this.Level.Margin = new System.Windows.Forms.Padding(1);
             this.Level.Name = "Level";
-            this.Level.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Level.Size = new System.Drawing.Size(901, 825);
+            this.Level.Padding = new System.Windows.Forms.Padding(1);
+            this.Level.Size = new System.Drawing.Size(750, 750);
             this.Level.TabIndex = 0;
             this.Level.TabStop = false;
             this.Level.Text = "Level";
@@ -202,8 +202,8 @@ namespace TheHallsLevelEditor
             // saveButton
             // 
             this.saveButton.BackColor = System.Drawing.SystemColors.Control;
-            this.saveButton.Location = new System.Drawing.Point(59, 563);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.saveButton.Location = new System.Drawing.Point(22, 454);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(1);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(248, 153);
             this.saveButton.TabIndex = 3;
@@ -213,8 +213,8 @@ namespace TheHallsLevelEditor
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(59, 720);
-            this.loadButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.loadButton.Location = new System.Drawing.Point(22, 539);
+            this.loadButton.Margin = new System.Windows.Forms.Padding(1);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(248, 131);
             this.loadButton.TabIndex = 4;
@@ -351,11 +351,65 @@ namespace TheHallsLevelEditor
             listViewItem123,
             listViewItem124,
             listViewItem125,
-            listViewItem126});
-            this.SpriteList.Location = new System.Drawing.Point(59, 52);
-            this.SpriteList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            listViewItem126,
+            listViewItem127,
+            listViewItem128,
+            listViewItem129,
+            listViewItem130,
+            listViewItem131,
+            listViewItem132,
+            listViewItem133,
+            listViewItem134,
+            listViewItem135,
+            listViewItem136,
+            listViewItem137,
+            listViewItem138,
+            listViewItem139,
+            listViewItem140,
+            listViewItem141,
+            listViewItem142,
+            listViewItem143,
+            listViewItem144,
+            listViewItem145,
+            listViewItem146,
+            listViewItem147,
+            listViewItem148,
+            listViewItem149,
+            listViewItem150,
+            listViewItem151,
+            listViewItem152,
+            listViewItem153,
+            listViewItem154,
+            listViewItem155,
+            listViewItem156,
+            listViewItem157,
+            listViewItem158,
+            listViewItem159,
+            listViewItem160,
+            listViewItem161,
+            listViewItem162,
+            listViewItem163,
+            listViewItem164,
+            listViewItem165,
+            listViewItem166,
+            listViewItem167,
+            listViewItem168,
+            listViewItem169,
+            listViewItem170,
+            listViewItem171,
+            listViewItem172,
+            listViewItem173,
+            listViewItem174,
+            listViewItem175,
+            listViewItem176,
+            listViewItem177,
+            listViewItem178,
+            listViewItem179,
+            listViewItem180});
+            this.SpriteList.Location = new System.Drawing.Point(22, 22);
+            this.SpriteList.Margin = new System.Windows.Forms.Padding(1);
             this.SpriteList.Name = "SpriteList";
-            this.SpriteList.Size = new System.Drawing.Size(265, 357);
+            this.SpriteList.Size = new System.Drawing.Size(235, 365);
             this.SpriteList.SmallImageList = this.imageList1;
             this.SpriteList.TabIndex = 5;
             this.SpriteList.UseCompatibleStateImageBehavior = false;
@@ -550,14 +604,14 @@ namespace TheHallsLevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1363, 1023);
+            this.ClientSize = new System.Drawing.Size(1042, 784);
             this.Controls.Add(this.SpriteList);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.Load);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.Level);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "LevelEditor";
             this.Text = "LevelEditor";
             this.ResumeLayout(false);
