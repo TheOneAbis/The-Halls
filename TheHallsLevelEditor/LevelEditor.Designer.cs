@@ -125,12 +125,10 @@ namespace TheHallsLevelEditor
             // 
             // Level
             // 
-            this.Level.Location = new System.Drawing.Point(656, 21);
+            this.Level.Location = new System.Drawing.Point(246, 9);
             this.Level.Margin = new System.Windows.Forms.Padding(0);
             this.Level.Name = "Level";
             this.Level.Padding = new System.Windows.Forms.Padding(0);
-            this.Level.Size = new System.Drawing.Size(2000, 1788);
-            this.Level.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.Level.Size = new System.Drawing.Size(710, 720);
             this.Level.TabIndex = 0;
             this.Level.TabStop = false;
@@ -138,10 +136,9 @@ namespace TheHallsLevelEditor
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(144, 1281);
-            this.Save.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Save.Location = new System.Drawing.Point(54, 537);
             this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(344, 179);
+            this.Save.Size = new System.Drawing.Size(129, 75);
             this.Save.TabIndex = 0;
             this.Save.Text = "Save";
             this.Save.UseVisualStyleBackColor = true;
@@ -149,10 +146,9 @@ namespace TheHallsLevelEditor
             // 
             // Load
             // 
-            this.Load.Location = new System.Drawing.Point(77, 2053);
-            this.Load.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Load.Location = new System.Drawing.Point(29, 861);
             this.Load.Name = "Load";
-            this.Load.Size = new System.Drawing.Size(296, 124);
+            this.Load.Size = new System.Drawing.Size(111, 52);
             this.Load.TabIndex = 2;
             this.Load.Text = "Load";
             this.Load.UseVisualStyleBackColor = true;
@@ -160,10 +156,10 @@ namespace TheHallsLevelEditor
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(144, 1517);
+            this.loadButton.Location = new System.Drawing.Point(54, 636);
             this.loadButton.Margin = new System.Windows.Forms.Padding(0);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(344, 181);
+            this.loadButton.Size = new System.Drawing.Size(129, 76);
             this.loadButton.TabIndex = 4;
             this.loadButton.Text = "Load";
             this.loadButton.UseVisualStyleBackColor = true;
@@ -257,10 +253,10 @@ namespace TheHallsLevelEditor
             listViewItem82,
             listViewItem83,
             listViewItem84});
-            this.SpriteList.Location = new System.Drawing.Point(21, 21);
+            this.SpriteList.Location = new System.Drawing.Point(8, 9);
             this.SpriteList.Margin = new System.Windows.Forms.Padding(0);
             this.SpriteList.Name = "SpriteList";
-            this.SpriteList.Size = new System.Drawing.Size(577, 1001);
+            this.SpriteList.Size = new System.Drawing.Size(219, 422);
             this.SpriteList.SmallImageList = this.imageList1;
             this.SpriteList.TabIndex = 5;
             this.SpriteList.UseCompatibleStateImageBehavior = false;
@@ -454,9 +450,9 @@ namespace TheHallsLevelEditor
             // 
             // LevelEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1046, 797);
+            this.ClientSize = new System.Drawing.Size(987, 754);
             this.Controls.Add(this.SpriteList);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.Load);
