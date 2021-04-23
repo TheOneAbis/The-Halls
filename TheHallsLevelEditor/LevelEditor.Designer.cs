@@ -36,180 +36,126 @@ namespace TheHallsLevelEditor
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("", 3);
             System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("", 4);
             System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("", 5);
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("", 6);
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("", 7);
-            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("", 8);
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("", 9);
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("", 10);
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("", 11);
-            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("", 12);
-            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("", 13);
-            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("", 14);
-            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem("", 15);
-            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem("", 16);
-            System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem("", 17);
-            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem("", 18);
-            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem("", 19);
-            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("", 20);
-            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("", 21);
-            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("", 22);
-            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("", 23);
-            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("", 24);
-            System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem("", 25);
-            System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem("", 26);
-            System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem("", 27);
-            System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem("", 28);
-            System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem("", 29);
-            System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem("", 30);
-            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem("", 31);
-            System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem("", 32);
-            System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem("", 33);
-            System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem("", 34);
-            System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem("", 35);
-            System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem("", 36);
-            System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem("", 37);
-            System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem("", 38);
-            System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem("", 39);
-            System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem("", 40);
-            System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem("", 41);
-            System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem("", 42);
-            System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem("", 43);
-            System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem("", 44);
-            System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem("", 45);
-            System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem("", 46);
-            System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem("", 47);
-            System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem("", 48);
-            System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem("", 49);
-            System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem("", 50);
-            System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem("", 51);
-            System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem("", 52);
-            System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem("", 53);
-            System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem("", 54);
-            System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem("", 55);
-            System.Windows.Forms.ListViewItem listViewItem57 = new System.Windows.Forms.ListViewItem("", 56);
-            System.Windows.Forms.ListViewItem listViewItem58 = new System.Windows.Forms.ListViewItem("", 57);
-            System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem("", 58);
-            System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem("", 59);
-            System.Windows.Forms.ListViewItem listViewItem61 = new System.Windows.Forms.ListViewItem("", 60);
-            System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem("", 61);
-            System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem("", 62);
-            System.Windows.Forms.ListViewItem listViewItem64 = new System.Windows.Forms.ListViewItem("", 63);
-            System.Windows.Forms.ListViewItem listViewItem65 = new System.Windows.Forms.ListViewItem("", 64);
-            System.Windows.Forms.ListViewItem listViewItem66 = new System.Windows.Forms.ListViewItem("", 65);
-            System.Windows.Forms.ListViewItem listViewItem67 = new System.Windows.Forms.ListViewItem("", 66);
-            System.Windows.Forms.ListViewItem listViewItem68 = new System.Windows.Forms.ListViewItem("", 67);
-            System.Windows.Forms.ListViewItem listViewItem69 = new System.Windows.Forms.ListViewItem("", 68);
-            System.Windows.Forms.ListViewItem listViewItem70 = new System.Windows.Forms.ListViewItem("", 69);
-            System.Windows.Forms.ListViewItem listViewItem71 = new System.Windows.Forms.ListViewItem("", 70);
-            System.Windows.Forms.ListViewItem listViewItem72 = new System.Windows.Forms.ListViewItem("", 71);
-            System.Windows.Forms.ListViewItem listViewItem73 = new System.Windows.Forms.ListViewItem("", 72);
-            System.Windows.Forms.ListViewItem listViewItem74 = new System.Windows.Forms.ListViewItem("", 73);
-            System.Windows.Forms.ListViewItem listViewItem75 = new System.Windows.Forms.ListViewItem("", 74);
-            System.Windows.Forms.ListViewItem listViewItem76 = new System.Windows.Forms.ListViewItem("", 75);
-            System.Windows.Forms.ListViewItem listViewItem77 = new System.Windows.Forms.ListViewItem("", 76);
-            System.Windows.Forms.ListViewItem listViewItem78 = new System.Windows.Forms.ListViewItem("", 77);
-            System.Windows.Forms.ListViewItem listViewItem79 = new System.Windows.Forms.ListViewItem("", 78);
-            System.Windows.Forms.ListViewItem listViewItem80 = new System.Windows.Forms.ListViewItem("", 79);
-            System.Windows.Forms.ListViewItem listViewItem81 = new System.Windows.Forms.ListViewItem("", 80);
-            System.Windows.Forms.ListViewItem listViewItem82 = new System.Windows.Forms.ListViewItem("", 81);
-            System.Windows.Forms.ListViewItem listViewItem83 = new System.Windows.Forms.ListViewItem("", 82);
-            System.Windows.Forms.ListViewItem listViewItem84 = new System.Windows.Forms.ListViewItem("", 83);
-            System.Windows.Forms.ListViewItem listViewItem85 = new System.Windows.Forms.ListViewItem("", 84);
-            System.Windows.Forms.ListViewItem listViewItem86 = new System.Windows.Forms.ListViewItem("", 85);
-            System.Windows.Forms.ListViewItem listViewItem87 = new System.Windows.Forms.ListViewItem("", 86);
-            System.Windows.Forms.ListViewItem listViewItem88 = new System.Windows.Forms.ListViewItem("", 87);
-            System.Windows.Forms.ListViewItem listViewItem89 = new System.Windows.Forms.ListViewItem("", 88);
-            System.Windows.Forms.ListViewItem listViewItem90 = new System.Windows.Forms.ListViewItem("", 89);
-            System.Windows.Forms.ListViewItem listViewItem91 = new System.Windows.Forms.ListViewItem("", 90);
-            System.Windows.Forms.ListViewItem listViewItem92 = new System.Windows.Forms.ListViewItem("", 91);
-            System.Windows.Forms.ListViewItem listViewItem93 = new System.Windows.Forms.ListViewItem("", 92);
-            System.Windows.Forms.ListViewItem listViewItem94 = new System.Windows.Forms.ListViewItem("", 93);
-            System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem("", 94);
-            System.Windows.Forms.ListViewItem listViewItem96 = new System.Windows.Forms.ListViewItem("", 95);
-            System.Windows.Forms.ListViewItem listViewItem97 = new System.Windows.Forms.ListViewItem("", 96);
-            System.Windows.Forms.ListViewItem listViewItem98 = new System.Windows.Forms.ListViewItem("", 97);
-            System.Windows.Forms.ListViewItem listViewItem99 = new System.Windows.Forms.ListViewItem("", 98);
-            System.Windows.Forms.ListViewItem listViewItem100 = new System.Windows.Forms.ListViewItem("", 99);
-            System.Windows.Forms.ListViewItem listViewItem101 = new System.Windows.Forms.ListViewItem("", 100);
-            System.Windows.Forms.ListViewItem listViewItem102 = new System.Windows.Forms.ListViewItem("", 101);
-            System.Windows.Forms.ListViewItem listViewItem103 = new System.Windows.Forms.ListViewItem("", 102);
-            System.Windows.Forms.ListViewItem listViewItem104 = new System.Windows.Forms.ListViewItem("", 103);
-            System.Windows.Forms.ListViewItem listViewItem105 = new System.Windows.Forms.ListViewItem("", 104);
-            System.Windows.Forms.ListViewItem listViewItem106 = new System.Windows.Forms.ListViewItem("", 105);
-            System.Windows.Forms.ListViewItem listViewItem107 = new System.Windows.Forms.ListViewItem("", 106);
-            System.Windows.Forms.ListViewItem listViewItem108 = new System.Windows.Forms.ListViewItem("", 107);
-            System.Windows.Forms.ListViewItem listViewItem109 = new System.Windows.Forms.ListViewItem("", 108);
-            System.Windows.Forms.ListViewItem listViewItem110 = new System.Windows.Forms.ListViewItem("", 109);
-            System.Windows.Forms.ListViewItem listViewItem111 = new System.Windows.Forms.ListViewItem("", 110);
-            System.Windows.Forms.ListViewItem listViewItem112 = new System.Windows.Forms.ListViewItem("", 111);
-            System.Windows.Forms.ListViewItem listViewItem113 = new System.Windows.Forms.ListViewItem("", 112);
-            System.Windows.Forms.ListViewItem listViewItem114 = new System.Windows.Forms.ListViewItem("", 113);
-            System.Windows.Forms.ListViewItem listViewItem115 = new System.Windows.Forms.ListViewItem("", 114);
-            System.Windows.Forms.ListViewItem listViewItem116 = new System.Windows.Forms.ListViewItem("", 115);
-            System.Windows.Forms.ListViewItem listViewItem117 = new System.Windows.Forms.ListViewItem("", 116);
-            System.Windows.Forms.ListViewItem listViewItem118 = new System.Windows.Forms.ListViewItem("", 117);
-            System.Windows.Forms.ListViewItem listViewItem119 = new System.Windows.Forms.ListViewItem("", 118);
-            System.Windows.Forms.ListViewItem listViewItem120 = new System.Windows.Forms.ListViewItem("", 119);
-            System.Windows.Forms.ListViewItem listViewItem121 = new System.Windows.Forms.ListViewItem("", 120);
-            System.Windows.Forms.ListViewItem listViewItem122 = new System.Windows.Forms.ListViewItem("", 121);
-            System.Windows.Forms.ListViewItem listViewItem123 = new System.Windows.Forms.ListViewItem("", 122);
-            System.Windows.Forms.ListViewItem listViewItem124 = new System.Windows.Forms.ListViewItem("", 123);
-            System.Windows.Forms.ListViewItem listViewItem125 = new System.Windows.Forms.ListViewItem("", 124);
-            System.Windows.Forms.ListViewItem listViewItem126 = new System.Windows.Forms.ListViewItem("", 125);
-            System.Windows.Forms.ListViewItem listViewItem127 = new System.Windows.Forms.ListViewItem("", 126);
-            System.Windows.Forms.ListViewItem listViewItem128 = new System.Windows.Forms.ListViewItem("", 127);
-            System.Windows.Forms.ListViewItem listViewItem129 = new System.Windows.Forms.ListViewItem("", 128);
-            System.Windows.Forms.ListViewItem listViewItem130 = new System.Windows.Forms.ListViewItem("", 129);
-            System.Windows.Forms.ListViewItem listViewItem131 = new System.Windows.Forms.ListViewItem("", 130);
-            System.Windows.Forms.ListViewItem listViewItem132 = new System.Windows.Forms.ListViewItem("", 131);
-            System.Windows.Forms.ListViewItem listViewItem133 = new System.Windows.Forms.ListViewItem("", 132);
-            System.Windows.Forms.ListViewItem listViewItem134 = new System.Windows.Forms.ListViewItem("", 133);
-            System.Windows.Forms.ListViewItem listViewItem135 = new System.Windows.Forms.ListViewItem("", 134);
-            System.Windows.Forms.ListViewItem listViewItem136 = new System.Windows.Forms.ListViewItem("", 135);
-            System.Windows.Forms.ListViewItem listViewItem137 = new System.Windows.Forms.ListViewItem("", 136);
-            System.Windows.Forms.ListViewItem listViewItem138 = new System.Windows.Forms.ListViewItem("", 137);
-            System.Windows.Forms.ListViewItem listViewItem139 = new System.Windows.Forms.ListViewItem("", 138);
-            System.Windows.Forms.ListViewItem listViewItem140 = new System.Windows.Forms.ListViewItem("", 139);
-            System.Windows.Forms.ListViewItem listViewItem141 = new System.Windows.Forms.ListViewItem("", 140);
-            System.Windows.Forms.ListViewItem listViewItem142 = new System.Windows.Forms.ListViewItem("", 141);
-            System.Windows.Forms.ListViewItem listViewItem143 = new System.Windows.Forms.ListViewItem("", 142);
-            System.Windows.Forms.ListViewItem listViewItem144 = new System.Windows.Forms.ListViewItem("", 143);
-            System.Windows.Forms.ListViewItem listViewItem145 = new System.Windows.Forms.ListViewItem("", 144);
-            System.Windows.Forms.ListViewItem listViewItem146 = new System.Windows.Forms.ListViewItem("", 145);
-            System.Windows.Forms.ListViewItem listViewItem147 = new System.Windows.Forms.ListViewItem("", 146);
-            System.Windows.Forms.ListViewItem listViewItem148 = new System.Windows.Forms.ListViewItem("", 147);
-            System.Windows.Forms.ListViewItem listViewItem149 = new System.Windows.Forms.ListViewItem("", 148);
-            System.Windows.Forms.ListViewItem listViewItem150 = new System.Windows.Forms.ListViewItem("", 149);
-            System.Windows.Forms.ListViewItem listViewItem151 = new System.Windows.Forms.ListViewItem("", 150);
-            System.Windows.Forms.ListViewItem listViewItem152 = new System.Windows.Forms.ListViewItem("", 151);
-            System.Windows.Forms.ListViewItem listViewItem153 = new System.Windows.Forms.ListViewItem("", 152);
-            System.Windows.Forms.ListViewItem listViewItem154 = new System.Windows.Forms.ListViewItem("", 153);
-            System.Windows.Forms.ListViewItem listViewItem155 = new System.Windows.Forms.ListViewItem("", 154);
-            System.Windows.Forms.ListViewItem listViewItem156 = new System.Windows.Forms.ListViewItem("", 155);
-            System.Windows.Forms.ListViewItem listViewItem157 = new System.Windows.Forms.ListViewItem("", 156);
-            System.Windows.Forms.ListViewItem listViewItem158 = new System.Windows.Forms.ListViewItem("", 157);
-            System.Windows.Forms.ListViewItem listViewItem159 = new System.Windows.Forms.ListViewItem("", 158);
-            System.Windows.Forms.ListViewItem listViewItem160 = new System.Windows.Forms.ListViewItem("", 159);
-            System.Windows.Forms.ListViewItem listViewItem161 = new System.Windows.Forms.ListViewItem("", 160);
-            System.Windows.Forms.ListViewItem listViewItem162 = new System.Windows.Forms.ListViewItem("", 161);
-            System.Windows.Forms.ListViewItem listViewItem163 = new System.Windows.Forms.ListViewItem("", 162);
-            System.Windows.Forms.ListViewItem listViewItem164 = new System.Windows.Forms.ListViewItem("", 163);
-            System.Windows.Forms.ListViewItem listViewItem165 = new System.Windows.Forms.ListViewItem("", 164);
-            System.Windows.Forms.ListViewItem listViewItem166 = new System.Windows.Forms.ListViewItem("", 165);
-            System.Windows.Forms.ListViewItem listViewItem167 = new System.Windows.Forms.ListViewItem("", 166);
-            System.Windows.Forms.ListViewItem listViewItem168 = new System.Windows.Forms.ListViewItem("", 167);
-            System.Windows.Forms.ListViewItem listViewItem169 = new System.Windows.Forms.ListViewItem("", 168);
-            System.Windows.Forms.ListViewItem listViewItem170 = new System.Windows.Forms.ListViewItem("", 169);
-            System.Windows.Forms.ListViewItem listViewItem171 = new System.Windows.Forms.ListViewItem("", 170);
-            System.Windows.Forms.ListViewItem listViewItem172 = new System.Windows.Forms.ListViewItem("", 171);
-            System.Windows.Forms.ListViewItem listViewItem173 = new System.Windows.Forms.ListViewItem("", 172);
-            System.Windows.Forms.ListViewItem listViewItem174 = new System.Windows.Forms.ListViewItem("", 173);
-            System.Windows.Forms.ListViewItem listViewItem175 = new System.Windows.Forms.ListViewItem("", 174);
-            System.Windows.Forms.ListViewItem listViewItem176 = new System.Windows.Forms.ListViewItem("", 175);
-            System.Windows.Forms.ListViewItem listViewItem177 = new System.Windows.Forms.ListViewItem("", 176);
-            System.Windows.Forms.ListViewItem listViewItem178 = new System.Windows.Forms.ListViewItem("", 177);
-            System.Windows.Forms.ListViewItem listViewItem179 = new System.Windows.Forms.ListViewItem("", 178);
-            System.Windows.Forms.ListViewItem listViewItem180 = new System.Windows.Forms.ListViewItem("", 179);
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("", 8);
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("", 9);
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("", 10);
+            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("", 11);
+            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("", 12);
+            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("", 15);
+            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("", 16);
+            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("", 17);
+            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("", 18);
+            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem("", 19);
+            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem("", 20);
+            System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem("", 21);
+            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem("", 22);
+            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem("", 23);
+            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("", 24);
+            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("", 25);
+            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("", 26);
+            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("", 27);
+            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("", 30);
+            System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem("", 31);
+            System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem("", 32);
+            System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem("", 33);
+            System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem("", 35);
+            System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem("", 36);
+            System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem("", 37);
+            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem("", 38);
+            System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem("", 39);
+            System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem("", 40);
+            System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem("", 41);
+            System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem("", 42);
+            System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem("", 45);
+            System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem("", 46);
+            System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem("", 47);
+            System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem("", 48);
+            System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem("", 50);
+            System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem("", 51);
+            System.Windows.Forms.ListViewItem listViewItem43 = new System.Windows.Forms.ListViewItem("", 52);
+            System.Windows.Forms.ListViewItem listViewItem44 = new System.Windows.Forms.ListViewItem("", 53);
+            System.Windows.Forms.ListViewItem listViewItem45 = new System.Windows.Forms.ListViewItem("", 54);
+            System.Windows.Forms.ListViewItem listViewItem46 = new System.Windows.Forms.ListViewItem("", 60);
+            System.Windows.Forms.ListViewItem listViewItem47 = new System.Windows.Forms.ListViewItem("", 61);
+            System.Windows.Forms.ListViewItem listViewItem48 = new System.Windows.Forms.ListViewItem("", 62);
+            System.Windows.Forms.ListViewItem listViewItem49 = new System.Windows.Forms.ListViewItem("", 63);
+            System.Windows.Forms.ListViewItem listViewItem50 = new System.Windows.Forms.ListViewItem("", 64);
+            System.Windows.Forms.ListViewItem listViewItem51 = new System.Windows.Forms.ListViewItem("", 65);
+            System.Windows.Forms.ListViewItem listViewItem52 = new System.Windows.Forms.ListViewItem("", 66);
+            System.Windows.Forms.ListViewItem listViewItem53 = new System.Windows.Forms.ListViewItem("", 67);
+            System.Windows.Forms.ListViewItem listViewItem54 = new System.Windows.Forms.ListViewItem("", 68);
+            System.Windows.Forms.ListViewItem listViewItem55 = new System.Windows.Forms.ListViewItem("", 69);
+            System.Windows.Forms.ListViewItem listViewItem56 = new System.Windows.Forms.ListViewItem("", 75);
+            System.Windows.Forms.ListViewItem listViewItem57 = new System.Windows.Forms.ListViewItem("", 76);
+            System.Windows.Forms.ListViewItem listViewItem58 = new System.Windows.Forms.ListViewItem("", 77);
+            System.Windows.Forms.ListViewItem listViewItem59 = new System.Windows.Forms.ListViewItem("", 78);
+            System.Windows.Forms.ListViewItem listViewItem60 = new System.Windows.Forms.ListViewItem("", 79);
+            System.Windows.Forms.ListViewItem listViewItem61 = new System.Windows.Forms.ListViewItem("", 80);
+            System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem("", 81);
+            System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem("", 82);
+            System.Windows.Forms.ListViewItem listViewItem64 = new System.Windows.Forms.ListViewItem("", 83);
+            System.Windows.Forms.ListViewItem listViewItem65 = new System.Windows.Forms.ListViewItem("", 84);
+            System.Windows.Forms.ListViewItem listViewItem66 = new System.Windows.Forms.ListViewItem("", 90);
+            System.Windows.Forms.ListViewItem listViewItem67 = new System.Windows.Forms.ListViewItem("", 91);
+            System.Windows.Forms.ListViewItem listViewItem68 = new System.Windows.Forms.ListViewItem("", 92);
+            System.Windows.Forms.ListViewItem listViewItem69 = new System.Windows.Forms.ListViewItem("", 93);
+            System.Windows.Forms.ListViewItem listViewItem70 = new System.Windows.Forms.ListViewItem("", 94);
+            System.Windows.Forms.ListViewItem listViewItem71 = new System.Windows.Forms.ListViewItem("", 95);
+            System.Windows.Forms.ListViewItem listViewItem72 = new System.Windows.Forms.ListViewItem("", 96);
+            System.Windows.Forms.ListViewItem listViewItem73 = new System.Windows.Forms.ListViewItem("", 97);
+            System.Windows.Forms.ListViewItem listViewItem74 = new System.Windows.Forms.ListViewItem("", 98);
+            System.Windows.Forms.ListViewItem listViewItem75 = new System.Windows.Forms.ListViewItem("", 99);
+            System.Windows.Forms.ListViewItem listViewItem76 = new System.Windows.Forms.ListViewItem("", 105);
+            System.Windows.Forms.ListViewItem listViewItem77 = new System.Windows.Forms.ListViewItem("", 106);
+            System.Windows.Forms.ListViewItem listViewItem78 = new System.Windows.Forms.ListViewItem("", 107);
+            System.Windows.Forms.ListViewItem listViewItem79 = new System.Windows.Forms.ListViewItem("", 108);
+            System.Windows.Forms.ListViewItem listViewItem80 = new System.Windows.Forms.ListViewItem("", 109);
+            System.Windows.Forms.ListViewItem listViewItem81 = new System.Windows.Forms.ListViewItem("", 110);
+            System.Windows.Forms.ListViewItem listViewItem82 = new System.Windows.Forms.ListViewItem("", 111);
+            System.Windows.Forms.ListViewItem listViewItem83 = new System.Windows.Forms.ListViewItem("", 112);
+            System.Windows.Forms.ListViewItem listViewItem84 = new System.Windows.Forms.ListViewItem("", 113);
+            System.Windows.Forms.ListViewItem listViewItem85 = new System.Windows.Forms.ListViewItem("", 114);
+            System.Windows.Forms.ListViewItem listViewItem86 = new System.Windows.Forms.ListViewItem("", 116);
+            System.Windows.Forms.ListViewItem listViewItem87 = new System.Windows.Forms.ListViewItem("", 120);
+            System.Windows.Forms.ListViewItem listViewItem88 = new System.Windows.Forms.ListViewItem("", 121);
+            System.Windows.Forms.ListViewItem listViewItem89 = new System.Windows.Forms.ListViewItem("", 122);
+            System.Windows.Forms.ListViewItem listViewItem90 = new System.Windows.Forms.ListViewItem("", 123);
+            System.Windows.Forms.ListViewItem listViewItem91 = new System.Windows.Forms.ListViewItem("", 124);
+            System.Windows.Forms.ListViewItem listViewItem92 = new System.Windows.Forms.ListViewItem("", 125);
+            System.Windows.Forms.ListViewItem listViewItem93 = new System.Windows.Forms.ListViewItem("", 126);
+            System.Windows.Forms.ListViewItem listViewItem94 = new System.Windows.Forms.ListViewItem("", 127);
+            System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem("", 128);
+            System.Windows.Forms.ListViewItem listViewItem96 = new System.Windows.Forms.ListViewItem("", 129);
+            System.Windows.Forms.ListViewItem listViewItem97 = new System.Windows.Forms.ListViewItem("", 135);
+            System.Windows.Forms.ListViewItem listViewItem98 = new System.Windows.Forms.ListViewItem("", 136);
+            System.Windows.Forms.ListViewItem listViewItem99 = new System.Windows.Forms.ListViewItem("", 137);
+            System.Windows.Forms.ListViewItem listViewItem100 = new System.Windows.Forms.ListViewItem("", 138);
+            System.Windows.Forms.ListViewItem listViewItem101 = new System.Windows.Forms.ListViewItem("", 139);
+            System.Windows.Forms.ListViewItem listViewItem102 = new System.Windows.Forms.ListViewItem("", 140);
+            System.Windows.Forms.ListViewItem listViewItem103 = new System.Windows.Forms.ListViewItem("", 141);
+            System.Windows.Forms.ListViewItem listViewItem104 = new System.Windows.Forms.ListViewItem("", 142);
+            System.Windows.Forms.ListViewItem listViewItem105 = new System.Windows.Forms.ListViewItem("", 143);
+            System.Windows.Forms.ListViewItem listViewItem106 = new System.Windows.Forms.ListViewItem("", 144);
+            System.Windows.Forms.ListViewItem listViewItem107 = new System.Windows.Forms.ListViewItem("", 150);
+            System.Windows.Forms.ListViewItem listViewItem108 = new System.Windows.Forms.ListViewItem("", 151);
+            System.Windows.Forms.ListViewItem listViewItem109 = new System.Windows.Forms.ListViewItem("", 152);
+            System.Windows.Forms.ListViewItem listViewItem110 = new System.Windows.Forms.ListViewItem("", 153);
+            System.Windows.Forms.ListViewItem listViewItem111 = new System.Windows.Forms.ListViewItem("", 154);
+            System.Windows.Forms.ListViewItem listViewItem112 = new System.Windows.Forms.ListViewItem("", 155);
+            System.Windows.Forms.ListViewItem listViewItem113 = new System.Windows.Forms.ListViewItem("", 156);
+            System.Windows.Forms.ListViewItem listViewItem114 = new System.Windows.Forms.ListViewItem("", 157);
+            System.Windows.Forms.ListViewItem listViewItem115 = new System.Windows.Forms.ListViewItem("", 158);
+            System.Windows.Forms.ListViewItem listViewItem116 = new System.Windows.Forms.ListViewItem("", 159);
+            System.Windows.Forms.ListViewItem listViewItem117 = new System.Windows.Forms.ListViewItem("", 165);
+            System.Windows.Forms.ListViewItem listViewItem118 = new System.Windows.Forms.ListViewItem("", 166);
+            System.Windows.Forms.ListViewItem listViewItem119 = new System.Windows.Forms.ListViewItem("", 167);
+            System.Windows.Forms.ListViewItem listViewItem120 = new System.Windows.Forms.ListViewItem("", 168);
+            System.Windows.Forms.ListViewItem listViewItem121 = new System.Windows.Forms.ListViewItem("", 169);
+            System.Windows.Forms.ListViewItem listViewItem122 = new System.Windows.Forms.ListViewItem("", 170);
+            System.Windows.Forms.ListViewItem listViewItem123 = new System.Windows.Forms.ListViewItem("", 171);
+            System.Windows.Forms.ListViewItem listViewItem124 = new System.Windows.Forms.ListViewItem("", 172);
+            System.Windows.Forms.ListViewItem listViewItem125 = new System.Windows.Forms.ListViewItem("", 173);
+            System.Windows.Forms.ListViewItem listViewItem126 = new System.Windows.Forms.ListViewItem("", 174);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LevelEditor));
             this.Level = new System.Windows.Forms.GroupBox();
             this.Save = new System.Windows.Forms.Button();
@@ -222,20 +168,21 @@ namespace TheHallsLevelEditor
             // 
             // Level
             // 
-            this.Level.Location = new System.Drawing.Point(144, 22);
-            this.Level.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Level.Location = new System.Drawing.Point(384, 52);
+            this.Level.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Level.Name = "Level";
-            this.Level.Padding = new System.Windows.Forms.Padding(1, 1, 1, 1);
-            this.Level.Size = new System.Drawing.Size(338, 346);
+            this.Level.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Level.Size = new System.Drawing.Size(901, 825);
             this.Level.TabIndex = 0;
             this.Level.TabStop = false;
             this.Level.Text = "Level";
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(29, 732);
+            this.Save.Location = new System.Drawing.Point(77, 1746);
+            this.Save.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(111, 52);
+            this.Save.Size = new System.Drawing.Size(296, 124);
             this.Save.TabIndex = 0;
             this.Save.Text = "Save";
             this.Save.UseVisualStyleBackColor = true;
@@ -243,9 +190,10 @@ namespace TheHallsLevelEditor
             // 
             // Load
             // 
-            this.Load.Location = new System.Drawing.Point(29, 861);
+            this.Load.Location = new System.Drawing.Point(77, 2053);
+            this.Load.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Load.Name = "Load";
-            this.Load.Size = new System.Drawing.Size(111, 52);
+            this.Load.Size = new System.Drawing.Size(296, 124);
             this.Load.TabIndex = 2;
             this.Load.Text = "Load";
             this.Load.UseVisualStyleBackColor = true;
@@ -254,10 +202,10 @@ namespace TheHallsLevelEditor
             // saveButton
             // 
             this.saveButton.BackColor = System.Drawing.SystemColors.Control;
-            this.saveButton.Location = new System.Drawing.Point(22, 236);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.saveButton.Location = new System.Drawing.Point(59, 563);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(93, 64);
+            this.saveButton.Size = new System.Drawing.Size(248, 153);
             this.saveButton.TabIndex = 3;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = false;
@@ -265,10 +213,10 @@ namespace TheHallsLevelEditor
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(22, 302);
-            this.loadButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.loadButton.Location = new System.Drawing.Point(59, 720);
+            this.loadButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(93, 55);
+            this.loadButton.Size = new System.Drawing.Size(248, 131);
             this.loadButton.TabIndex = 4;
             this.loadButton.Text = "Load";
             this.loadButton.UseVisualStyleBackColor = true;
@@ -403,65 +351,11 @@ namespace TheHallsLevelEditor
             listViewItem123,
             listViewItem124,
             listViewItem125,
-            listViewItem126,
-            listViewItem127,
-            listViewItem128,
-            listViewItem129,
-            listViewItem130,
-            listViewItem131,
-            listViewItem132,
-            listViewItem133,
-            listViewItem134,
-            listViewItem135,
-            listViewItem136,
-            listViewItem137,
-            listViewItem138,
-            listViewItem139,
-            listViewItem140,
-            listViewItem141,
-            listViewItem142,
-            listViewItem143,
-            listViewItem144,
-            listViewItem145,
-            listViewItem146,
-            listViewItem147,
-            listViewItem148,
-            listViewItem149,
-            listViewItem150,
-            listViewItem151,
-            listViewItem152,
-            listViewItem153,
-            listViewItem154,
-            listViewItem155,
-            listViewItem156,
-            listViewItem157,
-            listViewItem158,
-            listViewItem159,
-            listViewItem160,
-            listViewItem161,
-            listViewItem162,
-            listViewItem163,
-            listViewItem164,
-            listViewItem165,
-            listViewItem166,
-            listViewItem167,
-            listViewItem168,
-            listViewItem169,
-            listViewItem170,
-            listViewItem171,
-            listViewItem172,
-            listViewItem173,
-            listViewItem174,
-            listViewItem175,
-            listViewItem176,
-            listViewItem177,
-            listViewItem178,
-            listViewItem179,
-            listViewItem180});
-            this.SpriteList.Location = new System.Drawing.Point(22, 22);
-            this.SpriteList.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            listViewItem126});
+            this.SpriteList.Location = new System.Drawing.Point(59, 52);
+            this.SpriteList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SpriteList.Name = "SpriteList";
-            this.SpriteList.Size = new System.Drawing.Size(102, 152);
+            this.SpriteList.Size = new System.Drawing.Size(265, 357);
             this.SpriteList.SmallImageList = this.imageList1;
             this.SpriteList.TabIndex = 5;
             this.SpriteList.UseCompatibleStateImageBehavior = false;
@@ -654,16 +548,16 @@ namespace TheHallsLevelEditor
             // 
             // LevelEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 429);
+            this.ClientSize = new System.Drawing.Size(1363, 1023);
             this.Controls.Add(this.SpriteList);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.Load);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.Level);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "LevelEditor";
             this.Text = "LevelEditor";
             this.ResumeLayout(false);
