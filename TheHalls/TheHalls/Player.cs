@@ -26,6 +26,8 @@ namespace TheHalls
         private Color arcOpacity;
         private double attackSpeed;
 
+        private float weaponDrawOffset;
+
         private Vector2 prevMoveDirection;
 
         /// <summary>
@@ -52,6 +54,7 @@ namespace TheHalls
             weapon = weaponType.Sword;
             attackSpeed = 36;
             prevMoveDirection = Vector2.Zero;
+            weaponDrawOffset = (float)Math.Sqrt(2) / 4;
         }
 
         /// <summary>
@@ -128,6 +131,12 @@ namespace TheHalls
             // Decrement attack cooldown
             attackSpeed--;
 
+            //this resets the sword image back to a 'normal' offset, after a few in between frames
+            if(attackSpeed == 32)
+            {
+                weaponDrawOffset *= -2;
+            }
+
             arcLoc = ScreenLoc + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenLoc) * attackRadius);
 
             arcRotation = mouse.Y - ScreenLoc.Y > 0 ?
@@ -169,19 +178,21 @@ namespace TheHalls
                         elem.TakeDamage(damage, this);
                         arcOpacity = Color.IndianRed;
                     }
-
-                    // Set attack cooldown based on weapon type
-                    switch (weapon)
-                    {
-                        case weaponType.Sword:
-                            attackSpeed = 36;
-                            break;
-
-                        case weaponType.Spear:
-                            attackSpeed = 55;
-                            break;
-                    }
                 }
+                // Set attack cooldown based on weapon type
+                switch (weapon)
+                {
+                    case weaponType.Sword:
+                        attackSpeed = 36;
+                        break;
+
+                    case weaponType.Spear:
+                        attackSpeed = 55;
+                        break;
+                }
+
+                //start rotating the weapon image, only matters with swords
+                weaponDrawOffset /= 2;
             }
         }
 
@@ -263,6 +274,32 @@ namespace TheHalls
         /// <param name="sb">SpriteBatch from Game1.Draw()</param>
         public override void Draw(SpriteBatch sb)
         {
+            //Draw the weapon
+            switch (weapon)
+            {
+                case weaponType.Sword:
+                    sb.Draw(Game1.sword,
+                        new Rectangle((int)ScreenLoc.X, (int)ScreenLoc.Y, 50, 50),
+                        null,
+                        Color.White,
+                        arcRotation - (float)Math.Sqrt(2) / 2 + weaponDrawOffset,
+                        new Vector2(0, 27),
+                        SpriteEffects.None,
+                        0);
+                    break;
+
+                case weaponType.Spear:
+                    sb.Draw(Game1.spear,
+                        new Rectangle((int)ScreenLoc.X, (int)ScreenLoc.Y, 75, 75),
+                        null,
+                        Color.White,
+                        arcRotation - (float)Math.Sqrt(2) / 2 - .15f,
+                        new Vector2(0, 175),
+                        SpriteEffects.None,
+                        0);
+                    break;
+            }
+
             // Draw player
             base.Draw(sb);
             Texture2D arcImg = arcImgSword;
@@ -280,13 +317,16 @@ namespace TheHalls
                 SpriteEffects.None, 
                 0);
 
-            if (attack != null)
-            {
-                attack.Draw(sb);
-                attack = null;
-            }
+            sb.Draw(arcImg, 
+                new Rectangle((int)arcLoc.X, (int)arcLoc.Y, 80, 32),
+                new Rectangle(0, 0, arcImg.Width, arcImg.Height), 
+                arcOpacity,
+                arcRotation,
+                new Vector2(arcImg.Width / 2, arcImg.Height / 2), 
+                SpriteEffects.None, 
+                0);
         }
-
+        
         public int Health
         {
             get { return health; }
