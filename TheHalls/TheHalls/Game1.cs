@@ -108,10 +108,10 @@ namespace TheHalls
             //    -- Menu Buttons --
 
             // Play button
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 38, _graphics.PreferredBackBufferHeight /2 - 25, 75, 50, whiteSquare, "Play", arial16));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 38, _graphics.PreferredBackBufferHeight /2 - 25, 80, 50, whiteSquare, "Play", fffforward20));
 
             // God mode
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 55, _graphics.PreferredBackBufferHeight / 2 + 75, 110, 50, whiteSquare, "God Mode", arial16));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 85, _graphics.PreferredBackBufferHeight / 2 + 75, 180, 50, whiteSquare, "God Mode", fffforward20));
         }
 
         protected override void LoadContent()
