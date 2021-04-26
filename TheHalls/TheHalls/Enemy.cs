@@ -134,7 +134,7 @@ namespace TheHalls
         }
 
         /// <summary>
-        /// Draws enemys
+        /// Draws enemies
         /// </summary>
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)

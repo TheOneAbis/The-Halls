@@ -95,7 +95,7 @@ namespace TheHalls
         {
             foreach(GameObject obstacle in obstacles)
             {
-                obstacle.Draw(sb, new Rectangle(0, 48, 12, 12));
+                obstacle.DrawTile(sb);
             }
         }
     }

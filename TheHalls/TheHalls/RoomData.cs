@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace TheHalls
 {
@@ -14,6 +15,7 @@ namespace TheHalls
         private Direction inDirection;
         private Direction outDirection;
         private List<Vector2> enemySpawns;
+        private BinaryReader reader;
 
         /// <summary>
         /// gets a copy of the obstacles.
@@ -25,7 +27,7 @@ namespace TheHalls
                 List<GameObject> copy = new List<GameObject>();
                 foreach(GameObject obstacle in obstacles)
                 {
-                    copy.Add(new GameObject(obstacle.WorldLoc, obstacle.Size, obstacle.Image));
+                    copy.Add(new GameObject(obstacle.WorldLoc, obstacle.Size, obstacle.Image, obstacle.TileIndex));
                 }
                 return copy;
             }
@@ -38,7 +40,7 @@ namespace TheHalls
         {
             get
             {
-                return new GameObject(outDoor.WorldLoc, outDoor.Size, outDoor.Image);
+                return new GameObject(outDoor.WorldLoc, outDoor.Size, outDoor.Image, outDoor.TileIndex);
             }
         }
 
@@ -68,12 +70,31 @@ namespace TheHalls
             }
         }
 
-
-
-        public RoomData(List<GameObject> obstacles, GameObject outDoor, Direction inDirection, Direction outDirection, List<Vector2> enemySpawns)
+        public RoomData(string roomFileName, Direction inDirection, Direction outDirection, List<Vector2> enemySpawns, Texture2D tileSheet)
         {
-            this.obstacles = obstacles;
-            this.outDoor = outDoor;
+            obstacles = new List<GameObject>();
+            outDoor = null; // Ideally this will be given a value if the level was designed correctly
+            int tileIndex;
+            reader = new BinaryReader(File.OpenRead($"../../../{roomFileName}.room"));
+            for (int i = 0; i < 20; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    tileIndex = reader.ReadInt32();
+                    // 110 is the index for the up spikes, the closed entrance and exit tile of the game.
+                    // If it is this index, this is the outDoor. If not, it's just another tile.
+                    if (tileIndex == 110)
+                    {
+                        outDoor = new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex);
+                    }
+                    else
+                    {
+                        obstacles.Add(
+                        new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex));
+                    }
+                }
+            }
+            reader.Close();
             this.inDirection = inDirection;
             this.outDirection = outDirection;
             this.enemySpawns = enemySpawns;
