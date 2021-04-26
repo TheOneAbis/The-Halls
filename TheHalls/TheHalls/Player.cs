@@ -30,6 +30,8 @@ namespace TheHalls
 
         private Vector2 prevMoveDirection;
 
+        private int invulnerableFrames;
+
         /// <summary>
         /// 
         /// </summary>
@@ -47,7 +49,7 @@ namespace TheHalls
             arcOpacity = new Color(155, 155, 155, 255);
             movementSpeed = 3.5f;
             this.gameOver = gameOver;
-            health = 3;
+            health = 5;
             attackRadius = 75;
             this.weaponImage = weaponImage;
             damage = 1;
@@ -128,6 +130,14 @@ namespace TheHalls
         {
             // Decrement attack cooldown
             attackSpeed--;
+            if (invulnerableFrames != 0)
+            {
+                invulnerableFrames--;
+                if(invulnerableFrames == 0)
+                {
+                    tint = Color.White;
+                }
+            }
 
             //this resets the sword image back to a 'normal' offset, after a few in between frames
             if(attackSpeed == 32)
@@ -259,10 +269,15 @@ namespace TheHalls
         /// <param name="damage"></param>
         public void TakeDamage(int damage)
         {
-            health -= damage;
-            if(health <= 0)
+            if (invulnerableFrames <= 0)
             {
-                gameOver();
+                invulnerableFrames = 10;
+                tint = Color.Red;
+                health -= damage;
+                if (health <= 0)
+                {
+                    gameOver();
+                }
             }
         }
 

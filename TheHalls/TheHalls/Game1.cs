@@ -33,6 +33,7 @@ namespace TheHalls
         private Texture2D whiteSquare;
         public static Texture2D sword;
         public static Texture2D spear;
+        public static Texture2D potion;
         private Texture2D hearts;
         private Texture2D titleBG;
 
@@ -67,6 +68,7 @@ namespace TheHalls
         private List<Enemy> enemies;
         private Player player;
         private List<Weapon> weapons;
+        private List<Potion> potions;
 
         //rooms
         private List<Room> rooms;
@@ -126,6 +128,7 @@ namespace TheHalls
             fffforward20 = Content.Load<SpriteFont>("FFF Forward20");
             sword = Content.Load<Texture2D>("SwordNoBackground");
             spear = Content.Load<Texture2D>("SpearNoBackground");
+            potion = Content.Load<Texture2D>("potions");
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
 
@@ -201,13 +204,18 @@ namespace TheHalls
                     {
                         if (!enemies[i].Alive)
                         {
-                            if (rng.Next(2) == 0)
+                            int itemDrop = rng.Next(5);
+                            if (itemDrop == 0)
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1, weaponType.Sword, arial16));
                             }
-                            else
+                            else if(itemDrop == 1)
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, weaponType.Spear, arial16));
+                            }
+                            else if(itemDrop == 2)
+                            {
+                                potions.Add(new Potion(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), potion, 1));
                             }
                             obstacles.Remove(enemies[i]);
                             enemies.RemoveAt(i);
@@ -254,6 +262,15 @@ namespace TheHalls
                         if (weapons[i].PickUp(player))
                         {
                             weapons.RemoveAt(i);
+                        }
+                    }
+
+                    //Potion pickups
+                    for(int i = 0; i<potions.Count; i++)
+                    {
+                        if (potions[i].PickUp(player))
+                        {
+                            potions.RemoveAt(i);
                         }
                     }
 
@@ -304,6 +321,8 @@ namespace TheHalls
 
             _spriteBatch.Begin();
 
+
+            
             switch (gameState)
             {
                 case GameState.Menu:
@@ -366,7 +385,6 @@ namespace TheHalls
                         Color.Red);
                     break;
             }
-
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -394,6 +412,7 @@ namespace TheHalls
             obstacles = new List<GameObject>();
             enemies = new List<Enemy>();
             weapons = new List<Weapon>();
+            potions = new List<Potion>();
 
             //starter room
             rooms.Add(new Room(
@@ -758,6 +777,11 @@ namespace TheHalls
             _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].TileIndex.ToString(), new Vector2(300, 300), Color.White);
 
             foreach (Weapon elem in weapons)
+            {
+                elem.Draw(_spriteBatch);
+            }
+
+            foreach(Potion elem in potions)
             {
                 elem.Draw(_spriteBatch);
             }
