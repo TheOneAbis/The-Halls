@@ -200,11 +200,12 @@ namespace TheHalls
                     {
                         if (!enemies[i].Alive)
                         {
-                            if (rng.Next(2) == 0)
+                            int enemyDropRNG = rng.Next(6);
+                            if (enemyDropRNG == 0)
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1, weaponType.Sword, arial16));
                             }
-                            else
+                            else if(enemyDropRNG == 1)
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, weaponType.Spear, arial16));
                             }
