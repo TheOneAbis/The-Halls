@@ -203,7 +203,7 @@ namespace TheHalls
                     {
                         if (!enemies[i].Alive)
                         {
-                            int itemDrop = 2;
+                            int itemDrop = rng.Next(5);
                             if (itemDrop == 0)
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1, weaponType.Sword, arial16));
@@ -212,7 +212,7 @@ namespace TheHalls
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, weaponType.Spear, arial16));
                             }
-                            else
+                            else if(itemDrop == 2)
                             {
                                 potions.Add(new Potion(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), potion, 1));
                             }
@@ -320,6 +320,8 @@ namespace TheHalls
 
             _spriteBatch.Begin();
 
+
+            
             switch (gameState)
             {
                 case GameState.Menu:
@@ -382,7 +384,6 @@ namespace TheHalls
                         Color.Red);
                     break;
             }
-
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -739,6 +740,11 @@ namespace TheHalls
             }
 
             foreach (Weapon elem in weapons)
+            {
+                elem.Draw(_spriteBatch);
+            }
+
+            foreach(Potion elem in potions)
             {
                 elem.Draw(_spriteBatch);
             }
