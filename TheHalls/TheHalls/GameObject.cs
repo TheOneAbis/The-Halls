@@ -31,8 +31,19 @@ namespace TheHalls
         protected int animFramesElapsed;
         protected int interframeDistX;
 
+        // Integer array of wall tiles
+        protected List<int> wallIndices;
+        // Integer array of floor tiles
+        protected List<int> floorIndices;
+        protected bool collidable;    // Is this a floor or wall tile?
+        protected int tileIndex;
+
 
         //Properties
+        public int TileIndex
+        {
+            get { return tileIndex; }
+        }
         public Vector2 WorldLoc
         {
             get { return worldLoc; }
@@ -73,6 +84,41 @@ namespace TheHalls
             this.image = image;
             tint = Color.White;
             animated = false;
+            collidable = true;
+        }
+
+        /// <summary>
+        /// creates a new gameObject at the given location with the given size and image (FOR TILE OBJECTS).
+        /// </summary>
+        /// <param name="worldLoc"></param>
+        /// <param name="size"></param>
+        /// <param name="image"></param>
+        /// <param name="TileIndex">The index of the tile sprite in the spritesheet</param>
+        public GameObject(Vector2 worldLoc, Vector2 size, Texture2D image, int TileIndex)
+        {
+            this.worldLoc = worldLoc;
+            this.size = size;
+            this.image = image;
+            tint = Color.White;
+            animated = false;
+            collidable = true;
+            tileIndex = TileIndex;
+
+            floorIndices = new List<int> 
+            { 0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 15, 16, 17,
+                18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 35, 36, 37,
+                38, 39, 40, 41, 42, 45, 46, 47, 48, 50, 51, 52, 53, 54, 64, 66, 69,
+                105, 125, 139, 150, 151, 152, 165, 166, 167, 168 };
+
+            wallIndices = new List<int> 
+            { 60, 61, 62, 63, 75, 76, 77, 78, 90, 91, 92, 93,
+                106, 107, 108, 109, 110, 120, 121, 122, 123, 124, 135, 136, 137, 153 };
+
+            // Is this object tile a wall?
+            if (floorIndices.Contains(TileIndex))
+            {
+                collidable = true;
+            }
         }
 
         /// <summary>
@@ -93,6 +139,7 @@ namespace TheHalls
             this.frameOffset = frameOffset;
             tint = Color.White;
             animated = true;
+            collidable = true;
 
             currentFrameX = (int)frameOffset.X;
             currentAnim = 0;
@@ -151,6 +198,20 @@ namespace TheHalls
         }
 
         /// <summary>
+        /// If the game object is a tile, use this draw method to draw the specified tile
+        /// </summary>
+        /// <param name="sb"></param>
+        public void DrawTile(SpriteBatch sb)
+        {
+            sb.Draw(image,
+                    new Rectangle((int)(worldLoc.X - Game1.screenOffset.X),
+                    (int)(worldLoc.Y - Game1.screenOffset.Y),
+                    (int)size.X, (int)size.Y), new Rectangle(
+                        tileIndex % 15 * 16, tileIndex / 15 * 16, 16, 16), 
+                    tint);
+        }
+
+        /// <summary>
         /// returns true if the two objects are colliding.
         /// </summary>
         /// <param name="toCheck"></param>
@@ -161,7 +222,7 @@ namespace TheHalls
             {
                 return false;
             }
-            return GetRect().Intersects(toCheck.GetRect());
+            return collidable && GetRect().Intersects(toCheck.GetRect());
         }
 
         public Rectangle GetRect()
@@ -184,55 +245,58 @@ namespace TheHalls
         public bool ResolveCollisions(List<GameObject> obstacles)
         {
             bool collides = false;
-            Rectangle rect = GetRect();
-
-            foreach (GameObject elem in obstacles)
+            if (collidable)
             {
-                if (!(elem == this))
+                Rectangle rect = GetRect();
+
+                foreach (GameObject elem in obstacles)
                 {
-                    Rectangle obstacle = elem.GetRect();
-                    if (obstacle.Intersects(rect))
+                    if (!(elem == this))
                     {
-                        collides = true;
-                        Rectangle overlap = Rectangle.Intersect(obstacle, rect);
-                        if (overlap.Width <= overlap.Height)
+                        Rectangle obstacle = elem.GetRect();
+                        if (obstacle.Intersects(rect))
                         {
-                            //X adjustment
-                            if (obstacle.X > rect.X)
+                            collides = true;
+                            Rectangle overlap = Rectangle.Intersect(obstacle, rect);
+                            if (overlap.Width <= overlap.Height)
                             {
-                                //obstacle is to the right of player 
-                                rect.X -= overlap.Width;
+                                //X adjustment
+                                if (obstacle.X > rect.X)
+                                {
+                                    //obstacle is to the right of player 
+                                    rect.X -= overlap.Width;
+                                }
+                                else
+                                {
+                                    //obstacle is to the left of the player
+                                    rect.X += overlap.Width;
+                                }
                             }
                             else
                             {
-                                //obstacle is to the left of the player
-                                rect.X += overlap.Width;
-                            }
-                        }
-                        else
-                        {
-                            //Y adjustment
-                            if (obstacle.Y > rect.Y)
-                            {
-                                //obstacle is above the player
-                                rect.Y -= overlap.Height;
-                            }
-                            else
-                            {
-                                //obstacle is below the player
-                                rect.Y += overlap.Height;
+                                //Y adjustment
+                                if (obstacle.Y > rect.Y)
+                                {
+                                    //obstacle is above the player
+                                    rect.Y -= overlap.Height;
+                                }
+                                else
+                                {
+                                    //obstacle is below the player
+                                    rect.Y += overlap.Height;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            //sets the player location to the updated location
-            worldLoc.X = (int)rect.X;
-            worldLoc.Y = (int)rect.Y;
-            if(collides && this is EnemyRanged)
-            {
-                ((EnemyRanged)this).Bounce();
+                //sets the player location to the updated location
+                worldLoc.X = (int)rect.X;
+                worldLoc.Y = (int)rect.Y;
+                if (collides && this is EnemyRanged)
+                {
+                    ((EnemyRanged)this).Bounce();
+                }
             }
             return collides;
         }

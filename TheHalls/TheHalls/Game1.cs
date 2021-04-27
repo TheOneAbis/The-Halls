@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace TheHalls
 {
@@ -422,6 +423,16 @@ namespace TheHalls
             //starter room
             rooms.Add(new Room(
                 new RoomData(
+                        "room1", Direction.Down, Direction.Up,
+                        new List<Vector2> //enemySpawns
+                            {
+                                new Vector2(100, 100),
+                                new Vector2(300, 400),
+                            }, tiles),
+                tiles));
+            /*
+            rooms.Add(new Room(
+                new RoomData(
                         new List<GameObject>
                         {
                                 // Top left wall
@@ -477,14 +488,14 @@ namespace TheHalls
                             new Vector2(400, 0),
                         }),
                 tiles));
+            */
 
             //add starter room to obstacles
-            foreach(Room elem in rooms)
+            foreach (Room elem in rooms)
             {
                 foreach(GameObject obstacle in elem.Obstacles)
                 {
                     obstacles.Add(obstacle);
-                    //obstacle.Tint = Color.DarkGray;
                 }
             }
 
@@ -650,6 +661,20 @@ namespace TheHalls
                 new List<RoomData>
                 {
                     new RoomData(
+                        "room1", Direction.Down, Direction.Up,
+                        new List<Vector2> //enemySpawns
+                            {
+                                new Vector2(100, 100),
+                                new Vector2(300, 400),
+                            }, tiles)
+                }
+                );
+
+            /*
+            rooms.Add(Direction.Down,
+                new List<RoomData>
+                {
+                    new RoomData(
                             new List<GameObject> //obstacles
                             {
                                 // Top left wall
@@ -705,6 +730,8 @@ namespace TheHalls
                             })
 
                 });
+            */
+
             /*
             rooms.Add(Direction.Up,
                 new List<RoomData>
@@ -737,14 +764,24 @@ namespace TheHalls
         {
 
             // Draw obstacles and tiles
+            /*
             foreach (GameObject elem in obstacles)
             {
                 if (!elem.Animated)
                 {
                     elem.Draw(_spriteBatch, new Rectangle(0, 64, 16, 16));
                 }
-
             }
+            */
+
+            foreach (Room room in rooms)
+            {
+                room.Draw(_spriteBatch);
+                
+            }
+
+            // testing
+            _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].TileIndex.ToString(), new Vector2(300, 300), Color.White);
 
             foreach (Weapon elem in weapons)
             {
