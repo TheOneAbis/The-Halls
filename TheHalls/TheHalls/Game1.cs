@@ -85,6 +85,8 @@ namespace TheHalls
         private int numEnemies;   // Number of enemies in a room
         private int nextEnemIncrease; // Tracks how many more rooms until the number of enemies that spawn increases
 
+        private int levelUpFrames; // how many more frames with level up text show?
+
         // Menu buttons
         List<Button> buttons;
 
@@ -307,7 +309,11 @@ namespace TheHalls
                     }
                     break;
             }
-            
+            if (levelUpFrames > 0)
+            {
+                levelUpFrames--;
+            }
+
             prevMouse = Mouse.GetState();
             prevkb = Keyboard.GetState();
 
@@ -524,6 +530,7 @@ namespace TheHalls
             {
                 player.Health++;
                 player.Damage++;
+                levelUpFrames = 60;
             }
 
             // Decrease number of rooms until increase enemy count
@@ -754,6 +761,9 @@ namespace TheHalls
                 elem.Draw(_spriteBatch);
             }
 
+
+            player.Draw(_spriteBatch);
+
             //HUD
             //health
             if (player.Health > 10)
@@ -769,7 +779,7 @@ namespace TheHalls
                 }
             }
 
-            //weapon
+            //weapon info (bottom left)
             switch (player.CurrentWeapon)
             {
                 case weaponType.Spear:
@@ -780,11 +790,21 @@ namespace TheHalls
                     _spriteBatch.Draw(sword, new Rectangle(10, _graphics.PreferredBackBufferHeight - 60, 50, 50), Color.White);
                     break;
             }
-            // weapon damage
+            
             _spriteBatch.DrawString(arial16, player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 60), Color.Black);
 
+            //"level up" text
 
-            player.Draw(_spriteBatch);
+            if (levelUpFrames > 0)
+            {
+                _spriteBatch.DrawString(
+                    fffforward20, "Attack +1! Health +1!",
+                    new Vector2(
+                        _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").X / 2),
+                        _graphics.PreferredBackBufferHeight / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").Y / 2)),
+                    Color.Black
+                    );
+            }
         }
     }
 }
