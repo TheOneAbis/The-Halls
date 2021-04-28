@@ -223,7 +223,7 @@ namespace TheHalls
                             enemies.RemoveAt(i);
                             if(enemies.Count == 0)
                             {
-                                obstacles.Remove(lastRoom.OutDoor);
+                                
                                 NextRoom();
                             }
                             i--;
@@ -536,6 +536,13 @@ namespace TheHalls
             Room enterFrom = rooms[rooms.Count - 1];
             Vector2 roomOffset = enterFrom.RoomOffset;
             Direction inDirection = Direction.Up;
+            
+            //Open the door
+            foreach(GameObject doorTile in enterFrom.OutDoor)
+            {
+                doorTile.IsCollidable = false;
+                doorTile.TileNum = 105;
+            }
 
             if(rooms.Count % 5 == 0)
             {
@@ -638,15 +645,18 @@ namespace TheHalls
                             meleeAttackSheet,
                             meleeHurtSheet,
                             meleeDeathSheet,
-                            whiteSquare}, 
+                            whiteSquare},
                         1.5,
                         whiteSquare));
                 }
             }
 
             //creates the exit door, which opens when the enemies are defeated.
-            obstacles.Add(lastRoom.OutDoor);
-            lastRoom.OutDoor.Tint = Color.Brown;
+            foreach(GameObject doorTile in lastRoom.OutDoor)
+            {
+                obstacles.Add(doorTile);
+            }
+            //lastRoom.OutDoor.Tint = Color.Brown;
         }
 
         /// <summary>

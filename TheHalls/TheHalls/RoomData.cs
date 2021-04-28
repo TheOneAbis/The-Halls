@@ -11,7 +11,7 @@ namespace TheHalls
     struct RoomData
     {
         private List<GameObject> obstacles;
-        private GameObject outDoor;
+        private List<GameObject> outDoor;
         private Direction inDirection;
         private Direction outDirection;
         private List<Vector2> enemySpawns;
@@ -36,11 +36,16 @@ namespace TheHalls
         /// <summary>
         /// gets a copy of the exit door of this room.
         /// </summary>
-        public GameObject OutDoor
+        public List<GameObject> OutDoor
         {
             get
             {
-                return new GameObject(outDoor.WorldLoc, outDoor.Size, outDoor.Image, outDoor.TileNum);
+                List<GameObject> copy = new List<GameObject>();
+                foreach (GameObject doorTile in outDoor)
+                {
+                    copy.Add(new GameObject(doorTile.WorldLoc, doorTile.Size, doorTile.Image, doorTile.TileNum));
+                }
+                return copy;
             }
         }
 
@@ -73,7 +78,7 @@ namespace TheHalls
         public RoomData(string roomFileName, Direction inDirection, Direction outDirection, List<Vector2> enemySpawns, Texture2D tileSheet)
         {
             obstacles = new List<GameObject>();
-            outDoor = null; // Ideally this will be given a value if the level was designed correctly
+            outDoor = new List<GameObject>(); // Ideally this will be given a value if the level was designed correctly
             int tileIndex;
 
             reader = new BinaryReader(File.OpenRead($"../../../{roomFileName}.room"));
@@ -87,7 +92,7 @@ namespace TheHalls
                     // If it is this index, this is the outDoor. If not, it's just another tile.
                     if (tileIndex == 110)
                     {
-                        outDoor = new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex);
+                        outDoor.Add(new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex));
                     }
                     else
                     {

@@ -43,11 +43,13 @@ namespace TheHalls
         public int TileNum
         {
             get { return tileIndex; }
+            set { tileIndex = value; }
         }
 
         public bool IsCollidable
         {
             get { return collidable; }
+            set { collidable = value; }
         }
 
         public Vector2 WorldLoc

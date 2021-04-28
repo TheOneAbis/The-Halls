@@ -19,7 +19,7 @@ namespace TheHalls
     {
         protected Dictionary<Direction, Room> adjacentRooms;
         protected List<GameObject> obstacles;
-        protected GameObject outDoor;
+        protected List<GameObject> outDoor;
         protected Direction inDirection;
         protected Direction outDirection;
         protected List<Vector2> enemySpawns;
@@ -41,7 +41,7 @@ namespace TheHalls
             get { return outDirection; }
         }
 
-        public GameObject OutDoor
+        public List<GameObject> OutDoor
         {
             get { return outDoor; }
         }
@@ -88,7 +88,10 @@ namespace TheHalls
                 enemySpawns[i] += roomOffset;
             }
 
-            outDoor.WorldLoc += roomOffset;
+            foreach (GameObject doorTile in outDoor)
+            {
+                doorTile.WorldLoc += roomOffset;
+            }
         }
 
         public void Draw(SpriteBatch sb)
@@ -96,6 +99,11 @@ namespace TheHalls
             foreach(GameObject obstacle in obstacles)
             {
                 obstacle.DrawTile(sb);
+            }
+
+            foreach(GameObject doorTile in outDoor)
+            {
+                doorTile.DrawTile(sb);
             }
         }
     }
