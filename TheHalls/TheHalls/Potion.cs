@@ -34,7 +34,7 @@ namespace TheHalls
             {
                 if (player.Health + heal > 5)
                 {
-                    player.Health = 5;
+                    //player.Health = 5;
                 }
                 else
                 {
