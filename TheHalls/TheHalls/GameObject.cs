@@ -244,7 +244,7 @@ namespace TheHalls
         /// </summary>
         public Vector2 ScreenLoc
         {
-            get { return (worldLoc - Game1.screenOffset) + (Size / 2); }
+            get { return worldLoc - Game1.screenOffset + (Size / 2); }
         }
 
         /// <summary>

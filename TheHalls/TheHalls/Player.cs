@@ -39,8 +39,7 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D weaponImage, GameOver gameOver) : 
-            /*base(worldLoc, size, spriteSheets, 6, new Vector2(55, 102), new Vector2(0, 0), 77) Old player values: */
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D weaponImage, GameOver gameOver) :
             base(worldLoc, size, spriteSheets, 6, new Vector2(18, 18), new Vector2(7, 7), 32)
         {
             arcImgSword = arcImageSword;
@@ -48,7 +47,7 @@ namespace TheHalls
 
             arcRotation = 0;
             arcOpacity = new Color(155, 155, 155, 255);
-            movementSpeed = 3.5f;
+            movementSpeed = 4.0f;
             this.gameOver = gameOver;
             health = 5;
             attackRadius = 75;
@@ -322,15 +321,6 @@ namespace TheHalls
                 arcImg = arcImgSpear;
             }
             // Draw player weapon slash arc
-            sb.Draw(arcImg, 
-                new Rectangle((int)arcLoc.X, (int)arcLoc.Y, 80, 32),
-                new Rectangle(0, 0, arcImg.Width, arcImg.Height), 
-                arcOpacity,
-                arcRotation,
-                new Vector2(arcImg.Width / 2, arcImg.Height / 2), 
-                SpriteEffects.None, 
-                0);
-
             sb.Draw(arcImg, 
                 new Rectangle((int)arcLoc.X, (int)arcLoc.Y, 80, 32),
                 new Rectangle(0, 0, arcImg.Width, arcImg.Height), 

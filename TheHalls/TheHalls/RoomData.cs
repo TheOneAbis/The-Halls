@@ -76,7 +76,7 @@ namespace TheHalls
             outDoor = new List<GameObject>(); // Ideally this will be given a value if the level was designed correctly
             int tileIndex;
 
-            reader = new BinaryReader(File.OpenRead($"../../../{roomFileName}.room"));
+            reader = new BinaryReader(File.OpenRead($"Content/{roomFileName}.room"));
 
             for (int i = 0; i < 20; i++)
             {

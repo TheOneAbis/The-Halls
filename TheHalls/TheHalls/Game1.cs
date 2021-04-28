@@ -37,7 +37,6 @@ namespace TheHalls
         public static Texture2D potion;
         private Texture2D hearts;
         private Texture2D titleBG;
-        private Song theme;
 
         // Character images
         private Texture2D rangedWalkSheet;
@@ -141,8 +140,6 @@ namespace TheHalls
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
 
-            theme = Content.Load<Song>("HOHOH");
-
             debugSquare = whiteSquare;
 
             // Load character sprites
@@ -198,17 +195,11 @@ namespace TheHalls
                     if (buttons[0].Clicked(mouse, prevMouse))
                     {
                         GameStart(false);
-                        MediaPlayer.Volume = 0.15f;
-                        MediaPlayer.Play(gameMusic);
-                        MediaPlayer.IsRepeating = true;
                     }
                     // was god mode button clicked?
                     else if(buttons[1].Clicked(mouse, prevMouse))
                     {
                         GameStart(true);
-                        MediaPlayer.Volume = 0.15f;
-                        MediaPlayer.Play(gameMusic);
-                        MediaPlayer.IsRepeating = true;
                     }
                     break;
 
@@ -237,7 +228,6 @@ namespace TheHalls
                             enemies.RemoveAt(i);
                             if(enemies.Count == 0)
                             {
-                                
                                 NextRoom();
                             }
                             i--;
@@ -292,14 +282,15 @@ namespace TheHalls
 
                     //adjusts the screenOffset to center the player.
                     screenOffset = new Vector2(
-                        player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2,
-                        player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2);
+                        player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2 + ((mouse.X - _graphics.PreferredBackBufferWidth / 2) / 6),
+                        player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2 + ((mouse.Y - _graphics.PreferredBackBufferHeight / 2) / 6));
 
                     // Pause the game
                     if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
                     {
                         gameState = GameState.Pause;
                     }
+
                     break;
 
                 // Pause State
@@ -428,7 +419,9 @@ namespace TheHalls
             numEnemies = 2;
             nextEnemIncrease = rng.Next(3, 7);
 
-            MediaPlayer.Play(theme);
+            MediaPlayer.Play(gameMusic);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.15f;
             
 
             rooms = new List<Room>();
@@ -444,65 +437,6 @@ namespace TheHalls
                         new Rectangle(0, 0, 50, 50), 
                         tiles),
                 tiles));
-            /*
-            rooms.Add(new Room(
-                new RoomData(
-                        new List<GameObject>
-                        {
-                                // Top left wall
-                                new GameObject(new Vector2(0, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(50, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(100, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(150, 0), new Vector2(50, 50), tiles),
-
-                                // left wall
-                                new GameObject(new Vector2(0, 50), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 100), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 150), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 200), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 250), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 300), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 350), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 400), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 450), new Vector2(50, 50), tiles),
-
-                                // top right wall
-                                new GameObject(new Vector2(300, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(350, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(400, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 0), new Vector2(50, 50), tiles),
-
-                                // right wall
-                                new GameObject(new Vector2(450, 50), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 100), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 150), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 200), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 250), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 300), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 350), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 400), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 450), new Vector2(50, 50), tiles),
-
-                                // bottom wall
-                                new GameObject(new Vector2(50, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(100, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(150, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(200, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(250, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(300, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(350, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(400, 450), new Vector2(50, 50), tiles)
-                        },
-                        new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
-                        Direction.Down,
-                        Direction.Up,
-                        new List<Vector2>
-                        {
-                            new Vector2(400, 400),
-                            new Vector2(400, 0),
-                        }),
-                tiles));
-            */
 
             //add starter room to obstacles
             foreach (Room elem in rooms)
@@ -674,7 +608,6 @@ namespace TheHalls
             {
                 obstacles.Add(doorTile);
             }
-            //lastRoom.OutDoor.Tint = Color.Brown;
         }
 
         /// <summary>
@@ -718,18 +651,6 @@ namespace TheHalls
         /// </summary>
         public void GameDraw()
         {
-
-            // Draw obstacles and tiles
-            /*
-            foreach (GameObject elem in obstacles)
-            {
-                if (!elem.Animated)
-                {
-                    elem.Draw(_spriteBatch, new Rectangle(0, 64, 16, 16));
-                }
-            }
-            */
-
             foreach (Room room in rooms)
             {
                 room.Draw(_spriteBatch);
@@ -737,8 +658,10 @@ namespace TheHalls
             }
 
             // testing
-           // _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].TileNum.ToString(), new Vector2(300, 300), Color.White);
-           // _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].IsCollidable.ToString(), new Vector2(300, 330), Color.White);
+            // _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].TileNum.ToString(), new Vector2(300, 300), Color.White);
+            // _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].IsCollidable.ToString(), new Vector2(300, 330), Color.White);
+            _spriteBatch.DrawString(arial16, screenOffset.X.ToString(), new Vector2(300, 300), Color.White);
+            _spriteBatch.DrawString(arial16, screenOffset.Y.ToString(), new Vector2(300, 330), Color.White);
 
             foreach (Weapon elem in weapons)
             {

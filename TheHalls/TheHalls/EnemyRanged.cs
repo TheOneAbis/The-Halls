@@ -22,10 +22,6 @@ namespace TheHalls
         private int outerRadius;
         private int avgRadius;
         private Projectile projectile;
-        private Texture2D[] animSheets;
-        private int animTimer;
-        private int animationFPS;
-        private int srcRectX;
         private Texture2D projectileImage;
 
         public EnemyRanged(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D projectile) : base (worldLoc, size, Health, spriteSheets, attackInterval, projectile)
@@ -36,10 +32,6 @@ namespace TheHalls
             avgRadius = innerRadius + outerRadius / 2;
             movementSpeed = 2;
             Tint = Color.DarkRed;
-            animSheets = spriteSheets;
-            animTimer = 0;
-            srcRectX = 55;
-            animationFPS = 6;
             projectileImage = projectile;
         }
 
@@ -175,7 +167,7 @@ namespace TheHalls
         /// <param name="player"></param>
         public override void Attack(Player player)
         {
-            projectile = new Projectile(worldLoc + (Size/2), new Vector2(30, 30), projectileImage, Vector2.Normalize((player.WorldLoc - worldLoc))*10, player);
+            projectile = new Projectile(worldLoc + (Size/2), new Vector2(30, 30), projectileImage, Vector2.Normalize((player.WorldLoc - worldLoc))*5, player);
         }
 
         /// <summary>
