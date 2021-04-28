@@ -231,7 +231,7 @@ namespace TheHalls
             {
                 return false;
             }
-            return GetRect().Intersects(toCheck.GetRect());
+            return toCheck.IsCollidable && GetRect().Intersects(toCheck.GetRect());
         }
 
         public Rectangle GetRect()
