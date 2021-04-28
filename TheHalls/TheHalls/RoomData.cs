@@ -14,7 +14,7 @@ namespace TheHalls
         private List<GameObject> outDoor;
         private Direction inDirection;
         private Direction outDirection;
-        private List<Vector2> enemySpawns;
+        private Rectangle enemySpawnArea;
         private BinaryReader reader;
 
         /// <summary>
@@ -62,20 +62,15 @@ namespace TheHalls
         /// <summary>
         /// returns a copy of the enemy spawns.
         /// </summary>
-        public List<Vector2> EnemySpawns
+        public Rectangle EnemySpawnArea
         {
             get
             {
-                List<Vector2> copy = new List<Vector2>();
-                foreach (Vector2 enemySpawn in enemySpawns)
-                {
-                    copy.Add(new Vector2(enemySpawn.X, enemySpawn.Y));
-                }
-                return copy;
+                return new Rectangle(enemySpawnArea.Location, enemySpawnArea.Size);
             }
         }
 
-        public RoomData(string roomFileName, Direction inDirection, Direction outDirection, List<Vector2> enemySpawns, Texture2D tileSheet)
+        public RoomData(string roomFileName, Direction inDirection, Direction outDirection, Rectangle enemySpawnArea, Texture2D tileSheet)
         {
             obstacles = new List<GameObject>();
             outDoor = new List<GameObject>(); // Ideally this will be given a value if the level was designed correctly
@@ -104,7 +99,7 @@ namespace TheHalls
             reader.Close();
             this.inDirection = inDirection;
             this.outDirection = outDirection;
-            this.enemySpawns = enemySpawns;
+            this.enemySpawnArea = enemySpawnArea;
         }
     }
 }

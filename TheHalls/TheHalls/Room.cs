@@ -22,7 +22,7 @@ namespace TheHalls
         protected List<GameObject> outDoor;
         protected Direction inDirection;
         protected Direction outDirection;
-        protected List<Vector2> enemySpawns;
+        protected Rectangle enemySpawnArea;
         protected Vector2 roomOffset;
         protected Texture2D tiles;
 
@@ -46,9 +46,9 @@ namespace TheHalls
             get { return outDoor; }
         }
 
-        public List<Vector2> EnemySpawns
+        public Rectangle EnemySpawnArea
         {
-            get { return enemySpawns; }
+            get { return enemySpawnArea; }
         }
         /// <summary>
         /// this overload constructs the starter room
@@ -61,7 +61,7 @@ namespace TheHalls
             outDoor = roomTemplate.OutDoor;
             inDirection = roomTemplate.InDirection;
             outDirection = roomTemplate.OutDirection;
-            enemySpawns = roomTemplate.EnemySpawns;
+            enemySpawnArea = roomTemplate.EnemySpawnArea;
             this.tiles = tiles;
 
             roomOffset = new Vector2(0, 0);
@@ -74,7 +74,7 @@ namespace TheHalls
             outDoor = roomTemplate.OutDoor;
             inDirection = roomTemplate.InDirection;
             outDirection = roomTemplate.OutDirection; 
-            enemySpawns = roomTemplate.EnemySpawns;
+            enemySpawnArea = roomTemplate.EnemySpawnArea;
             this.tiles = tiles;
 
             this.roomOffset = roomOffset;
@@ -82,11 +82,9 @@ namespace TheHalls
             {
                 obs.WorldLoc += roomOffset;
             }
-            //foreach did work on this for some reason
-            for(int i = 0; i < enemySpawns.Count; i++)
-            {
-                enemySpawns[i] += roomOffset;
-            }
+
+            enemySpawnArea.X += (int)roomOffset.X;
+            enemySpawnArea.Y += (int)roomOffset.Y;
 
             foreach (GameObject doorTile in outDoor)
             {

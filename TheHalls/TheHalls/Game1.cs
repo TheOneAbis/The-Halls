@@ -424,11 +424,8 @@ namespace TheHalls
             rooms.Add(new Room(
                 new RoomData(
                         "room2", Direction.Down, Direction.Up,
-                        new List<Vector2> //enemySpawns
-                            {
-                                new Vector2(100, 100),
-                                new Vector2(300, 400),
-                            }, tiles),
+                        new Rectangle(0, 0, 50, 50), 
+                        tiles),
                 tiles));
             /*
             rooms.Add(new Room(
@@ -594,7 +591,7 @@ namespace TheHalls
             //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
             //create the room
             lastRoom = new Room(
-                roomTemplates[inDirection][0],
+                roomTemplates[inDirection][rng.Next(0, roomTemplates[inDirection].Count)],
                 enterFrom,
                 tiles,
                 roomOffset
@@ -614,16 +611,20 @@ namespace TheHalls
             for (int i = 0; i < numEnemies; i++)
             {
                 // Create a random spawn location for the enemy
-                Vector2 enemySpawn = new Vector2(rng.Next(50, 400), rng.Next(50, 400)) + roomOffset;
+                Vector2 enemySpawn = new Vector2(
+                    rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
+                    rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));// + roomOffset;
 
                 // Make sure the enemy spawn location is not inside a wall, we don't want that
-                foreach (GameObject obstacle in enterFrom.Obstacles)
+                /*
+                foreach (GameObject obstacle in obstacles)
                 {
-                    while (obstacle.GetRect().Contains(enemySpawn))
+                    while (obstacle.GetRect().Contains(enemySpawn) && obstacle.IsCollidable)
                     {
                         enemySpawn = new Vector2(rng.Next(50, 400), rng.Next(50, 400)) + roomOffset;
                     }
                 }
+                */
                 
                 if (rng.Next(2) == 0)
                 {
@@ -671,98 +672,26 @@ namespace TheHalls
                 new List<RoomData>
                 {
                     new RoomData(
-                        "room2", Direction.Down, Direction.Up,
-                        new List<Vector2> //enemySpawns
-                            {
-                                new Vector2(100, 100),
-                                new Vector2(300, 400),
-                            }, tiles)
-                }
-                );
+                        "DtoU_Octogon", Direction.Down, Direction.Up,
+                        new Rectangle(150, 150, 700, 700),
+                        tiles),
 
-            /*
-            rooms.Add(Direction.Down,
+                    new RoomData(
+                        "DtoR_LShape", Direction.Down, Direction.Right,
+                        new Rectangle(475, 475, 450, 50),
+                        tiles)
+                });
+
+            rooms.Add(Direction.Left,
                 new List<RoomData>
                 {
                     new RoomData(
-                            new List<GameObject> //obstacles
-                            {
-                                // Top left wall
-                                new GameObject(new Vector2(0, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(50, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(100, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(150, 0), new Vector2(50, 50), tiles),
-
-                                // left wall
-                                new GameObject(new Vector2(0, 50), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 100), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 150), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 200), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 250), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 300), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 350), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 400), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(0, 450), new Vector2(50, 50), tiles),
-
-                                // top right wall
-                                new GameObject(new Vector2(300, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(350, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(400, 0), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 0), new Vector2(50, 50), tiles),
-
-                                // right wall
-                                new GameObject(new Vector2(450, 50), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 100), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 150), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 200), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 250), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 300), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 350), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 400), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(450, 450), new Vector2(50, 50), tiles),
-
-                                // bottom wall
-                                new GameObject(new Vector2(50, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(100, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(150, 450), new Vector2(50, 50), tiles),
-
-                                new GameObject(new Vector2(300, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(350, 450), new Vector2(50, 50), tiles),
-                                new GameObject(new Vector2(400, 450), new Vector2(50, 50), tiles)
-                            },
-                            new GameObject(new Vector2(200, 0), new Vector2(100, 50), whiteSquare), //outDoor
-                            Direction.Down, //inDirection
-                            Direction.Up, //outDirection
-                            new List<Vector2> //enemySpawns
-                            {
-                                new Vector2(100, 100),
-                                new Vector2(300, 400),
-                            })
-
+                        "LtoU_LShape", Direction.Left, Direction.Up,
+                        new Rectangle(475, 0, 50, 450),
+                        tiles)
                 });
-            */
 
-            /*
-            rooms.Add(Direction.Up,
-                new List<RoomData>
-                {
-                    new RoomData(
-                            new List<GameObject>
-                            {
-                                new GameObject(new Vector2(0, 0), new Vector2(50, 300), whiteSquare),
-                                new GameObject(new Vector2(300, 50), new Vector2(200, 50), whiteSquare),
-                                new GameObject(new Vector2(50, 0), new Vector2(200, 50), whiteSquare)
-                            },
-                            new GameObject(new Vector2(0, 0), new Vector2(50, 50), whiteSquare),
-                            Direction.Up,
-                            Direction.Right,
-                            new List<Vector2>
-                            {
-                                new Vector2(400, 400),
-                                new Vector2(400, 0),
-                            })
-                });
-            */
+
             return rooms;
         }
 
