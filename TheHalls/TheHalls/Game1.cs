@@ -501,8 +501,8 @@ namespace TheHalls
 
             //init player            
             player = new Player(
-                new Vector2(250,
-                250),
+                new Vector2(475,
+                475),
                 new Vector2(50, 50),
                 new Texture2D[]
                 {
