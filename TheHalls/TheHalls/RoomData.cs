@@ -27,7 +27,7 @@ namespace TheHalls
                 List<GameObject> copy = new List<GameObject>();
                 foreach(GameObject obstacle in obstacles)
                 {
-                    copy.Add(new GameObject(obstacle.WorldLoc, obstacle.Size, obstacle.Image, obstacle.TileIndex));
+                    copy.Add(new GameObject(obstacle.WorldLoc, obstacle.Size, obstacle.Image, obstacle.TileNum));
                 }
                 return copy;
             }
@@ -40,7 +40,7 @@ namespace TheHalls
         {
             get
             {
-                return new GameObject(outDoor.WorldLoc, outDoor.Size, outDoor.Image, outDoor.TileIndex);
+                return new GameObject(outDoor.WorldLoc, outDoor.Size, outDoor.Image, outDoor.TileNum);
             }
         }
 
@@ -75,7 +75,9 @@ namespace TheHalls
             obstacles = new List<GameObject>();
             outDoor = null; // Ideally this will be given a value if the level was designed correctly
             int tileIndex;
+
             reader = new BinaryReader(File.OpenRead($"../../../{roomFileName}.room"));
+
             for (int i = 0; i < 20; i++)
             {
                 for (int j = 0; j < 20; j++)
