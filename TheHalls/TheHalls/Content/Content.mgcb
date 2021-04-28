@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../../../../OneDrive/Desktop/Music Stuff/GameMusic.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:../../../../../../OneDrive/Desktop/Music Stuff/GameMusic.ogg;GameMusic.ogg
+
 #begin Arc.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.IO;
 
 namespace TheHalls
@@ -58,8 +59,13 @@ namespace TheHalls
         // Dungeon Tilesprites
         private Texture2D tiles;
 
+        // Fonts
         public static SpriteFont arial16;
         private SpriteFont fffforward20;
+
+        // Audio
+        private Song gameMusic;
+
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
 
@@ -148,12 +154,6 @@ namespace TheHalls
             meleeAttackSheet = Content.Load<Texture2D>("SkeletonAttack");
             meleeDeathSheet = Content.Load<Texture2D>("SkeletonDeath");
 
-            //playerIdleR = Content.Load<Texture2D>("PlayerIdleNew");
-            //playerWalkR = Content.Load<Texture2D>("PlayerWalkRightNew");
-            //playerWalkL = Content.Load<Texture2D>("PlayerWalkLeftNew");
-            //playerWalkUp = Content.Load<Texture2D>("PlayerWalkUpNew");
-            //playerWalkDown = Content.Load<Texture2D>("PlayerWalkDownNew");
-
             playerIdleR = Content.Load<Texture2D>("CharIdleR");
             playerWalkR = Content.Load<Texture2D>("CharWalkR");
             playerWalkL = Content.Load<Texture2D>("CharWalkL");
@@ -162,6 +162,9 @@ namespace TheHalls
 
             // Load tileset
             tiles = Content.Load<Texture2D>("dungeon_");
+
+            // Load Audio
+            gameMusic = Content.Load<Song>("GameMusic");
 
             roomTemplates = LoadRooms();
         }
@@ -190,11 +193,17 @@ namespace TheHalls
                     if (buttons[0].Clicked(mouse, prevMouse))
                     {
                         GameStart(false);
+                        MediaPlayer.Volume = 0.15f;
+                        MediaPlayer.Play(gameMusic);
+                        MediaPlayer.IsRepeating = true;
                     }
                     // was god mode button clicked?
                     else if(buttons[1].Clicked(mouse, prevMouse))
                     {
                         GameStart(true);
+                        MediaPlayer.Volume = 0.15f;
+                        MediaPlayer.Play(gameMusic);
+                        MediaPlayer.IsRepeating = true;
                     }
                     break;
 
