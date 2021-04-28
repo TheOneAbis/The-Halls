@@ -37,6 +37,7 @@ namespace TheHalls
         public static Texture2D potion;
         private Texture2D hearts;
         private Texture2D titleBG;
+        private Song theme;
 
         // Character images
         private Texture2D rangedWalkSheet;
@@ -140,6 +141,8 @@ namespace TheHalls
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
 
+            theme = Content.Load<Song>("HOHOH");
+
             debugSquare = whiteSquare;
 
             // Load character sprites
@@ -184,6 +187,8 @@ namespace TheHalls
             {
                 // Menu State
                 case GameState.Menu:
+
+                    MediaPlayer.Stop();
 
                     // Exit the game
                     if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
@@ -422,6 +427,9 @@ namespace TheHalls
             enemyHealth = 2;
             numEnemies = 2;
             nextEnemIncrease = rng.Next(3, 7);
+
+            MediaPlayer.Play(theme);
+            
 
             rooms = new List<Room>();
             obstacles = new List<GameObject>();
