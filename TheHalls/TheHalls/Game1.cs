@@ -781,7 +781,8 @@ namespace TheHalls
             }
 
             // testing
-            _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].TileIndex.ToString(), new Vector2(300, 300), Color.White);
+            _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].TileNum.ToString(), new Vector2(300, 300), Color.White);
+            _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].IsCollidable.ToString(), new Vector2(300, 330), Color.White);
 
             foreach (Weapon elem in weapons)
             {

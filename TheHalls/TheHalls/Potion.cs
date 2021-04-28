@@ -23,6 +23,11 @@ namespace TheHalls
 
         //Method
 
+        /// <summary>
+        /// Heals the player when gets picked up
+        /// </summary>
+        /// <param name="player">player that picked up item</param>
+        /// <returns>true if player pickup the potion</returns>
         public bool PickUp(Player player)
         {
             if (CheckCollison(player))
