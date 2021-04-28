@@ -423,7 +423,7 @@ namespace TheHalls
             //starter room
             rooms.Add(new Room(
                 new RoomData(
-                        "room1", Direction.Down, Direction.Up,
+                        "room2", Direction.Down, Direction.Up,
                         new List<Vector2> //enemySpawns
                             {
                                 new Vector2(100, 100),
@@ -564,22 +564,22 @@ namespace TheHalls
             switch(enterFrom.OutDirection)
             {
                 case Direction.Down:
-                    roomOffset.Y += 500;
+                    roomOffset.Y += 1000;
                     inDirection = Direction.Up;
                     break;
 
                 case Direction.Up:
-                    roomOffset.Y -= 500;
+                    roomOffset.Y -= 1000;
                     inDirection = Direction.Down;
                     break;
 
                 case Direction.Left:
-                    roomOffset.X -= 500;
+                    roomOffset.X -= 1000;
                     inDirection = Direction.Right;
                     break;
 
                 case Direction.Right:
-                    roomOffset.X += 500;
+                    roomOffset.X += 1000;
                     inDirection = Direction.Left;
                     break;
             }
@@ -661,7 +661,7 @@ namespace TheHalls
                 new List<RoomData>
                 {
                     new RoomData(
-                        "room1", Direction.Down, Direction.Up,
+                        "room2", Direction.Down, Direction.Up,
                         new List<Vector2> //enemySpawns
                             {
                                 new Vector2(100, 100),
