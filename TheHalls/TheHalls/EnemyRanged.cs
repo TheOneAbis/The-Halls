@@ -176,33 +176,6 @@ namespace TheHalls
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
-            // HP rectangle
-            sb.Draw(animSheets[animSheets.Length - 1], new Rectangle(
-                (int)(ScreenLoc.X - (size.X / 2) - 5),
-                (int)(ScreenLoc.Y - (size.Y / 2) - 15),
-                (int)((size.X + 10) / maxHealth * currentHealth),
-                10),
-                Color.Red);
-
-            // Draw enemy sprite animation frames
-            /*
-            if (animTimer % animationFPS == 0)
-            {
-                if (srcRectX >= 1105)
-                {
-                    srcRectX = 55;
-                }
-                else
-                {
-                    srcRectX += 150;
-                }
-            }
-            animTimer++;
-
-            sb.Draw(animSheets[0],
-               new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
-               new Rectangle(srcRectX, 60, 45, 45), Tint);
-            */
             base.Draw(sb);
 
             if (projectile != null)
