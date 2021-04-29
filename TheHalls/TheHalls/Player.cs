@@ -144,7 +144,7 @@ namespace TheHalls
             }
 
             //this resets the sword image back to a 'normal' offset, after a few in between frames
-            if(attackSpeed == 32)
+            if(attackSpeed == 25)
             {
                 weaponDrawOffset *= -2;
             }

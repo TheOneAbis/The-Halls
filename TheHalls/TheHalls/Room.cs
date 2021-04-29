@@ -17,7 +17,6 @@ namespace TheHalls
 
     class Room
     {
-        protected Dictionary<Direction, Room> adjacentRooms;
         protected List<GameObject> obstacles;
         protected List<GameObject> outDoor;
         protected Direction inDirection;
@@ -69,7 +68,6 @@ namespace TheHalls
 
         public Room(RoomData roomTemplate, Room previous, Texture2D tiles, Vector2 roomOffset)
         {
-            //adjacentRooms[room.inDirection] = previous;
             obstacles = roomTemplate.Obstacles;
             outDoor = roomTemplate.OutDoor;
             inDirection = roomTemplate.InDirection;
