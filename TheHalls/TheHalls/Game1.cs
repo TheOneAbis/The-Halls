@@ -15,6 +15,7 @@ namespace TheHalls
     public enum GameState
     {
         Menu,
+        Controls,
         Game,
         Pause,
         GameOver
@@ -97,6 +98,8 @@ namespace TheHalls
 
         // Menu buttons
         List<Button> buttons;
+        // Control button
+        Button beginGameButton;
 
         public Game1()
         {
@@ -124,6 +127,9 @@ namespace TheHalls
 
             // God mode
             buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 85, _graphics.PreferredBackBufferHeight / 2 + 75, 180, 50, whiteSquare, "God Mode", fffforward20));
+
+            // Controls Continue Button
+            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 - 45, 80, 50, whiteSquare, "Begin", fffforward20));
         }
 
         protected override void LoadContent()
@@ -198,12 +204,20 @@ namespace TheHalls
                     // Was the play button clicked?
                     if (buttons[0].Clicked(mouse, prevMouse))
                     {
-                        GameStart(false);
+                        gameState = GameState.Controls;
                     }
                     // was god mode button clicked?
                     else if(buttons[1].Clicked(mouse, prevMouse))
                     {
                         GameStart(true);
+                    }
+                    break;
+
+                // Controls State
+                case GameState.Controls:
+                    if (beginGameButton.Clicked(mouse, prevMouse))
+                    {
+                        GameStart(false);
                     }
                     break;
 
@@ -432,7 +446,7 @@ namespace TheHalls
 
             MediaPlayer.Play(gameMusic);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.15f;
+            MediaPlayer.Volume = .15f;
             
 
             rooms = new List<Room>();
@@ -566,7 +580,6 @@ namespace TheHalls
             foreach (GameObject obstacle in lastRoom.Obstacles)
             {
                 obstacles.Add(obstacle);
-                //obstacle.Tint = Color.DarkGray;
             }
 
             //Spawn enemies
@@ -575,18 +588,7 @@ namespace TheHalls
                 // Create a random spawn location for the enemy
                 Vector2 enemySpawn = new Vector2(
                     rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
-                    rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));// + roomOffset;
-
-                // Make sure the enemy spawn location is not inside a wall, we don't want that
-                /*
-                foreach (GameObject obstacle in obstacles)
-                {
-                    while (obstacle.GetRect().Contains(enemySpawn) && obstacle.IsCollidable)
-                    {
-                        enemySpawn = new Vector2(rng.Next(50, 400), rng.Next(50, 400)) + roomOffset;
-                    }
-                }
-                */
+                    rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));
                 
                 if (rng.Next(2) == 0)
                 {

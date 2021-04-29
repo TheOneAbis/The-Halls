@@ -50,14 +50,14 @@ namespace TheHalls
 
             arcRotation = 0;
             arcOpacity = new Color(155, 155, 155, 255);
-            movementSpeed = 4.0f;
+            movementSpeed = 4.5f;
             this.gameOver = gameOver;
             health = 5;
             attackRadius = 75;
             this.weaponImage = weaponImage;
             damage = 1;
             weapon = weaponType.Sword;
-            attackSpeed = 36;
+            attackSpeed = 28;
             prevMoveDirection = Vector2.Zero;
             weaponDrawOffset = (float)Math.Sqrt(2) / 4;
             interacting = false;
@@ -195,11 +195,11 @@ namespace TheHalls
                 switch (weapon)
                 {
                     case weaponType.Sword:
-                        attackSpeed = 36;
+                        attackSpeed = 28;
                         break;
 
                     case weaponType.Spear:
-                        attackSpeed = 55;
+                        attackSpeed = 45;
                         break;
                 }
 
