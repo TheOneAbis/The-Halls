@@ -307,8 +307,8 @@ namespace TheHalls
 
                     //adjusts the screenOffset to center the player relative to both center of screen and mouse's position
                     screenOffset = new Vector2(
-                        player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2 + ((mouse.X - _graphics.PreferredBackBufferWidth / 2) / 6),
-                        player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2 + ((mouse.Y - _graphics.PreferredBackBufferHeight / 2) / 6));
+                        player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2 + ((mouse.X - _graphics.PreferredBackBufferWidth / 2) / 10),
+                        player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2 + ((mouse.Y - _graphics.PreferredBackBufferHeight / 2) / 10));
 
                     // Pause the game
                     if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))

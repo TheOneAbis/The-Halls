@@ -279,7 +279,7 @@ namespace TheHalls
         {
             if (invulnerableFrames <= 0)
             {
-                invulnerableFrames = 10;
+                invulnerableFrames = 15;
                 tint = Color.Red;
                 health -= damage;
                 if (health <= 0)
