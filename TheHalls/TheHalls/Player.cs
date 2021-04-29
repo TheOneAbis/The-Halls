@@ -247,17 +247,21 @@ namespace TheHalls
                 // SPEAR ATTACKING ALGORITHM
                 case weaponType.Spear:
 
-                    for (int i = 1; i <= attackRadius; i++)
+                    for (double leftSide = -(Math.PI / 20); leftSide < (Math.PI / 20); leftSide += Math.PI / 64)
                     {
-                        // This vector represents every point to check within the pie slice
-                        attackScanner = new Vector2(
-                            (float)(ScreenLoc.X + i * Math.Sin(arcRotation)),
-                            (float)(ScreenLoc.Y - i * Math.Cos(arcRotation)));
-
-                        // If the point lies within the enemy's bounds, enemy takes damage from player's attack
-                        if (enemyScreenRect.Contains(attackScanner))
+                        // At each point of the vector's rotation, check every point along the vector's line
+                        for (int i = 1; i <= attackRadius; i++)
                         {
-                            return true;
+                            // This vector represents every point to check within the pie slice
+                            attackScanner = new Vector2(
+                                (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
+                                (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+
+                            // If the point lies within the enemy's bounds, enemy takes damage from player's attack
+                            if (enemyScreenRect.Contains(attackScanner))
+                            {
+                                return true;
+                            }
                         }
                     }
                     break;
