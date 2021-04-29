@@ -199,7 +199,7 @@ namespace TheHalls
                         break;
 
                     case weaponType.Spear:
-                        attackSpeed = 45;
+                        attackSpeed = 43;
                         break;
                 }
 

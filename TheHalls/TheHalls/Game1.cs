@@ -129,7 +129,7 @@ namespace TheHalls
             buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 85, _graphics.PreferredBackBufferHeight / 2 + 75, 180, 50, whiteSquare, "God Mode", fffforward20));
 
             // Controls Continue Button
-            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 - 45, 80, 50, whiteSquare, "Begin", fffforward20);
+            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 + 200, 105, 50, whiteSquare, "Begin", fffforward20);
         }
 
         protected override void LoadContent()
@@ -377,7 +377,20 @@ namespace TheHalls
                     break;
 
                 case GameState.Controls:
+                    // Draw start button
                     beginGameButton.Draw(_spriteBatch, Color.Black);
+
+                    // Draw tutorial stuff
+                    _spriteBatch.DrawString(fffforward20, "Use [W A S D] to move around!", new Vector2(400, 100), Color.White);
+                    _spriteBatch.DrawString(fffforward20, "Use [Mouse1] to attack!", new Vector2(450, 150), Color.White);
+
+                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is LIT UP, \n\nenemies are in range of your attack!", new Vector2(100, 250), Color.White);
+                    _spriteBatch.Draw(arcImgSword, new Rectangle(125, 300, 150, 100), Color.White);
+                    _spriteBatch.Draw(arcImgSpear, new Rectangle(275, 300, 150, 100), Color.White);
+
+                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is RED, \n\nyour attack is on cooldown!", new Vector2(900, 250), Color.White);
+                    _spriteBatch.Draw(arcImgSword, new Rectangle(925, 300, 150, 100), new Color(255, 155, 155));
+                    _spriteBatch.Draw(arcImgSpear, new Rectangle(1075, 300, 150, 100), new Color(255, 155, 155));
                     break;
 
                 case GameState.Pause:
