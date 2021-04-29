@@ -129,7 +129,7 @@ namespace TheHalls
             buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 85, _graphics.PreferredBackBufferHeight / 2 + 75, 180, 50, whiteSquare, "God Mode", fffforward20));
 
             // Controls Continue Button
-            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 - 45, 80, 50, whiteSquare, "Begin", fffforward20));
+            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 - 45, 80, 50, whiteSquare, "Begin", fffforward20);
         }
 
         protected override void LoadContent()
@@ -374,6 +374,10 @@ namespace TheHalls
                         _graphics.PreferredBackBufferHeight /2 - 200), 
                         Color.Red);
 
+                    break;
+
+                case GameState.Controls:
+                    beginGameButton.Draw(_spriteBatch, Color.Black);
                     break;
 
                 case GameState.Pause:
