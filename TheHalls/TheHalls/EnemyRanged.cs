@@ -31,7 +31,7 @@ namespace TheHalls
             outerRadius = 300;
             avgRadius = innerRadius + outerRadius / 2;
             movementSpeed = 2;
-            Tint = Color.DarkRed;
+            Tint = Color.White;
             projectileImage = projectile;
         }
 

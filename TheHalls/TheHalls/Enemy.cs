@@ -42,7 +42,7 @@ namespace TheHalls
             alive = true;
             attackCooldown = attackInterval;
             this.attackInterval = attackInterval;
-            Tint = Color.Red;
+            Tint = Color.White;
             animSheets = spriteSheets;
             this.attackImg = attackImg;
             knockback = Vector2.Zero;
@@ -155,24 +155,8 @@ namespace TheHalls
 
             // Draw enemy sprite animation frames
             base.Draw(sb);
-            /*
-            if (animTimer % animationFPS == 0)
-            {
-                if (srcRectX >= 450)
-                {
-                    srcRectX = 55;
-                }
-                else
-                {
-                    srcRectX += 150;
-                }
-            }
-            animTimer++;
-            
-            sb.Draw(animSheets[0],
-               new Rectangle((int)(worldLoc.X - Game1.screenOffset.X), (int)(worldLoc.Y - Game1.screenOffset.Y), (int)size.X, (int)size.Y),
-               new Rectangle(srcRectX, 50, 45, 52), Tint);
-            */
+
+            // Draw attack box for testing purposes
             if(attack != null)
             {
                 attack.Draw(sb);

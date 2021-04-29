@@ -62,6 +62,7 @@ namespace TheHalls
         // Fonts
         public static SpriteFont arial16;
         private SpriteFont fffforward20;
+        private SpriteFont fffforwardSmall;
 
         // Audio
         private Song gameMusic;
@@ -132,8 +133,11 @@ namespace TheHalls
             arcImgSpear = Content.Load<Texture2D>("atkIndicatorSpear");
 
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
+
             arial16 = Content.Load<SpriteFont>("arial16");
             fffforward20 = Content.Load<SpriteFont>("FFF Forward20");
+            fffforwardSmall = Content.Load<SpriteFont>("FFF ForwardSmallText");
+
             sword = Content.Load<Texture2D>("SwordNoBackground");
             spear = Content.Load<Texture2D>("SpearNoBackground");
             potion = Content.Load<Texture2D>("potions");
@@ -214,11 +218,17 @@ namespace TheHalls
                             int itemDrop = rng.Next(5);
                             if (itemDrop == 0)
                             {
-                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), sword, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1, weaponType.Sword, arial16));
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, 
+                                    (int)enemies[i].WorldLoc.Y, 50, 50), sword, 
+                                    rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1,
+                                    weaponType.Sword, fffforwardSmall));
                             }
                             else if(itemDrop == 1)
                             {
-                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), spear, rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, weaponType.Spear, arial16));
+                                weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X,
+                                    (int)enemies[i].WorldLoc.Y, 50, 50), spear, 
+                                    rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, 
+                                    weaponType.Spear, fffforwardSmall));
                             }
                             else if(itemDrop == 2)
                             {
@@ -256,6 +266,7 @@ namespace TheHalls
                     player.Aim(mouse, enemies);
                     player.Move(kb);
                     player.ResolveCollisions(obstacles);
+                    player.SetIsInteracting(kb, prevkb);
 
                     if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
                     {
@@ -280,7 +291,7 @@ namespace TheHalls
                         }
                     }
 
-                    //adjusts the screenOffset to center the player.
+                    //adjusts the screenOffset to center the player relative to both center of screen and mouse's position
                     screenOffset = new Vector2(
                         player.WorldLoc.X - (_graphics.PreferredBackBufferWidth - player.Size.X) / 2 + ((mouse.X - _graphics.PreferredBackBufferWidth / 2) / 6),
                         player.WorldLoc.Y - (_graphics.PreferredBackBufferHeight - player.Size.Y) / 2 + ((mouse.Y - _graphics.PreferredBackBufferHeight / 2) / 6));
@@ -658,10 +669,9 @@ namespace TheHalls
             }
 
             // testing
-            // _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].TileNum.ToString(), new Vector2(300, 300), Color.White);
-            // _spriteBatch.DrawString(arial16, rooms[0].Obstacles[90].IsCollidable.ToString(), new Vector2(300, 330), Color.White);
-            _spriteBatch.DrawString(arial16, screenOffset.X.ToString(), new Vector2(300, 300), Color.White);
-            _spriteBatch.DrawString(arial16, screenOffset.Y.ToString(), new Vector2(300, 330), Color.White);
+            //_spriteBatch.DrawString(arial16, screenOffset.X.ToString(), new Vector2(300, 300), Color.White);
+            //_spriteBatch.DrawString(arial16, screenOffset.Y.ToString(), new Vector2(300, 330), Color.White);
+            _spriteBatch.DrawString(arial16, player.IsInteracting.ToString(), new Vector2(300, 300), Color.White);
 
             foreach (Weapon elem in weapons)
             {

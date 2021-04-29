@@ -25,6 +25,9 @@ namespace TheHalls
         private Color arcOpacity;
         private double attackSpeed;
 
+        // Did the playe press the interact key?
+        private bool interacting;
+
         private float weaponDrawOffset;
 
         private Vector2 prevMoveDirection;
@@ -32,7 +35,7 @@ namespace TheHalls
         private int invulnerableFrames;
 
         /// <summary>
-        /// 
+        /// Creates the player object
         /// </summary>
         /// <param name="worldLoc">location to spawn the player in</param>
         /// <param name="size">size of the player</param>
@@ -57,6 +60,7 @@ namespace TheHalls
             attackSpeed = 36;
             prevMoveDirection = Vector2.Zero;
             weaponDrawOffset = (float)Math.Sqrt(2) / 4;
+            interacting = false;
         }
 
         /// <summary>
@@ -282,6 +286,16 @@ namespace TheHalls
         }
 
         /// <summary>
+        /// Sets player's interact field to if the player's interact key (E) was pressed
+        /// </summary>
+        /// <param name="kb">Current frame keyboard state</param>
+        /// <param name="prevkb">previous frame keyboard state</param>
+        public void SetIsInteracting(KeyboardState kb, KeyboardState prevkb)
+        {
+            interacting =  kb.IsKeyDown(Keys.E) && prevkb.IsKeyUp(Keys.E);
+        }
+
+        /// <summary>
         /// Draws the player and the slash arc to the screen
         /// </summary>
         /// <param name="sb">SpriteBatch from Game1.Draw()</param>
@@ -376,5 +390,13 @@ namespace TheHalls
             } 
         }
         public Texture2D WeaponImage { set { weaponImage = value; } }
+
+        /// <summary>
+        /// Gets if the player pressed their interact key
+        /// </summary>
+        public bool IsInteracting
+        {
+            get { return interacting; }
+        }
     }
 }

@@ -140,6 +140,13 @@
 /processorParam:TextureFormat=Compressed
 /build:FFF Forward20.spritefont
 
+#begin FFF ForwardSmallText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:FFF ForwardSmallText.spritefont
+
 #begin File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
