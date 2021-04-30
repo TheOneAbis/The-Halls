@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 using System.IO;
 
 namespace TheHalls
@@ -67,6 +68,7 @@ namespace TheHalls
 
         // Audio
         private Song gameMusic;
+        private SoundEffect[] playerAttackSFX;
 
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
@@ -175,6 +177,9 @@ namespace TheHalls
 
             // Load Audio
             gameMusic = Content.Load<Song>("GameMusic");
+            playerAttackSFX = new SoundEffect[2];
+            playerAttackSFX[0] = Content.Load<SoundEffect>("Sword_Slash");
+            playerAttackSFX[1] = Content.Load<SoundEffect>("Spear_Thrust");
 
             roomTemplates = LoadRooms();
         }
@@ -284,7 +289,7 @@ namespace TheHalls
 
                     if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
                     {
-                        player.Attack(enemies);
+                        player.Attack(enemies, playerAttackSFX);
                     }
 
                     //weapon pickups
@@ -333,6 +338,7 @@ namespace TheHalls
 
                 // GameOver State
                 case GameState.GameOver:
+                    MediaPlayer.Stop();
                     // Reset back to menu
                     if (kb.IsKeyDown(Keys.Escape) && prevkb.IsKeyUp(Keys.Escape))
                     {
@@ -690,7 +696,7 @@ namespace TheHalls
             // testing
             //_spriteBatch.DrawString(arial16, screenOffset.X.ToString(), new Vector2(300, 300), Color.White);
             //_spriteBatch.DrawString(arial16, screenOffset.Y.ToString(), new Vector2(300, 330), Color.White);
-            _spriteBatch.DrawString(arial16, player.IsInteracting.ToString(), new Vector2(300, 300), Color.White);
+            //_spriteBatch.DrawString(arial16, player.IsInteracting.ToString(), new Vector2(300, 300), Color.White);
 
             foreach (Weapon elem in weapons)
             {

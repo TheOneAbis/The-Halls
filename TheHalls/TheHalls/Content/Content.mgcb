@@ -460,6 +460,12 @@
 /processorParam:TextureFormat=Color
 /build:spear.png
 
+#begin Spear_Thrust.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Spear_Thrust.wav
+
 #begin SpearNoBackground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -483,6 +489,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sword.jpg
+
+#begin Sword_Slash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sword_Slash.wav
 
 #begin SwordNoBackground.png
 /importer:TextureImporter

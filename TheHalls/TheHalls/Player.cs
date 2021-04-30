@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TheHalls
 {
@@ -176,7 +177,7 @@ namespace TheHalls
         /// spawns a gameObject 50 units away from the player in the direction of arcRotation. checks collision against passed in enemies, dealing damage if they overlap.
         /// </summary>
         /// <param name="targets"></param>
-        public void Attack(List<Enemy> targets)
+        public void Attack(List<Enemy> targets, SoundEffect[] attackSFX)
         {
             if (attackSpeed <= 0)
             {
@@ -195,10 +196,12 @@ namespace TheHalls
                 switch (weapon)
                 {
                     case weaponType.Sword:
+                        attackSFX[0].Play(); // Sword slash sfx
                         attackSpeed = 28;
                         break;
 
                     case weaponType.Spear:
+                        attackSFX[1].Play(); // Spear thrust sfx
                         attackSpeed = 43;
                         break;
                 }
