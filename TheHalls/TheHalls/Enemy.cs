@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TheHalls
 {
@@ -23,6 +24,8 @@ namespace TheHalls
 
         protected Vector2 knockback;
 
+        protected SoundEffect[] soundeffects;
+
         public bool Alive
         {
             get { return alive; }
@@ -34,7 +37,7 @@ namespace TheHalls
         }
         
         //Constructor for enemy
-        public Enemy(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D attackImg) : base(worldLoc, size, spriteSheets, 6, new Vector2(48, 52), new Vector2(55, 50), 150)
+        public Enemy(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D attackImg, SoundEffect[] sfx) : base(worldLoc, size, spriteSheets, 6, new Vector2(48, 52), new Vector2(55, 50), 150)
         {
             movementSpeed = 2.5f;
             maxHealth = Health;
@@ -46,6 +49,7 @@ namespace TheHalls
             animSheets = spriteSheets;
             this.attackImg = attackImg;
             knockback = Vector2.Zero;
+            soundeffects = sfx;
         }
 
         /// <summary>
@@ -85,6 +89,7 @@ namespace TheHalls
             if(currentHealth <= 0)
             {
                 alive = false;
+                soundeffects[0].Play();
             }
         }
 

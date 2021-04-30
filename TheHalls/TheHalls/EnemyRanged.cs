@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TheHalls
 {
@@ -24,7 +25,7 @@ namespace TheHalls
         private Projectile projectile;
         private Texture2D projectileImage;
 
-        public EnemyRanged(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D projectile) : base (worldLoc, size, Health, spriteSheets, attackInterval, projectile)
+        public EnemyRanged(Vector2 worldLoc, Vector2 size, int Health, Texture2D[] spriteSheets, double attackInterval, Texture2D projectile, SoundEffect[] sfx) : base (worldLoc, size, Health, spriteSheets, attackInterval, projectile, sfx)
         {
             moveState = MoveState.Inward;
             innerRadius = 100;

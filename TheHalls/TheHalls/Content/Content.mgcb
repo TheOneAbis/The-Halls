@@ -352,6 +352,12 @@
 /processorParam:TextureFormat=Color
 /build:RangedDeath.png
 
+#begin RangedEnemy_Death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:RangedEnemy_Death.wav
+
 #begin RangedHurt.png
 /importer:TextureImporter
 /processor:TextureProcessor

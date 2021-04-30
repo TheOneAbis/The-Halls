@@ -69,6 +69,7 @@ namespace TheHalls
         // Audio
         private Song gameMusic;
         private SoundEffect[] playerAttackSFX;
+        private SoundEffect[] enemyRangedSFX;
 
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
@@ -180,6 +181,8 @@ namespace TheHalls
             playerAttackSFX = new SoundEffect[2];
             playerAttackSFX[0] = Content.Load<SoundEffect>("Sword_Slash");
             playerAttackSFX[1] = Content.Load<SoundEffect>("Spear_Thrust");
+            enemyRangedSFX = new SoundEffect[2];
+            enemyRangedSFX[0] = Content.Load<SoundEffect>("RangedEnemy_Death");
 
             roomTemplates = LoadRooms();
         }
@@ -623,7 +626,7 @@ namespace TheHalls
                             rangedDeathSheet,
                             whiteSquare}, 
                         3,
-                        rangedProjectile));
+                        rangedProjectile, enemyRangedSFX));
                 }
                 else
                 {
@@ -635,7 +638,7 @@ namespace TheHalls
                             meleeDeathSheet,
                             whiteSquare},
                         1.5,
-                        whiteSquare));
+                        whiteSquare, enemyRangedSFX));
                 }
             }
 
