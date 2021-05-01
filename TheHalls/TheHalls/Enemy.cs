@@ -11,6 +11,7 @@ namespace TheHalls
     class Enemy : GameObject
     {
         //Fields
+        protected Random rng;
         protected int maxHealth;
         protected int currentHealth;
         protected float movementSpeed;
@@ -50,6 +51,7 @@ namespace TheHalls
             this.attackImg = attackImg;
             knockback = Vector2.Zero;
             soundeffects = sfx;
+            rng = new Random();
         }
 
         /// <summary>
@@ -89,7 +91,9 @@ namespace TheHalls
             if(currentHealth <= 0)
             {
                 alive = false;
-                soundeffects[0].Play();
+                SoundEffectInstance enemyDeathSFX = soundeffects[0].CreateInstance();
+                enemyDeathSFX.Pitch = (float)(rng.NextDouble() - .5) / 2;
+                enemyDeathSFX.Play();
             }
         }
 
