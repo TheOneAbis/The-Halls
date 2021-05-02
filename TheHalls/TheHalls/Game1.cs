@@ -57,6 +57,7 @@ namespace TheHalls
         private Texture2D playerWalkL;
         private Texture2D playerWalkUp;
         private Texture2D playerWalkDown;
+        private Texture2D playerLowHealthBG;
 
         // Dungeon Tilesprites
         private Texture2D tiles;
@@ -172,6 +173,7 @@ namespace TheHalls
             playerWalkL = Content.Load<Texture2D>("CharWalkL");
             playerWalkUp = Content.Load<Texture2D>("CharWalkU");
             playerWalkDown = Content.Load<Texture2D>("CharWalkD");
+            playerLowHealthBG = Content.Load<Texture2D>("PlayerLowHealthWarning (1)");
 
             // Load tileset
             tiles = Content.Load<Texture2D>("dungeon_");
@@ -509,7 +511,7 @@ namespace TheHalls
                     playerWalkR,
                     playerWalkL,
                     playerWalkDown,
-                    playerWalkUp
+                    playerWalkUp,
                 },
                 arcImgSword,
                 arcImgSpear,
@@ -732,6 +734,13 @@ namespace TheHalls
                 {
                     _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
                 }
+
+                // If player is at critical health, draw low health background effect
+                if (player.Health <= 1)
+                {
+                    
+                    _spriteBatch.Draw(playerLowHealthBG, new Rectangle(-300, -300, _graphics.PreferredBackBufferWidth + 600, _graphics.PreferredBackBufferHeight + 600), Color.White);
+                }
             }
 
             //weapon info (bottom left)
@@ -757,7 +766,7 @@ namespace TheHalls
                     new Vector2(
                         _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").X / 2),
                         _graphics.PreferredBackBufferHeight / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").Y / 2)),
-                    Color.Black
+                    Color.Yellow
                     );
             }
         }
