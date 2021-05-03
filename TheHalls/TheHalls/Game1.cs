@@ -102,7 +102,7 @@ namespace TheHalls
         private int numEnemies;   // Number of enemies in a room
         private int nextEnemIncrease; // Tracks how many more rooms until the number of enemies that spawn increases
 
-        private int levelUpFrames; // how many more frames with level up text show?
+        //private int levelUpFrames; // how many more frames with level up text show?
 
         // Menu buttons
         List<Button> buttons;
@@ -358,10 +358,10 @@ namespace TheHalls
                     }
                     break;
             }
-            if (levelUpFrames > 0)
-            {
-                levelUpFrames--;
-            }
+            //if (levelUpFrames > 0)
+            //{
+            //    levelUpFrames--;
+            //}
 
             prevMouse = Mouse.GetState();
             prevkb = Keyboard.GetState();
@@ -556,7 +556,6 @@ namespace TheHalls
             {
                 player.Health++;
                 player.Damage++;
-                levelUpFrames = 60;
             }
 
             // Decrease number of rooms until increase enemy count
@@ -763,14 +762,29 @@ namespace TheHalls
             // If player kills all enemies, notify them to move forward
             if (!EnteredLastRoom)
             {
-                _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(300, 25), Color.White);
+                _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(
+                    _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").X / 2),
+                    _graphics.PreferredBackBufferHeight - 30 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").Y / 2)),
+                    Color.White);
 
+                //If its a multiple of 5, show the level up text aswell
+                if(rooms.Count % 5 == 1)
+                {
+                    _spriteBatch.DrawString(
+                        fffforward20, "Attack +1! Health +1!",
+                        new Vector2(
+                            _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").X / 2),
+                            _graphics.PreferredBackBufferHeight - 250 - (fffforward20.MeasureString("Attack +1! Health +1!").Y / 2)),
+                        Color.Yellow
+                        );
+                }
                 // Draw direction arrow to direct player to next room
-                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2 - 50, 110, 100, 75), 
+                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight - 150, 100, 75), 
                     null, Color.White, -MathF.Acos(
                     (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).X /
                     (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).Length()), 
-                    new Vector2(directionPointer.Width / 2, directionPointer.Height / 2), SpriteEffects.None, 0);
+                    new Vector2(directionPointer.Width / 2, directionPointer.Height / 2), 
+                    SpriteEffects.None, 0);
             }
             // Stop displaying message when player enters the latest room
             foreach (GameObject enterObs in rooms[rooms.Count - 2].OutDoor)
@@ -796,7 +810,7 @@ namespace TheHalls
             _spriteBatch.DrawString(fffforwardSmall, "Dmg: " + player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 80), Color.White);
 
             //"level up" text
-
+            /*
             if (levelUpFrames > 0)
             {
                 _spriteBatch.DrawString(
@@ -807,6 +821,7 @@ namespace TheHalls
                     Color.Yellow
                     );
             }
+            */
         }
     }
 }
