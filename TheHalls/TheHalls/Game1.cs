@@ -44,6 +44,11 @@ namespace TheHalls
         private Texture2D titleBG;
         private Texture2D directionPointer;
 
+        private Texture2D button;
+        private Texture2D buttonHover;
+        private Texture2D buttonLong;
+        private Texture2D buttonLongHover;
+
         // Character images
         private Texture2D rangedWalkSheet;
         private Texture2D rangedHurtSheet;
@@ -132,13 +137,13 @@ namespace TheHalls
             //    -- Menu Buttons --
 
             // Play button
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 38, _graphics.PreferredBackBufferHeight /2 - 25, 80, 50, whiteSquare, "Play", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 60, _graphics.PreferredBackBufferHeight /2 - 25, 120, 60, button, buttonHover, "Play", fffforward20));
 
             // God mode
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 85, _graphics.PreferredBackBufferHeight / 2 + 75, 180, 50, whiteSquare, "God Mode", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 120, _graphics.PreferredBackBufferHeight / 2 + 75, 240, 60, buttonLong, buttonLongHover, "God Mode", fffforward20));
 
             // Controls Continue Button
-            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 + 200, 105, 50, whiteSquare, "Begin", fffforward20);
+            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 60, _graphics.PreferredBackBufferHeight / 2 + 200, 120, 60, button, buttonHover, "Begin", fffforward20);
         }
 
         protected override void LoadContent()
@@ -159,6 +164,13 @@ namespace TheHalls
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
             directionPointer = Content.Load<Texture2D>("ArrowPixelated");
+
+
+            button = Content.Load<Texture2D>("button");
+            buttonHover = Content.Load<Texture2D>("buttonHover");
+            buttonLong = Content.Load<Texture2D>("buttonLong");
+            buttonLongHover = Content.Load<Texture2D>("buttonLongHover");
+
 
             debugSquare = whiteSquare;
 
@@ -384,7 +396,7 @@ namespace TheHalls
                     // Draw each menu button to the screen
                     foreach (Button button in buttons)
                     {
-                        button.Draw(_spriteBatch, Color.Black);
+                        button.Draw(_spriteBatch, Color.Black, mouse);
                     }
                     _spriteBatch.DrawString(
                         fffforward20, "THE HALLS", 
@@ -396,7 +408,7 @@ namespace TheHalls
 
                 case GameState.Controls:
                     // Draw start button
-                    beginGameButton.Draw(_spriteBatch, Color.Black);
+                    beginGameButton.Draw(_spriteBatch, Color.Black, mouse);
 
                     // Draw tutorial stuff
                     _spriteBatch.DrawString(fffforward20, "Use [W A S D] to move around!", new Vector2(400, 100), Color.White);
