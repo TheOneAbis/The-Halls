@@ -79,7 +79,7 @@ namespace TheHalls
             dodgeCooldown = 1;
             dodgeTime = 9;
             DodgeVector = Vector2.Zero;
-            dodgeSpeed = 16;
+            dodgeSpeed = 18;
         }
 
         /// <summary>
@@ -153,6 +153,7 @@ namespace TheHalls
                     isDodging = false;
                     dodgeTime = 8;
                 }
+                arcOpacity = new Color(255, 155, 155, 255);
             }
             else
             {
