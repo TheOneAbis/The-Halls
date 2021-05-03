@@ -79,7 +79,7 @@ namespace TheHalls
             dodgeCooldown = 1;
             dodgeTime = 9;
             DodgeVector = Vector2.Zero;
-            dodgeSpeed = 18;
+            dodgeSpeed = 16;
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace TheHalls
                 if (dodgeTime <= 0)
                 {
                     isDodging = false;
-                    dodgeTime = 15;
+                    dodgeTime = 8;
                 }
             }
             else
@@ -242,7 +242,7 @@ namespace TheHalls
         /// <param name="targets"></param>
         public void Attack(List<Enemy> targets, SoundEffect[] attackSFX)
         {
-            if (attackSpeed <= 0)
+            if (attackSpeed <= 0 && !isDodging)
             {
                 arcOpacity = new Color(255, 155, 155, 255);
                 // Iterate for each enemy
