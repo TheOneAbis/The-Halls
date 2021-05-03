@@ -324,11 +324,14 @@ namespace TheHalls
                         if (weapons[i].PickUp(player))
                         {
                             weapons.RemoveAt(i);
+                            // Break so player doesn't pick up multiple weapons 
+                            // at once if they are stacked up on top of each other
+                            break; 
                         }
                     }
 
                     //Potion pickups
-                    for(int i = 0; i<potions.Count; i++)
+                    for(int i = 0; i < potions.Count; i++)
                     {
                         if (potions[i].PickUp(player))
                         {
