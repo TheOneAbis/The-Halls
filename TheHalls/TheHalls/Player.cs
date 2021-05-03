@@ -242,7 +242,7 @@ namespace TheHalls
         /// <param name="targets"></param>
         public void Attack(List<Enemy> targets, SoundEffect[] attackSFX)
         {
-            if (attackSpeed <= 0 && !isDodgingd)
+            if (attackSpeed <= 0 && !isDodging)
             {
                 arcOpacity = new Color(255, 155, 155, 255);
                 // Iterate for each enemy
