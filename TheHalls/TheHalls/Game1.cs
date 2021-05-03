@@ -28,6 +28,8 @@ namespace TheHalls
 
         public static Vector2 screenOffset;
         public static Texture2D debugSquare;
+        public static int lowHealthBGOpacity;
+
         public Random rng;
 
         private const int ROOM_SIZE = 1000;
@@ -82,6 +84,7 @@ namespace TheHalls
         private Song gameMusic;
         private SoundEffect[] playerAttackSFX;
         private SoundEffect[] enemyRangedSFX;
+        private SoundEffect[] playerHurtSFX;
 
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
@@ -138,6 +141,7 @@ namespace TheHalls
             buttons = new List<Button>();
             rng = new Random();
             EnteredLastRoom = true;
+            lowHealthBGOpacity = 0;
 
             framesSincePress = new Dictionary<Keys, int>();
             keysToTrack = new List<Keys>();
@@ -221,6 +225,12 @@ namespace TheHalls
             playerAttackSFX[1] = Content.Load<SoundEffect>("Spear_Thrust");
             enemyRangedSFX = new SoundEffect[2];
             enemyRangedSFX[0] = Content.Load<SoundEffect>("RangedEnemy_Death");
+
+            playerHurtSFX = new SoundEffect[5];
+            for (int i = 0; i < playerHurtSFX.Length; i++)
+            {
+                playerHurtSFX[i] = Content.Load<SoundEffect>($"PlayerHurtSound{i + 1}");
+            }
 
             roomTemplates = LoadRooms();
         }
@@ -594,6 +604,7 @@ namespace TheHalls
                     playerWalkDown,
                     playerWalkUp,
                 },
+                playerHurtSFX,
                 arcImgSword,
                 arcImgSpear,
                 sword,
@@ -867,13 +878,24 @@ namespace TheHalls
                 {
                     _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
                 }
+            }
 
-                // If player is at critical health, draw low health background effect
-                if (player.Health <= 1)
+            // If player is at critical health, draw low health background effect
+            if (player.Health <= 1)
+            {
+                lowHealthBGOpacity = 255;
+            }
+            else
+            {
+                // Fades away when no longer at low health or after being hit
+                if (lowHealthBGOpacity > 0)
                 {
-                    _spriteBatch.Draw(playerLowHealthBG, new Rectangle(-300, -300, _graphics.PreferredBackBufferWidth + 600, _graphics.PreferredBackBufferHeight + 600), Color.White);
+                    lowHealthBGOpacity -= 6;
                 }
             }
+            _spriteBatch.Draw(playerLowHealthBG, new Rectangle(
+                -300, -300, _graphics.PreferredBackBufferWidth + 600, _graphics.PreferredBackBufferHeight + 600),
+                new Color(lowHealthBGOpacity, 0, 0, lowHealthBGOpacity));
 
             // If player kills all enemies, notify them to move forward
             if (!EnteredLastRoom)
@@ -924,21 +946,6 @@ namespace TheHalls
             }
             
             _spriteBatch.DrawString(fffforwardSmall, "Dmg: " + player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 80), Color.White);
-
-            //"level up" text
-            /*
-            if (levelUpFrames > 0)
-            {
-                _spriteBatch.DrawString(
-                    fffforward20, "Attack +1! Health +1!",
-                    new Vector2(
-                        _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").X / 2),
-                        _graphics.PreferredBackBufferHeight / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").Y / 2)),
-                    Color.Yellow
-                    );
-            }
-            */
-            _spriteBatch.DrawString(arial16, framesSincePress[Keys.W].ToString(), new Vector2(300, 300), Color.White);
         }
     }
 }
