@@ -29,7 +29,9 @@ namespace TheHalls
         public static Vector2 screenOffset;
         public static Texture2D debugSquare;
         public Random rng;
-        public bool EnteredLastRoom;
+
+        //Tracks if the player entered the most recently added room
+        private bool EnteredLastRoom; 
 
         //loaded content
         private Texture2D arcImgSword;
@@ -477,7 +479,7 @@ namespace TheHalls
             numEnemies = 2;
             nextEnemIncrease = rng.Next(3, 7);
 
-            //MediaPlayer.Play(gameMusic);
+            MediaPlayer.Play(gameMusic);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = .15f;
             
