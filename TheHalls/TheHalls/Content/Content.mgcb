@@ -208,6 +208,36 @@
 /processorParam:TextureFormat=Color
 /build:lifebar_16x16.png;hearts.png
 
+#begin PlayerHurtSound1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PlayerHurtSound1.wav
+
+#begin PlayerHurtSound2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PlayerHurtSound2.wav
+
+#begin PlayerHurtSound3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PlayerHurtSound3.wav
+
+#begin PlayerHurtSound4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PlayerHurtSound4.wav
+
+#begin PlayerHurtSound5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:PlayerHurtSound5.wav
+
 #begin PlayerLowHealthWarning (1).png
 /importer:TextureImporter
 /processor:TextureProcessor

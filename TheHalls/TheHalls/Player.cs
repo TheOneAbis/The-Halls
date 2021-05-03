@@ -27,6 +27,9 @@ namespace TheHalls
         private GameOver gameOver;
         private Color arcOpacity;
         private double attackSpeed;
+        private Random rng;
+
+        private SoundEffect[] hurtSounds;
 
         private Vector2 DodgeVector;
         private int dodgeCooldown;
@@ -52,7 +55,7 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D swordImage, Texture2D spearImage, GameOver gameOver) :
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, SoundEffect[] HurtSounds, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D swordImage, Texture2D spearImage, GameOver gameOver) :
             base(worldLoc, size, spriteSheets, 6, new Vector2(18, 18), new Vector2(7, 7), 32)
         {
             arcImgSword = arcImageSword;
@@ -74,6 +77,9 @@ namespace TheHalls
             weaponDrawOffsetAngular = (float)Math.Sqrt(2) / 4;
             //after game start, this value gets reduced once (so its values are increased from 0, 175 so it ends in its default position
             weaponDrawOffsetTrans = new Vector2(0, 175);
+
+            rng = new Random(); // for random hurt sound effects
+            hurtSounds = HurtSounds;
 
             interacting = false;
             dodgeCooldown = 1;
@@ -323,6 +329,11 @@ namespace TheHalls
                 invulnerableFrames = 15;
                 tint = Color.Red;
                 health -= damage;
+                hurtSounds[rng.Next(5)].Play();
+
+                // Add the background hurt effect
+                Game1.lowHealthBGOpacity = 200;
+
                 if (health <= 0)
                 {
                     gameOver();
