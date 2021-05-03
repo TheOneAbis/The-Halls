@@ -529,7 +529,7 @@ namespace TheHalls
                 player.Health = 9999;
             }
 
-            obstacles.Add(player);
+            //obstacles.Add(player);
 
             screenOffset = new Vector2(0, 0);
             
