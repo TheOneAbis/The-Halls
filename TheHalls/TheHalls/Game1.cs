@@ -692,6 +692,16 @@ namespace TheHalls
         /// </summary>
         public void GameDraw()
         {
+            for(int i = 50 - ((int)screenOffset.X % 50 + 100); i < _graphics.PreferredBackBufferWidth; i += 50)
+            {
+                for (int j = 50 - ((int)screenOffset.Y % 50 + 100); j < _graphics.PreferredBackBufferHeight; j += 50)
+                {
+                    _spriteBatch.Draw(tiles, new Rectangle(i, j, 50, 50), new Rectangle(
+                        60 % 15 * 16, 60 / 15 * 16, 16, 16),
+                        Color.White);
+                }
+            }
+
             foreach (Room room in rooms)
             {
                 room.Draw(_spriteBatch);
