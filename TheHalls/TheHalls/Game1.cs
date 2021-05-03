@@ -649,6 +649,7 @@ namespace TheHalls
                         1.5,
                         whiteSquare, enemyRangedSFX));
                 }
+                obstacles.Add(enemies[enemies.Count - 1]);
             }
 
             //creates the exit door, which opens when the enemies are defeated.
