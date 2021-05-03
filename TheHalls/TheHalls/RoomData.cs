@@ -89,7 +89,7 @@ namespace TheHalls
                     {
                         outDoor.Add(new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex));
                     }
-                    else
+                    else if(tileIndex != -1)
                     {
                         obstacles.Add(
                         new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex));

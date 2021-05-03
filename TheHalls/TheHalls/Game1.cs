@@ -507,7 +507,7 @@ namespace TheHalls
             //starter room
             rooms.Add(new Room(
                 new RoomData(
-                        "room2", Direction.Down, Direction.Up,
+                        "starterRoom", Direction.Down, Direction.Up,
                         new Rectangle(0, 0, 50, 50), 
                         tiles),
                 tiles));
