@@ -158,7 +158,7 @@ namespace TheHalls
             potion = Content.Load<Texture2D>("potions");
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
-            directionPointer = Content.Load<Texture2D>("Arrow");
+            directionPointer = Content.Load<Texture2D>("ArrowPixelated");
 
             debugSquare = whiteSquare;
 
@@ -373,7 +373,7 @@ namespace TheHalls
         {
             GraphicsDevice.Clear(Color.Gray);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
 
             
@@ -793,7 +793,7 @@ namespace TheHalls
                     break;
             }
             
-            _spriteBatch.DrawString(arial16, player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 60), Color.Black);
+            _spriteBatch.DrawString(fffforwardSmall, "Dmg: " + player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 80), Color.White);
 
             //"level up" text
 
