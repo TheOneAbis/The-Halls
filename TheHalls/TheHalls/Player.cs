@@ -31,7 +31,8 @@ namespace TheHalls
         // Did the player press the interact key?
         private bool interacting;
 
-        private float weaponDrawOffset;
+        private float weaponDrawOffsetAngular;
+        private Vector2 weaponDrawOffsetTrans;
 
         private Vector2 prevMoveDirection;
 
@@ -64,7 +65,10 @@ namespace TheHalls
             attackSpeed = 28;
             arcLength = Math.PI / 8;
             prevMoveDirection = Vector2.Zero;
-            weaponDrawOffset = (float)Math.Sqrt(2) / 4;
+            weaponDrawOffsetAngular = (float)Math.Sqrt(2) / 4;
+            //after game start, this value gets reduced once (so its values are increased from 0, 175 so it ends in its default position
+            weaponDrawOffsetTrans = new Vector2(-50, 200);
+
             interacting = false;
         }
 
@@ -151,7 +155,13 @@ namespace TheHalls
             //this resets the sword image back to a 'normal' offset, after a few in between frames
             if(attackSpeed == 25)
             {
-                weaponDrawOffset *= -2;
+                weaponDrawOffsetAngular *= -2;
+                
+            }
+
+            if(attackSpeed == 35 || attackSpeed == 25)
+            {
+                weaponDrawOffsetTrans += new Vector2(50, -25);
             }
 
             arcLoc = ScreenLoc + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenLoc) * attackRadius);
@@ -211,7 +221,10 @@ namespace TheHalls
                 }
 
                 //start rotating the weapon image, only matters with swords
-                weaponDrawOffset /= 2;
+                weaponDrawOffsetAngular /= 2;
+
+                //move the spear (if its a spear)
+                weaponDrawOffsetTrans = new Vector2(-100, 225);
             }
         }
 
@@ -291,7 +304,7 @@ namespace TheHalls
                         new Rectangle((int)ScreenLoc.X, (int)ScreenLoc.Y, 50, 50),
                         null,
                         Color.White,
-                        arcRotation - (float)Math.Sqrt(2) / 2 + weaponDrawOffset,
+                        arcRotation - (float)Math.Sqrt(2) / 2 + weaponDrawOffsetAngular,
                         new Vector2(0, 27),
                         SpriteEffects.None,
                         0);
@@ -303,7 +316,7 @@ namespace TheHalls
                         null,
                         Color.White,
                         arcRotation - (float)Math.Sqrt(2) / 2 - .15f,
-                        new Vector2(0, 175),
+                        weaponDrawOffsetTrans,
                         SpriteEffects.None,
                         0);
                     break;

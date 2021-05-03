@@ -542,6 +542,8 @@ namespace TheHalls
             if (easyMode)
             {
                 player.Health = 9999;
+                weapons.Add(new Weapon(new Rectangle(300, 300, 50, 50), sword, 999, weaponType.Sword, fffforwardSmall));
+                weapons.Add(new Weapon(new Rectangle(500, 300, 50, 50), spear, 999, weaponType.Spear, fffforwardSmall));
             }
 
             //obstacles.Add(player);
