@@ -310,11 +310,14 @@ namespace TheHalls
                         if (weapons[i].PickUp(player))
                         {
                             weapons.RemoveAt(i);
+                            // Break so player doesn't pick up multiple weapons 
+                            // at once if they are stacked up on top of each other
+                            break; 
                         }
                     }
 
                     //Potion pickups
-                    for(int i = 0; i<potions.Count; i++)
+                    for(int i = 0; i < potions.Count; i++)
                     {
                         if (potions[i].PickUp(player))
                         {
@@ -755,7 +758,7 @@ namespace TheHalls
                 _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(300, 25), Color.White);
 
                 // Draw direction arrow to direct player to next room
-                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2 - 50, 110, 100, 75), 
+                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2, 625, 100, 75), 
                     null, Color.White, -MathF.Acos(
                     (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).X /
                     (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).Length()), 
