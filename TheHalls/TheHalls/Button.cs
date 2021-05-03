@@ -11,6 +11,7 @@ namespace TheHalls
     {
         private Rectangle rect;
         private Texture2D img;
+        private Texture2D hovered;
         private string msg;
         private SpriteFont font;
 
@@ -22,14 +23,16 @@ namespace TheHalls
         /// <param name="Width">Button width</param>
         /// <param name="Height">Button height</param>
         /// <param name="image">Button texture iamge</param>
+        /// <param name="hovered">image when button is hovered</param>
         /// <param name="message">Button message text</param>
         /// <param name="font">The font of the message</param>
-        public Button(int X, int Y, int Width, int Height, Texture2D image, string message, SpriteFont font)
+        public Button(int X, int Y, int Width, int Height, Texture2D image, Texture2D hovered, string message, SpriteFont font)
         {
             rect = new Rectangle(X, Y, Width, Height);
             img = image;
             msg = message;
             this.font = font;
+            this.hovered = hovered;
         }
 
         /// <summary>
@@ -52,10 +55,22 @@ namespace TheHalls
         /// </summary>
         /// <param name="sb">SpriteBatch from Draw()</param>
         /// <param name="color">The text message color</param>
-        public void Draw(SpriteBatch sb, Color color)
+        public void Draw(SpriteBatch sb, Color color, MouseState mouse)
         {
-            sb.Draw(img, rect, Color.White);
-            sb.DrawString(font, msg, new Vector2(rect.X + 5, rect.Y + 5), color);
+            if(rect.Contains(mouse.Position))
+            {
+                sb.Draw(hovered, rect, Color.White);
+                sb.DrawString(font, msg, new Vector2(
+                    rect.X + (rect.Width / 2) - (font.MeasureString(msg).X / 2),
+                    rect.Y + (rect.Height / 2) - (font.MeasureString(msg).Y / 2)), color);
+            }
+            else
+            {
+                sb.Draw(img, rect, Color.White);
+                sb.DrawString(font, msg, new Vector2(
+                    rect.X + (rect.Width / 2) - (font.MeasureString(msg).X / 2),
+                    rect.Y + (rect.Height / 2) - (font.MeasureString(msg).Y / 2)), color);
+            }
         }
     }
 }

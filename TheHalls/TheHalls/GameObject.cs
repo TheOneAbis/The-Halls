@@ -260,37 +260,40 @@ namespace TheHalls
             {
                 if (!(elem == this) && elem.IsCollidable)
                 {
-                    Rectangle obstacle = elem.GetRect();
-                    if (obstacle.Intersects(rect))
+                    if (!(this is Player && elem is Enemy))
                     {
-                        collides = true;
-                        Rectangle overlap = Rectangle.Intersect(obstacle, rect);
-                        if (overlap.Width <= overlap.Height)
+                        Rectangle obstacle = elem.GetRect();
+                        if (obstacle.Intersects(rect))
                         {
-                            //X adjustment
-                            if (obstacle.X > rect.X)
+                            collides = true;
+                            Rectangle overlap = Rectangle.Intersect(obstacle, rect);
+                            if (overlap.Width <= overlap.Height)
                             {
-                                //obstacle is to the right of player 
-                                rect.X -= overlap.Width;
+                                //X adjustment
+                                if (obstacle.X > rect.X)
+                                {
+                                    //obstacle is to the right of player 
+                                    rect.X -= overlap.Width;
+                                }
+                                else
+                                {
+                                    //obstacle is to the left of the player
+                                    rect.X += overlap.Width;
+                                }
                             }
                             else
                             {
-                                //obstacle is to the left of the player
-                                rect.X += overlap.Width;
-                            }
-                        }
-                        else
-                        {
-                            //Y adjustment
-                            if (obstacle.Y > rect.Y)
-                            {
-                                //obstacle is above the player
-                                rect.Y -= overlap.Height;
-                            }
-                            else
-                            {
-                                //obstacle is below the player
-                                rect.Y += overlap.Height;
+                                //Y adjustment
+                                if (obstacle.Y > rect.Y)
+                                {
+                                    //obstacle is above the player
+                                    rect.Y -= overlap.Height;
+                                }
+                                else
+                                {
+                                    //obstacle is below the player
+                                    rect.Y += overlap.Height;
+                                }
                             }
                         }
                     }

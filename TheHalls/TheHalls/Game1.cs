@@ -30,6 +30,8 @@ namespace TheHalls
         public static Texture2D debugSquare;
         public Random rng;
 
+        private const int ROOM_SIZE = 1000;
+
         //Tracks if the player entered the most recently added room
         private bool EnteredLastRoom; 
 
@@ -37,12 +39,17 @@ namespace TheHalls
         private Texture2D arcImgSword;
         private Texture2D arcImgSpear;
         private Texture2D whiteSquare;
-        public static Texture2D sword;
-        public static Texture2D spear;
-        public static Texture2D potion;
+        private Texture2D sword;
+        private Texture2D spear;
+        private Texture2D potion;
         private Texture2D hearts;
         private Texture2D titleBG;
         private Texture2D directionPointer;
+
+        private Texture2D button;
+        private Texture2D buttonHover;
+        private Texture2D buttonLong;
+        private Texture2D buttonLongHover;
 
         // Character images
         private Texture2D rangedWalkSheet;
@@ -102,7 +109,7 @@ namespace TheHalls
         private int numEnemies;   // Number of enemies in a room
         private int nextEnemIncrease; // Tracks how many more rooms until the number of enemies that spawn increases
 
-        private int levelUpFrames; // how many more frames with level up text show?
+        //private int levelUpFrames; // how many more frames with level up text show?
 
         // Menu buttons
         List<Button> buttons;
@@ -132,13 +139,13 @@ namespace TheHalls
             //    -- Menu Buttons --
 
             // Play button
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 38, _graphics.PreferredBackBufferHeight /2 - 25, 80, 50, whiteSquare, "Play", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 60, _graphics.PreferredBackBufferHeight /2 - 25, 120, 60, button, buttonHover, "Play", fffforward20));
 
             // God mode
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 85, _graphics.PreferredBackBufferHeight / 2 + 75, 180, 50, whiteSquare, "God Mode", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 120, _graphics.PreferredBackBufferHeight / 2 + 75, 240, 60, buttonLong, buttonLongHover, "God Mode", fffforward20));
 
             // Controls Continue Button
-            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 + 200, 105, 50, whiteSquare, "Begin", fffforward20);
+            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 60, _graphics.PreferredBackBufferHeight / 2 + 200, 120, 60, button, buttonHover, "Begin", fffforward20);
         }
 
         protected override void LoadContent()
@@ -158,7 +165,14 @@ namespace TheHalls
             potion = Content.Load<Texture2D>("potions");
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
-            directionPointer = Content.Load<Texture2D>("Arrow");
+            directionPointer = Content.Load<Texture2D>("ArrowPixelated");
+
+
+            button = Content.Load<Texture2D>("button");
+            buttonHover = Content.Load<Texture2D>("buttonHover");
+            buttonLong = Content.Load<Texture2D>("buttonLong");
+            buttonLongHover = Content.Load<Texture2D>("buttonLongHover");
+
 
             debugSquare = whiteSquare;
 
@@ -361,10 +375,10 @@ namespace TheHalls
                     }
                     break;
             }
-            if (levelUpFrames > 0)
-            {
-                levelUpFrames--;
-            }
+            //if (levelUpFrames > 0)
+            //{
+            //    levelUpFrames--;
+            //}
 
             prevMouse = Mouse.GetState();
             prevkb = Keyboard.GetState();
@@ -376,7 +390,7 @@ namespace TheHalls
         {
             GraphicsDevice.Clear(Color.Gray);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
 
             
@@ -387,7 +401,7 @@ namespace TheHalls
                     // Draw each menu button to the screen
                     foreach (Button button in buttons)
                     {
-                        button.Draw(_spriteBatch, Color.Black);
+                        button.Draw(_spriteBatch, Color.Black, mouse);
                     }
                     _spriteBatch.DrawString(
                         fffforward20, "THE HALLS", 
@@ -399,7 +413,7 @@ namespace TheHalls
 
                 case GameState.Controls:
                     // Draw start button
-                    beginGameButton.Draw(_spriteBatch, Color.Black);
+                    beginGameButton.Draw(_spriteBatch, Color.Black, mouse);
 
                     // Draw tutorial stuff
                     _spriteBatch.DrawString(fffforward20, "Use [W A S D] to move around!", new Vector2(400, 100), Color.White);
@@ -496,7 +510,7 @@ namespace TheHalls
             //starter room
             rooms.Add(new Room(
                 new RoomData(
-                        "room2", Direction.Down, Direction.Up,
+                        "starterRoom", Direction.Down, Direction.Up,
                         new Rectangle(0, 0, 50, 50), 
                         tiles),
                 tiles));
@@ -526,13 +540,14 @@ namespace TheHalls
                 arcImgSword,
                 arcImgSpear,
                 sword,
+                spear,
                 GameOver);
             if (easyMode)
             {
                 player.Health = 9999;
             }
 
-            obstacles.Add(player);
+            //obstacles.Add(player);
 
             screenOffset = new Vector2(0, 0);
             
@@ -559,7 +574,6 @@ namespace TheHalls
             {
                 player.Health++;
                 player.Damage++;
-                levelUpFrames = 60;
             }
 
             // Decrease number of rooms until increase enemy count
@@ -582,34 +596,73 @@ namespace TheHalls
             switch(enterFrom.OutDirection)
             {
                 case Direction.Down:
-                    roomOffset.Y += 1000;
+                    roomOffset.Y += ROOM_SIZE;
                     inDirection = Direction.Up;
                     break;
 
                 case Direction.Up:
-                    roomOffset.Y -= 1000;
+                    roomOffset.Y -= ROOM_SIZE;
                     inDirection = Direction.Down;
                     break;
 
                 case Direction.Left:
-                    roomOffset.X -= 1000;
+                    roomOffset.X -= ROOM_SIZE;
                     inDirection = Direction.Right;
                     break;
 
                 case Direction.Right:
-                    roomOffset.X += 1000;
+                    roomOffset.X += ROOM_SIZE;
                     inDirection = Direction.Left;
                     break;
             }
 
-            //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
-            //create the room
-            lastRoom = new Room(
-                roomTemplates[inDirection][rng.Next(0, roomTemplates[inDirection].Count)],
-                enterFrom,
-                tiles,
-                roomOffset
-                );
+            bool done = false;
+
+            while(!done)
+            {
+                //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
+                //create the room
+                lastRoom = new Room(
+                    roomTemplates[inDirection][rng.Next(0, roomTemplates[inDirection].Count)],
+                    enterFrom,
+                    tiles,
+                    roomOffset
+                    );
+
+
+                Vector2 testOffset = roomOffset;
+
+                //project the next offset based on the new rooms outdirection
+                switch (lastRoom.OutDirection)
+                {
+                    case Direction.Down:
+                        testOffset.Y += ROOM_SIZE;
+                        break;
+
+                    case Direction.Up:
+                        testOffset.Y -= ROOM_SIZE;
+                        break;
+
+                    case Direction.Left:
+                        testOffset.X -= ROOM_SIZE;
+                        break;
+
+                    case Direction.Right:
+                        testOffset.X += ROOM_SIZE;
+                        break;
+                }
+                done = true;
+                //if the projected offset is the same as any other room, then there will be a collision; pick a new room (new outDirection)
+                foreach (Room room in rooms)
+                {
+
+                    if (room.RoomOffset == testOffset)
+                    {
+                        //There is a collision- loop through again
+                        done = false;
+                    }
+                }
+            }
 
             //add the room
             rooms.Add(lastRoom);
@@ -652,6 +705,7 @@ namespace TheHalls
                         1.5,
                         whiteSquare, enemyRangedSFX));
                 }
+                obstacles.Add(enemies[enemies.Count - 1]);
             }
 
             //creates the exit door, which opens when the enemies are defeated.
@@ -702,6 +756,16 @@ namespace TheHalls
         /// </summary>
         public void GameDraw()
         {
+            for(int i = 50 - ((int)screenOffset.X % 50 + 100); i < _graphics.PreferredBackBufferWidth; i += 50)
+            {
+                for (int j = 50 - ((int)screenOffset.Y % 50 + 100); j < _graphics.PreferredBackBufferHeight; j += 50)
+                {
+                    _spriteBatch.Draw(tiles, new Rectangle(i, j, 50, 50), new Rectangle(
+                        60 % 15 * 16, 60 / 15 * 16, 16, 16),
+                        Color.White);
+                }
+            }
+
             foreach (Room room in rooms)
             {
                 room.Draw(_spriteBatch);
@@ -755,14 +819,29 @@ namespace TheHalls
             // If player kills all enemies, notify them to move forward
             if (!EnteredLastRoom)
             {
-                _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(300, 25), Color.White);
+                _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(
+                    _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").X / 2),
+                    _graphics.PreferredBackBufferHeight - 30 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").Y / 2)),
+                    Color.White);
 
+                //If its a multiple of 5, show the level up text aswell
+                if(rooms.Count % 5 == 1)
+                {
+                    _spriteBatch.DrawString(
+                        fffforward20, "Attack +1! Health +1!",
+                        new Vector2(
+                            _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").X / 2),
+                            _graphics.PreferredBackBufferHeight - 250 - (fffforward20.MeasureString("Attack +1! Health +1!").Y / 2)),
+                        Color.Yellow
+                        );
+                }
                 // Draw direction arrow to direct player to next room
-                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2, 625, 100, 75), 
+                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight - 150, 100, 75), 
                     null, Color.White, -MathF.Acos(
                     (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).X /
                     (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).Length()), 
-                    new Vector2(directionPointer.Width / 2, directionPointer.Height / 2), SpriteEffects.None, 0);
+                    new Vector2(directionPointer.Width / 2, directionPointer.Height / 2), 
+                    SpriteEffects.None, 0);
             }
             // Stop displaying message when player enters the latest room
             foreach (GameObject enterObs in rooms[rooms.Count - 2].OutDoor)
@@ -785,10 +864,10 @@ namespace TheHalls
                     break;
             }
             
-            _spriteBatch.DrawString(arial16, player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 60), Color.Black);
+            _spriteBatch.DrawString(fffforwardSmall, "Dmg: " + player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 80), Color.White);
 
             //"level up" text
-
+            /*
             if (levelUpFrames > 0)
             {
                 _spriteBatch.DrawString(
@@ -799,6 +878,7 @@ namespace TheHalls
                     Color.Yellow
                     );
             }
+            */
         }
     }
 }
