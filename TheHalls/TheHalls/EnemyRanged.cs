@@ -45,7 +45,7 @@ namespace TheHalls
             //if theres a projectile, move it
             if(projectile != null)
             {
-                projectile.Update(obstacles);
+                projectile.Update(obstacles, this);
             }
             Vector2 towardsPlayer = target.WorldLoc - worldLoc;
 

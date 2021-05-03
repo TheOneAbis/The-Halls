@@ -25,7 +25,7 @@ namespace TheHalls
         }
 
 
-        public void Update(List<GameObject> obstacles)
+        public void Update(List<GameObject> obstacles, EnemyRanged shooter)
         {
             if (active)
             {
@@ -40,7 +40,7 @@ namespace TheHalls
 
             foreach(GameObject elem in obstacles)
             {
-                if(Collides(elem))
+                if(Collides(elem) && elem != shooter)
                 {
                     active = false;
                 }
