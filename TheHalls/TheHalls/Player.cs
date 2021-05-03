@@ -77,9 +77,9 @@ namespace TheHalls
 
             interacting = false;
             dodgeCooldown = 1;
-            dodgeTime = 15; //player dodges for 15 frames, or .25s
+            dodgeTime = 9;
             DodgeVector = Vector2.Zero;
-            dodgeSpeed = 14;
+            dodgeSpeed = 18;
         }
 
         /// <summary>
