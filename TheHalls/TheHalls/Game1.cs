@@ -313,6 +313,12 @@ namespace TheHalls
                     player.ResolveCollisions(obstacles);
                     player.SetIsInteracting(kb, prevkb);
 
+                    // Dodge player mechanic bound to LShift key
+                    if (kb.IsKeyDown(Keys.LeftShift) && prevkb.IsKeyUp(Keys.LeftShift))
+                    {
+                        player.Dodge();
+                    }
+
                     if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
                     {
                         player.Attack(enemies, playerAttackSFX);
@@ -389,7 +395,6 @@ namespace TheHalls
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Gray);
-
             _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
 
