@@ -21,12 +21,13 @@ namespace TheHalls
         private int health;
         private int damage;
         private int attackRadius;
+        private double arcLength;
         private weaponType weapon;
         private GameOver gameOver;
         private Color arcOpacity;
         private double attackSpeed;
 
-        // Did the playe press the interact key?
+        // Did the player press the interact key?
         private bool interacting;
 
         private float weaponDrawOffset;
@@ -59,6 +60,7 @@ namespace TheHalls
             damage = 1;
             weapon = weaponType.Sword;
             attackSpeed = 28;
+            arcLength = Math.PI / 8;
             prevMoveDirection = Vector2.Zero;
             weaponDrawOffset = (float)Math.Sqrt(2) / 4;
             interacting = false;
@@ -220,54 +222,25 @@ namespace TheHalls
             enemyScreenRect = new Rectangle((int)(target.ScreenLoc.X - (target.Size / 2).X),
                 (int)(target.ScreenLoc.Y - (target.Size / 2).Y), (int)target.Size.X, (int)target.Size.Y);
 
-            switch (weapon)
+            //     ---   SCAN THE PIE SLICE   ---
+            
+            //  Vector rotates clockwise starting at left side of pie slice
+            for (double leftSide = -arcLength; leftSide < arcLength; leftSide += Math.PI / 64)
             {
-                // SWORD ATTACKING ALGORITHM
-                case weaponType.Sword:
-
-                    //     ---   SCAN THE PIE SLICE   ---
-
-                    //  Vector rotates clockwise starting at left side of pie slice
-                    for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
+                // At each point of the vector's rotation, check every point along the vector's line
+                for (int i = 1; i <= attackRadius; i++)
+                {
+                    // This vector represents every point to check within the pie slice
+                    attackScanner = new Vector2(
+                        (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
+                        (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+            
+                    // If the point lies within the enemy's bounds, enemy takes damage from player's attack
+                    if (enemyScreenRect.Contains(attackScanner))
                     {
-                        // At each point of the vector's rotation, check every point along the vector's line
-                        for (int i = 1; i <= attackRadius; i++)
-                        {
-                            // This vector represents every point to check within the pie slice
-                            attackScanner = new Vector2(
-                                (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
-                                (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
-
-                            // If the point lies within the enemy's bounds, enemy takes damage from player's attack
-                            if (enemyScreenRect.Contains(attackScanner))
-                            {
-                                return true;
-                            }
-                        }
+                        return true;
                     }
-                    break;
-
-                // SPEAR ATTACKING ALGORITHM
-                case weaponType.Spear:
-
-                    for (double leftSide = -(Math.PI / 20); leftSide < (Math.PI / 20); leftSide += Math.PI / 64)
-                    {
-                        // At each point of the vector's rotation, check every point along the vector's line
-                        for (int i = 1; i <= attackRadius; i++)
-                        {
-                            // This vector represents every point to check within the pie slice
-                            attackScanner = new Vector2(
-                                (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
-                                (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
-
-                            // If the point lies within the enemy's bounds, enemy takes damage from player's attack
-                            if (enemyScreenRect.Contains(attackScanner))
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                    break;
+                }
             }
 
             // If nothing detected
@@ -389,9 +362,11 @@ namespace TheHalls
                 {
                     case weaponType.Sword:
                         attackRadius = 75;
+                        arcLength = Math.PI / 8;
                         break;
                     case weaponType.Spear:
-                        attackRadius = 125; 
+                        attackRadius = 125;
+                        arcLength = Math.PI / 22;
                         break;
                 }
             } 

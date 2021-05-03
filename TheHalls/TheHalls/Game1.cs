@@ -30,6 +30,9 @@ namespace TheHalls
         public static Texture2D debugSquare;
         public Random rng;
 
+        //Tracks if the player entered the most recently added room
+        private bool EnteredLastRoom; 
+
         //loaded content
         private Texture2D arcImgSword;
         private Texture2D arcImgSpear;
@@ -39,6 +42,7 @@ namespace TheHalls
         public static Texture2D potion;
         private Texture2D hearts;
         private Texture2D titleBG;
+        private Texture2D directionPointer;
 
         // Character images
         private Texture2D rangedWalkSheet;
@@ -123,6 +127,7 @@ namespace TheHalls
             gameState = GameState.Menu;
             buttons = new List<Button>();
             rng = new Random();
+            EnteredLastRoom = true;
 
             //    -- Menu Buttons --
 
@@ -153,6 +158,7 @@ namespace TheHalls
             potion = Content.Load<Texture2D>("potions");
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
+            directionPointer = Content.Load<Texture2D>("Arrow");
 
             debugSquare = whiteSquare;
 
@@ -262,6 +268,7 @@ namespace TheHalls
                             enemies.RemoveAt(i);
                             if(enemies.Count == 0)
                             {
+                                EnteredLastRoom = false;
                                 NextRoom();
                             }
                             i--;
@@ -748,8 +755,28 @@ namespace TheHalls
                 // If player is at critical health, draw low health background effect
                 if (player.Health <= 1)
                 {
-                    
                     _spriteBatch.Draw(playerLowHealthBG, new Rectangle(-300, -300, _graphics.PreferredBackBufferWidth + 600, _graphics.PreferredBackBufferHeight + 600), Color.White);
+                }
+            }
+
+            // If player kills all enemies, notify them to move forward
+            if (!EnteredLastRoom)
+            {
+                _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(300, 25), Color.White);
+
+                // Draw direction arrow to direct player to next room
+                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2 - 50, 110, 100, 75), 
+                    null, Color.White, -MathF.Acos(
+                    (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).X /
+                    (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).Length()), 
+                    new Vector2(directionPointer.Width / 2, directionPointer.Height / 2), SpriteEffects.None, 0);
+            }
+            // Stop displaying message when player enters the latest room
+            foreach (GameObject enterObs in rooms[rooms.Count - 2].OutDoor)
+            {
+                if (player.GetRect().Intersects(enterObs.GetRect()))
+                {
+                    EnteredLastRoom = true;
                 }
             }
 
