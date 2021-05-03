@@ -158,11 +158,16 @@ namespace TheHalls
             prevMoveDirection = moveDirection;
         }
 
+        /// <summary>
+        /// Dodges the player, giving them a sudden boost of speed in their current movement direction.
+        /// </summary>
         public void Dodge()
         {
             if (dodgeCooldown <= 1)
             {
                 isDodging = true;
+
+                // If player isn't moving, they will by default dodge up
                 if (prevMoveDirection.Length() == 0)
                 {
                     DodgeVector = new Vector2(0, -dodgeSpeed);
