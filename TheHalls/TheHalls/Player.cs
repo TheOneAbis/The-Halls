@@ -67,7 +67,7 @@ namespace TheHalls
             prevMoveDirection = Vector2.Zero;
             weaponDrawOffsetAngular = (float)Math.Sqrt(2) / 4;
             //after game start, this value gets reduced once (so its values are increased from 0, 175 so it ends in its default position
-            weaponDrawOffsetTrans = new Vector2(-50, 200);
+            weaponDrawOffsetTrans = new Vector2(0, 175);
 
             interacting = false;
         }
@@ -156,10 +156,10 @@ namespace TheHalls
             if(attackSpeed == 25)
             {
                 weaponDrawOffsetAngular *= -2;
-                
+                weaponDrawOffsetTrans = new Vector2(0, 175);
             }
 
-            if(attackSpeed == 35 || attackSpeed == 25)
+            if(attackSpeed == 37 || attackSpeed == 29)
             {
                 weaponDrawOffsetTrans += new Vector2(50, -25);
             }
