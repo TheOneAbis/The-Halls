@@ -64,7 +64,14 @@ namespace TheHalls
 
             if (!(moveDirection.X == 0 && moveDirection.Y == 0))
             {
-                moveDirection.Normalize();
+                if (moveDirection.Length() < 10)
+                {
+                    moveDirection = Vector2.Zero;
+                }
+                else
+                {
+                    moveDirection.Normalize();
+                }
             }
             worldLoc += (moveDirection * movementSpeed);
 
