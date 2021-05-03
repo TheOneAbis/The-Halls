@@ -89,6 +89,7 @@ namespace TheHalls
         {
             // Move player
             Vector2 moveDirection = new Vector2(0, 0);
+
             if (kb.IsKeyDown(Keys.W))
             {
                 moveDirection.Y -= movementSpeed;
@@ -140,6 +141,8 @@ namespace TheHalls
                     }
                 }
             }
+
+
 
             dodgeCooldown--;
 
