@@ -28,6 +28,12 @@ namespace TheHalls
         private Color arcOpacity;
         private double attackSpeed;
 
+        private Vector2 DodgeVector;
+        private int dodgeCooldown;
+        private int dodgeTime;
+        private bool isDodging;
+        private int dodgeSpeed;
+
         // Did the player press the interact key?
         private bool interacting;
 
@@ -70,6 +76,10 @@ namespace TheHalls
             weaponDrawOffsetTrans = new Vector2(0, 175);
 
             interacting = false;
+            dodgeCooldown = 1;
+            dodgeTime = 15; //player dodges for 15 frames, or .25s
+            DodgeVector = Vector2.Zero;
+            dodgeSpeed = 14;
         }
 
         /// <summary>
@@ -131,8 +141,47 @@ namespace TheHalls
                 }
             }
 
-            worldLoc += (moveDirection * movementSpeed);
+            dodgeCooldown--;
+
+            // Dodging mechanics will go here
+            if (isDodging)
+            {
+                worldLoc += DodgeVector;
+                dodgeTime--;
+                if (dodgeTime <= 0)
+                {
+                    isDodging = false;
+                    dodgeTime = 15;
+                }
+            }
+            else
+            {
+                worldLoc += (moveDirection * movementSpeed);
+            }
+            
             prevMoveDirection = moveDirection;
+        }
+
+        /// <summary>
+        /// Dodges the player, giving them a sudden boost of speed in their current movement direction.
+        /// </summary>
+        public void Dodge()
+        {
+            if (dodgeCooldown <= 1)
+            {
+                isDodging = true;
+
+                // If player isn't moving, they will by default dodge up
+                if (prevMoveDirection.Length() == 0)
+                {
+                    DodgeVector = new Vector2(0, -dodgeSpeed);
+                }
+                else
+                {
+                    DodgeVector = new Vector2(prevMoveDirection.X / prevMoveDirection.Length(), prevMoveDirection.Y / prevMoveDirection.Length()) * dodgeSpeed;
+                }
+                dodgeCooldown = 130; // = 2.15 second cooldown
+            }
         }
 
         /// <summary>
@@ -338,6 +387,16 @@ namespace TheHalls
                 new Vector2(arcImg.Width / 2, arcImg.Height / 2), 
                 SpriteEffects.None, 
                 0);
+
+            // Draw dodge cooldown bar
+            if (dodgeCooldown > 1)
+            {
+                sb.Draw(Game1.debugSquare, new Rectangle((int)ScreenLoc.X - 50, (int)ScreenLoc.Y + 40, 
+                    GetRect().Width + 50, 10), new Color(50, 50, 50, 50));
+
+                sb.Draw(Game1.debugSquare, new Rectangle((int)ScreenLoc.X - 50, (int)ScreenLoc.Y + 40, 
+                    (int)((GetRect().Width + 50.0) * ((130.0 - dodgeCooldown) / 130.0)), 10), new Color(200, 200, 200));
+            }
         }
         
         public int Health
