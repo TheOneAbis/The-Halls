@@ -30,6 +30,8 @@ namespace TheHalls
         public static Texture2D debugSquare;
         public Random rng;
 
+        private const int ROOM_SIZE = 1000;
+
         //Tracks if the player entered the most recently added room
         private bool EnteredLastRoom; 
 
@@ -37,9 +39,9 @@ namespace TheHalls
         private Texture2D arcImgSword;
         private Texture2D arcImgSpear;
         private Texture2D whiteSquare;
-        public static Texture2D sword;
-        public static Texture2D spear;
-        public static Texture2D potion;
+        private Texture2D sword;
+        private Texture2D spear;
+        private Texture2D potion;
         private Texture2D hearts;
         private Texture2D titleBG;
         private Texture2D directionPointer;
@@ -535,6 +537,7 @@ namespace TheHalls
                 arcImgSword,
                 arcImgSpear,
                 sword,
+                spear,
                 GameOver);
             if (easyMode)
             {
@@ -590,34 +593,73 @@ namespace TheHalls
             switch(enterFrom.OutDirection)
             {
                 case Direction.Down:
-                    roomOffset.Y += 1000;
+                    roomOffset.Y += ROOM_SIZE;
                     inDirection = Direction.Up;
                     break;
 
                 case Direction.Up:
-                    roomOffset.Y -= 1000;
+                    roomOffset.Y -= ROOM_SIZE;
                     inDirection = Direction.Down;
                     break;
 
                 case Direction.Left:
-                    roomOffset.X -= 1000;
+                    roomOffset.X -= ROOM_SIZE;
                     inDirection = Direction.Right;
                     break;
 
                 case Direction.Right:
-                    roomOffset.X += 1000;
+                    roomOffset.X += ROOM_SIZE;
                     inDirection = Direction.Left;
                     break;
             }
 
-            //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
-            //create the room
-            lastRoom = new Room(
-                roomTemplates[inDirection][rng.Next(0, roomTemplates[inDirection].Count)],
-                enterFrom,
-                tiles,
-                roomOffset
-                );
+            bool done = false;
+
+            while(!done)
+            {
+                //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
+                //create the room
+                lastRoom = new Room(
+                    roomTemplates[inDirection][rng.Next(0, roomTemplates[inDirection].Count)],
+                    enterFrom,
+                    tiles,
+                    roomOffset
+                    );
+
+
+                Vector2 testOffset = roomOffset;
+
+                //project the next offset based on the new rooms outdirection
+                switch (lastRoom.OutDirection)
+                {
+                    case Direction.Down:
+                        testOffset.Y += ROOM_SIZE;
+                        break;
+
+                    case Direction.Up:
+                        testOffset.Y -= ROOM_SIZE;
+                        break;
+
+                    case Direction.Left:
+                        testOffset.X -= ROOM_SIZE;
+                        break;
+
+                    case Direction.Right:
+                        testOffset.X += ROOM_SIZE;
+                        break;
+                }
+                done = true;
+                //if the projected offset is the same as any other room, then there will be a collision; pick a new room (new outDirection)
+                foreach (Room room in rooms)
+                {
+
+                    if (room.RoomOffset == testOffset)
+                    {
+                        //There is a collision- loop through again
+                        done = false;
+                    }
+                }
+            }
 
             //add the room
             rooms.Add(lastRoom);

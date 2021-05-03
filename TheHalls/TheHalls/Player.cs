@@ -15,7 +15,8 @@ namespace TheHalls
         private Vector2 arcLoc;
         private Texture2D arcImgSword;
         private Texture2D arcImgSpear;
-        private Texture2D weaponImage;
+        private Texture2D swordImage;
+        private Texture2D spearImage;
         private float arcRotation;
         private float movementSpeed;
         private int health;
@@ -44,7 +45,7 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D weaponImage, GameOver gameOver) :
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D swordImage, Texture2D spearImage, GameOver gameOver) :
             base(worldLoc, size, spriteSheets, 6, new Vector2(18, 18), new Vector2(7, 7), 32)
         {
             arcImgSword = arcImageSword;
@@ -56,7 +57,8 @@ namespace TheHalls
             this.gameOver = gameOver;
             health = 5;
             attackRadius = 75;
-            this.weaponImage = weaponImage;
+            this.swordImage = swordImage;
+            this.spearImage = spearImage;
             damage = 1;
             weapon = weaponType.Sword;
             attackSpeed = 28;
@@ -285,7 +287,7 @@ namespace TheHalls
             switch (weapon)
             {
                 case weaponType.Sword:
-                    sb.Draw(Game1.sword,
+                    sb.Draw(swordImage,
                         new Rectangle((int)ScreenLoc.X, (int)ScreenLoc.Y, 50, 50),
                         null,
                         Color.White,
@@ -296,7 +298,7 @@ namespace TheHalls
                     break;
 
                 case weaponType.Spear:
-                    sb.Draw(Game1.spear,
+                    sb.Draw(spearImage,
                         new Rectangle((int)ScreenLoc.X, (int)ScreenLoc.Y, 75, 75),
                         null,
                         Color.White,
@@ -371,7 +373,7 @@ namespace TheHalls
                 }
             } 
         }
-        public Texture2D WeaponImage { set { weaponImage = value; } }
+        //public Texture2D WeaponImage { set { weaponImage = value; } }
 
         /// <summary>
         /// Gets if the player pressed their interact key
