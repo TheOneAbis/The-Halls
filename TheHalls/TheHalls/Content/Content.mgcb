@@ -352,6 +352,12 @@
 /processorParam:TextureFormat=Color
 /build:SkeletonDeath.png
 
+#begin SkeletonDeathSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SkeletonDeathSound.wav
+
 #begin SkeletonHurt.png
 /importer:TextureImporter
 /processor:TextureProcessor

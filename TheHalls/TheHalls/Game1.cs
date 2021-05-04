@@ -84,6 +84,7 @@ namespace TheHalls
         private Song gameMusic;
         private SoundEffect[] playerAttackSFX;
         private SoundEffect[] enemyRangedSFX;
+        private SoundEffect[] enemySkeletonSFX;
         private SoundEffect[] playerHurtSFX;
 
         //seperate lists for each direction
@@ -225,6 +226,8 @@ namespace TheHalls
             playerAttackSFX[1] = Content.Load<SoundEffect>("Spear_Thrust");
             enemyRangedSFX = new SoundEffect[2];
             enemyRangedSFX[0] = Content.Load<SoundEffect>("RangedEnemy_Death");
+            enemySkeletonSFX = new SoundEffect[2];
+            enemySkeletonSFX[0] = Content.Load<SoundEffect>("SkeletonDeathSound");
 
             playerHurtSFX = new SoundEffect[5];
             for (int i = 0; i < playerHurtSFX.Length; i++)
@@ -757,7 +760,7 @@ namespace TheHalls
                             meleeDeathSheet,
                             whiteSquare},
                         1.5,
-                        whiteSquare, enemyRangedSFX));
+                        whiteSquare, enemySkeletonSFX));
                 }
                 obstacles.Add(enemies[enemies.Count - 1]);
             }
