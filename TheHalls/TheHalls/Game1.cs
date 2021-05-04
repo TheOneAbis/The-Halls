@@ -106,6 +106,9 @@ namespace TheHalls
         private MouseState mouse;
         private MouseState prevMouse;
 
+        private Dictionary<Keys, int> framesSincePress;
+        private List<Keys> keysToTrack;
+
         public static GameState gameState;
 
         private int enemyHealth;  // Enemy Health
@@ -139,6 +142,19 @@ namespace TheHalls
             rng = new Random();
             EnteredLastRoom = true;
             lowHealthBGOpacity = 0;
+
+            framesSincePress = new Dictionary<Keys, int>();
+            keysToTrack = new List<Keys>();
+
+            framesSincePress[Keys.W] = 0;
+            framesSincePress[Keys.A] = 0;
+            framesSincePress[Keys.S] = 0;
+            framesSincePress[Keys.D] = 0;
+
+            keysToTrack.Add(Keys.W);
+            keysToTrack.Add(Keys.A);
+            keysToTrack.Add(Keys.S);
+            keysToTrack.Add(Keys.D);
 
             //    -- Menu Buttons --
 
@@ -269,22 +285,22 @@ namespace TheHalls
                     {
                         if (!enemies[i].Alive)
                         {
-                            int itemDrop = rng.Next(5);
-                            if (itemDrop == 0)
+                            int itemDrop = rng.Next(11);
+                            if (itemDrop <= 1) //0, 1
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, 
                                     (int)enemies[i].WorldLoc.Y, 50, 50), sword, 
                                     rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1,
                                     weaponType.Sword, fffforwardSmall));
                             }
-                            else if(itemDrop == 1)
+                            else if(itemDrop <= 3) //2, 3
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X,
                                     (int)enemies[i].WorldLoc.Y, 50, 50), spear, 
                                     rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, 
                                     weaponType.Spear, fffforwardSmall));
                             }
-                            else if(itemDrop == 2)
+                            else if(itemDrop <= 5) //4, 5
                             {
                                 potions.Add(new Potion(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), potion, 1));
                             }
@@ -322,6 +338,32 @@ namespace TheHalls
                     player.Move(kb);
                     player.ResolveCollisions(obstacles);
                     player.SetIsInteracting(kb, prevkb);
+
+
+                    foreach (Keys key in keysToTrack)
+                    {
+                        if (kb.IsKeyDown(key) && prevkb.IsKeyUp(key) && framesSincePress[key] <= 15)
+                        {
+                            player.Dodge();
+                        }
+                    }
+                    /*
+                    if (kb.IsKeyDown(Keys.S))
+                    {
+                        moveDirection.Y += movementSpeed;
+                    }
+
+                    if (kb.IsKeyDown(Keys.A))
+                    {
+                        moveDirection.X -= movementSpeed;
+                    }
+
+                    if (kb.IsKeyDown(Keys.D))
+                    {
+                        moveDirection.X += movementSpeed;
+                    }
+
+                    */
 
                     // Dodge player mechanic bound to LShift key
                     if (kb.IsKeyDown(Keys.LeftShift) && prevkb.IsKeyUp(Keys.LeftShift))
@@ -395,7 +437,17 @@ namespace TheHalls
             //{
             //    levelUpFrames--;
             //}
-
+            foreach (Keys key in keysToTrack)
+            {
+                if (kb.IsKeyUp(key))
+                {
+                    framesSincePress[key]++;
+                }
+                else
+                {
+                    framesSincePress[key] = 0;
+                }
+            }
             prevMouse = Mouse.GetState();
             prevkb = Keyboard.GetState();
 
