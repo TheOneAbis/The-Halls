@@ -318,6 +318,18 @@ namespace TheHalls
                             }
                             i--;
                         }
+                        //bandaid solution for enemies spawning outside the wall- if they do, they will be immediately killed and the player won't know they ever existed
+                        else if(enemies[i].Deleted)
+                        {
+                            obstacles.Remove(enemies[i]);
+                            enemies.RemoveAt(i);
+                            if (enemies.Count == 0)
+                            {
+                                EnteredLastRoom = false;
+                                NextRoom();
+                            }
+                            i--;
+                        }
                         else
                         {
                             //if the enemy is still alive, update its AI and collisions
@@ -344,7 +356,7 @@ namespace TheHalls
                     player.ResolveCollisions(obstacles);
                     player.SetIsInteracting(kb, prevkb);
 
-
+                    /*
                     foreach (Keys key in keysToTrack)
                     {
                         if (kb.IsKeyDown(key) && prevkb.IsKeyUp(key) && framesSincePress[key] <= 5)
@@ -352,6 +364,7 @@ namespace TheHalls
                             player.Dodge();
                         }
                     }
+                    */
 
                     // Dodge player mechanic bound to Space and LSHIFT key
                     if ((kb.IsKeyDown(Keys.LeftShift) && prevkb.IsKeyUp(Keys.LeftShift)) || (kb.IsKeyDown(Keys.Space) && prevkb.IsKeyUp(Keys.Space)))
@@ -473,7 +486,7 @@ namespace TheHalls
                     // Draw tutorial stuff
                     _spriteBatch.DrawString(fffforward20, "Use [W A S D] to move around!", new Vector2(400, 100), Color.White);
                     _spriteBatch.DrawString(fffforward20, "Use [Mouse1] to attack!", new Vector2(450, 150), Color.White);
-                    _spriteBatch.DrawString(fffforward20, "Use [SPACE], [LSHIFT], or double-tap [W A S D] to Dodge!", new Vector2(165, 225), Color.White);
+                    _spriteBatch.DrawString(fffforward20, "Use [SPACE] or [LSHIFT] to Dodge!", new Vector2(360, 225), Color.White);
 
                     _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is LIT UP, \n\nenemies are in range of your attack!", new Vector2(100, 350), Color.White);
                     _spriteBatch.Draw(arcImgSword, new Rectangle(125, 400, 150, 100), Color.White);
@@ -570,6 +583,8 @@ namespace TheHalls
                         new Rectangle(0, 0, 50, 50), 
                         tiles),
                 tiles));
+
+            //testing enemy
 
             //add starter room to obstacles
             foreach (Room elem in rooms)
@@ -735,20 +750,48 @@ namespace TheHalls
             //Spawn enemies
             for (int i = 0; i < numEnemies; i++)
             {
-                // Create a random spawn location for the enemy
+                bool isValid = false;
                 Vector2 enemySpawn = new Vector2(
-                    rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
-                    rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));
-                
+                        rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
+                        rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));
+
+                while (!isValid)
+                {
+                    // Create a random spawn location for the enemy
+                    enemySpawn = new Vector2(
+                        rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
+                        rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));
+
+
+                    //check if it works-
+                    foreach(GameObject obstacle in obstacles)
+                    {
+                        if(obstacle.GetRect().Contains(enemySpawn))
+                        {
+                            if(obstacle.IsCollidable)
+                            {
+                                isValid = false;
+                                break;
+                            }
+                            else
+                            {
+                                isValid = true;
+                            }
+                        }
+                    }
+                }
+
+
+                //once we have a working location, spawn the enemy
                 if (rng.Next(2) == 0)
                 {
                     enemies.Add(new EnemyRanged(enemySpawn, new Vector2(50, 50), enemyHealth,
-                        new Texture2D[] { 
-                            rangedWalkSheet, 
-                            rangedAttackSheet, 
-                            rangedHurtSheet, 
-                            rangedDeathSheet,
-                            whiteSquare}, 
+                        new Texture2D[] {
+                        rangedWalkSheet,
+                        rangedAttackSheet,
+                        rangedHurtSheet,
+                        rangedDeathSheet,
+                        whiteSquare},
                         3,
                         rangedProjectile, enemyRangedSFX));
                 }
@@ -756,11 +799,11 @@ namespace TheHalls
                 {
                     enemies.Add(new Enemy(enemySpawn, new Vector2(50, 50), enemyHealth + 1,
                         new Texture2D[] {
-                            meleeWalkSheet,
-                            meleeAttackSheet,
-                            meleeHurtSheet,
-                            meleeDeathSheet,
-                            whiteSquare},
+                        meleeWalkSheet,
+                        meleeAttackSheet,
+                        meleeHurtSheet,
+                        meleeDeathSheet,
+                        whiteSquare},
                         1.5,
                         whiteSquare, enemySkeletonSFX));
                 }
@@ -792,6 +835,7 @@ namespace TheHalls
             rooms.Add(Direction.Down,
                 new List<RoomData>
                 {
+                    
                     getMainRooms("DtoU_Octogon"),
                     getMainRooms("smiley"),
                     getMainRooms("dots"),
@@ -822,20 +866,92 @@ namespace TheHalls
                     getMainRooms("fof"),
                     getMainRooms("faces"),
                     getMainRooms("windy"),
+                    
 
+                    
+
+                    new RoomData(
+                        "DtoL_Circleish", Direction.Down, Direction.Left, 
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE), 
+                        tiles),
+
+                    new RoomData(
+                        "DtoL_Pods", Direction.Down, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "DtoR_Circleish", Direction.Down, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
 
                     new RoomData(
                         "DtoR_LShape", Direction.Down, Direction.Right,
                         new Rectangle(475, 475, 450, 50),
+                        tiles),
+
+                    new RoomData(
+                        "DtoR_Roundabout", Direction.Down, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
                         tiles)
                 });
 
             rooms.Add(Direction.Left,
                 new List<RoomData>
                 {
+                    
+                    new RoomData(
+                        "LtoR_Loop", Direction.Left, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+                   
+                    new RoomData(
+                        "LtoR_Pods", Direction.Left, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "LtoU_Diamond", Direction.Left, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
                     new RoomData(
                         "LtoU_LShape", Direction.Left, Direction.Up,
-                        new Rectangle(475, 0, 50, 450),
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles)
+                });
+
+            rooms.Add(Direction.Right,
+                new List<RoomData>
+                {
+                    new RoomData(
+                        "RtoL_Pods", Direction.Right, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoL_PodsOpened", Direction.Right, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoL_U", Direction.Right, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoU_Diamond", Direction.Right, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoU_loops", Direction.Right, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoU_Roundabout", Direction.Right, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
                         tiles)
                 });
 
