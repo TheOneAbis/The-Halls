@@ -735,20 +735,48 @@ namespace TheHalls
             //Spawn enemies
             for (int i = 0; i < numEnemies; i++)
             {
-                // Create a random spawn location for the enemy
+                bool isValid = false;
                 Vector2 enemySpawn = new Vector2(
-                    rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
-                    rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));
-                
+                        rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
+                        rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));
+
+                while (!isValid)
+                {
+                    // Create a random spawn location for the enemy
+                    enemySpawn = new Vector2(
+                        rng.Next(lastRoom.EnemySpawnArea.X, lastRoom.EnemySpawnArea.X + lastRoom.EnemySpawnArea.Width),
+                        rng.Next(lastRoom.EnemySpawnArea.Y, lastRoom.EnemySpawnArea.Y + lastRoom.EnemySpawnArea.Height));
+
+
+                    //check if it works-
+                    foreach(GameObject obstacle in obstacles)
+                    {
+                        if(obstacle.GetRect().Contains(enemySpawn))
+                        {
+                            if(obstacle.IsCollidable)
+                            {
+                                isValid = false;
+                                break;
+                            }
+                            else
+                            {
+                                isValid = true;
+                            }
+                        }
+                    }
+                }
+
+
+
                 if (rng.Next(2) == 0)
                 {
                     enemies.Add(new EnemyRanged(enemySpawn, new Vector2(50, 50), enemyHealth,
-                        new Texture2D[] { 
-                            rangedWalkSheet, 
-                            rangedAttackSheet, 
-                            rangedHurtSheet, 
-                            rangedDeathSheet,
-                            whiteSquare}, 
+                        new Texture2D[] {
+                        rangedWalkSheet,
+                        rangedAttackSheet,
+                        rangedHurtSheet,
+                        rangedDeathSheet,
+                        whiteSquare},
                         3,
                         rangedProjectile, enemyRangedSFX));
                 }
@@ -756,11 +784,11 @@ namespace TheHalls
                 {
                     enemies.Add(new Enemy(enemySpawn, new Vector2(50, 50), enemyHealth + 1,
                         new Texture2D[] {
-                            meleeWalkSheet,
-                            meleeAttackSheet,
-                            meleeHurtSheet,
-                            meleeDeathSheet,
-                            whiteSquare},
+                        meleeWalkSheet,
+                        meleeAttackSheet,
+                        meleeHurtSheet,
+                        meleeDeathSheet,
+                        whiteSquare},
                         1.5,
                         whiteSquare, enemySkeletonSFX));
                 }
