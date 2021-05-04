@@ -344,7 +344,7 @@ namespace TheHalls
                     player.ResolveCollisions(obstacles);
                     player.SetIsInteracting(kb, prevkb);
 
-
+                    /*
                     foreach (Keys key in keysToTrack)
                     {
                         if (kb.IsKeyDown(key) && prevkb.IsKeyUp(key) && framesSincePress[key] <= 5)
@@ -352,6 +352,7 @@ namespace TheHalls
                             player.Dodge();
                         }
                     }
+                    */
 
                     // Dodge player mechanic bound to Space and LSHIFT key
                     if ((kb.IsKeyDown(Keys.LeftShift) && prevkb.IsKeyUp(Keys.LeftShift)) || (kb.IsKeyDown(Keys.Space) && prevkb.IsKeyUp(Keys.Space)))
@@ -473,7 +474,7 @@ namespace TheHalls
                     // Draw tutorial stuff
                     _spriteBatch.DrawString(fffforward20, "Use [W A S D] to move around!", new Vector2(400, 100), Color.White);
                     _spriteBatch.DrawString(fffforward20, "Use [Mouse1] to attack!", new Vector2(450, 150), Color.White);
-                    _spriteBatch.DrawString(fffforward20, "Use [SPACE], [LSHIFT], or double-tap [W A S D] to Dodge!", new Vector2(165, 225), Color.White);
+                    _spriteBatch.DrawString(fffforward20, "Use [SPACE] or [LSHIFT] to Dodge!", new Vector2(360, 225), Color.White);
 
                     _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is LIT UP, \n\nenemies are in range of your attack!", new Vector2(100, 350), Color.White);
                     _spriteBatch.Draw(arcImgSword, new Rectangle(125, 400, 150, 100), Color.White);
@@ -767,7 +768,7 @@ namespace TheHalls
                 }
 
 
-
+                //once we have a working location, spawn the enemy
                 if (rng.Next(2) == 0)
                 {
                     enemies.Add(new EnemyRanged(enemySpawn, new Vector2(50, 50), enemyHealth,
@@ -820,6 +821,7 @@ namespace TheHalls
             rooms.Add(Direction.Down,
                 new List<RoomData>
                 {
+                    
                     getMainRooms("DtoU_Octogon"),
                     getMainRooms("smiley"),
                     getMainRooms("dots"),
@@ -850,20 +852,92 @@ namespace TheHalls
                     getMainRooms("fof"),
                     getMainRooms("faces"),
                     getMainRooms("windy"),
+                    
 
+                    
+
+                    new RoomData(
+                        "DtoL_Circleish", Direction.Down, Direction.Left, 
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE), 
+                        tiles),
+
+                    new RoomData(
+                        "DtoL_Pods", Direction.Down, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "DtoR_Circleish", Direction.Down, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
 
                     new RoomData(
                         "DtoR_LShape", Direction.Down, Direction.Right,
                         new Rectangle(475, 475, 450, 50),
+                        tiles),
+
+                    new RoomData(
+                        "DtoR_Roundabout", Direction.Down, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
                         tiles)
                 });
 
             rooms.Add(Direction.Left,
                 new List<RoomData>
                 {
+                    
+                    new RoomData(
+                        "LtoR_Loop", Direction.Left, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+                   
+                    new RoomData(
+                        "LtoR_Pods", Direction.Left, Direction.Right,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "LtoU_Diamond", Direction.Left, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
                     new RoomData(
                         "LtoU_LShape", Direction.Left, Direction.Up,
-                        new Rectangle(475, 0, 50, 450),
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles)
+                });
+
+            rooms.Add(Direction.Right,
+                new List<RoomData>
+                {
+                    new RoomData(
+                        "RtoL_Pods", Direction.Right, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoL_PodsOpened", Direction.Right, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoL_U", Direction.Right, Direction.Left,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoU_Diamond", Direction.Right, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoU_loops", Direction.Right, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
+                        tiles),
+
+                    new RoomData(
+                        "RtoU_Roundabout", Direction.Right, Direction.Up,
+                        new Rectangle(0, 0, ROOM_SIZE, ROOM_SIZE),
                         tiles)
                 });
 
