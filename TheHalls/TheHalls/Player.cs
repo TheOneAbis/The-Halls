@@ -198,7 +198,7 @@ namespace TheHalls
         /// Updates player's weapon slash arc vector and arc rotation
         /// </summary>
         /// <param name="mouse">Mouse cursor location</param>
-        public void Aim(MouseState mouse, List<Enemy> targets)
+        public void Aim(MouseState mouse, List<Enemy> targets, List<GameObject> gameObstacles)
         {
             // Decrement attack cooldown
             attackSpeed--;
@@ -238,7 +238,7 @@ namespace TheHalls
                 arcOpacity = Color.DarkGray;
                 foreach (Enemy elem in targets)
                 {
-                    if (ScanAttackArc(elem))
+                    if (ScanAttackArc(elem, gameObstacles))
                     {
                         arcOpacity = Color.White;
                     }
@@ -250,7 +250,7 @@ namespace TheHalls
         /// spawns a gameObject 50 units away from the player in the direction of arcRotation. checks collision against passed in enemies, dealing damage if they overlap.
         /// </summary>
         /// <param name="targets"></param>
-        public void Attack(List<Enemy> targets, SoundEffect[] attackSFX)
+        public void Attack(List<Enemy> targets, SoundEffect[] attackSFX, List<GameObject> gameObstacles)
         {
             if (attackSpeed <= 0 && !isDodging)
             {
@@ -259,7 +259,7 @@ namespace TheHalls
                 foreach (Enemy elem in targets)
                 {
                     
-                    if (ScanAttackArc(elem))
+                    if (ScanAttackArc(elem, gameObstacles))
                     {
                         elem.TakeDamage(damage, this);
                         arcOpacity = Color.IndianRed;
@@ -287,7 +287,7 @@ namespace TheHalls
             }
         }
 
-        private bool ScanAttackArc(Enemy target)
+        private bool ScanAttackArc(Enemy target, List<GameObject> gameObstacles)
         {
             Vector2 attackScanner;
             Rectangle enemyScreenRect;
@@ -308,7 +308,7 @@ namespace TheHalls
                     attackScanner = new Vector2(
                         (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
                         (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
-            
+
                     // If the point lies within the enemy's bounds, enemy takes damage from player's attack
                     if (enemyScreenRect.Contains(attackScanner))
                     {

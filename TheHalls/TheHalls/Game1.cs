@@ -339,7 +339,7 @@ namespace TheHalls
                     }
 
                     //Update the player by input
-                    player.Aim(mouse, enemies);
+                    player.Aim(mouse, enemies, obstacles);
                     player.Move(kb);
                     player.ResolveCollisions(obstacles);
                     player.SetIsInteracting(kb, prevkb);
@@ -361,7 +361,7 @@ namespace TheHalls
 
                     if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
                     {
-                        player.Attack(enemies, playerAttackSFX);
+                        player.Attack(enemies, playerAttackSFX, obstacles);
                     }
 
                     //weapon pickups
