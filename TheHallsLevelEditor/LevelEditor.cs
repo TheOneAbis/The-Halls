@@ -16,6 +16,7 @@ namespace TheHallsLevelEditor
         private PictureBox[,] levelMap;
         private int[,] mapImgIndices;
         private bool changes;
+        private int noOfTiles = 20;
         
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace TheHallsLevelEditor
         {
             levelMap = new PictureBox[30, 30];
             InitializeComponent();
-            CreateTile();
+            CreateTile(noOfTiles);
         }
 
         /// <summary>
@@ -36,22 +37,22 @@ namespace TheHallsLevelEditor
         {
             levelMap = new PictureBox[30, 30];
             InitializeComponent();
-            CreateTile();
+            CreateTile(noOfTiles);
             LoadFile(file);
         }
 
         /// <summary>
         /// creates tiles
         /// </summary>
-        public void CreateTile()
+        public void CreateTile(int tiles)
         {
-            int tileWidth = Level.Size.Width/ 20;
-            int tileHeight = Level.Size.Width / 20;
+            int tileWidth = Level.Size.Width/ tiles;
+            int tileHeight = Level.Size.Width / tiles;
             mapImgIndices = new int[30, 30];
             changes = false;
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < tiles; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < tiles; j++)
                 {
                     levelMap[i, j] = new PictureBox();
                     levelMap[i, j].Width = tileWidth;

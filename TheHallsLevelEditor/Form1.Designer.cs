@@ -35,9 +35,10 @@ namespace TheHallsLevelEditor
             // 
             // LoadRoom
             // 
-            this.LoadRoom.Location = new System.Drawing.Point(268, 80);
+            this.LoadRoom.Location = new System.Drawing.Point(100, 34);
+            this.LoadRoom.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.LoadRoom.Name = "LoadRoom";
-            this.LoadRoom.Size = new System.Drawing.Size(633, 279);
+            this.LoadRoom.Size = new System.Drawing.Size(237, 117);
             this.LoadRoom.TabIndex = 0;
             this.LoadRoom.Text = "Load Room";
             this.LoadRoom.UseVisualStyleBackColor = true;
@@ -45,9 +46,10 @@ namespace TheHallsLevelEditor
             // 
             // newRoom
             // 
-            this.newRoom.Location = new System.Drawing.Point(268, 497);
+            this.newRoom.Location = new System.Drawing.Point(100, 208);
+            this.newRoom.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.newRoom.Name = "newRoom";
-            this.newRoom.Size = new System.Drawing.Size(633, 293);
+            this.newRoom.Size = new System.Drawing.Size(237, 123);
             this.newRoom.TabIndex = 1;
             this.newRoom.Text = "Create New Room";
             this.newRoom.UseVisualStyleBackColor = true;
@@ -55,11 +57,12 @@ namespace TheHallsLevelEditor
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1239, 1006);
+            this.ClientSize = new System.Drawing.Size(465, 422);
             this.Controls.Add(this.newRoom);
             this.Controls.Add(this.LoadRoom);
+            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);

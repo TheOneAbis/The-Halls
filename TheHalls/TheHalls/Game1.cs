@@ -143,10 +143,12 @@ namespace TheHalls
 
             whiteSquare = Content.Load<Texture2D>("WhiteSquare");
 
+            //Loading Fonts
             arial16 = Content.Load<SpriteFont>("arial16");
             fffforward20 = Content.Load<SpriteFont>("FFF Forward20");
             fffforwardSmall = Content.Load<SpriteFont>("FFF ForwardSmallText");
 
+            //Loading Item Textures
             sword = Content.Load<Texture2D>("SwordNoBackground");
             spear = Content.Load<Texture2D>("SpearNoBackground");
             potion = Content.Load<Texture2D>("potions");
