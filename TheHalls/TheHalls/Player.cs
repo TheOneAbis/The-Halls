@@ -15,21 +15,33 @@ namespace TheHalls
         private Vector2 arcLoc;
         private Texture2D arcImgSword;
         private Texture2D arcImgSpear;
-        private Texture2D weaponImage;
+        private Texture2D swordImage;
+        private Texture2D spearImage;
         private float arcRotation;
         private float movementSpeed;
         private int health;
         private int damage;
         private int attackRadius;
+        private double arcLength;
         private weaponType weapon;
         private GameOver gameOver;
         private Color arcOpacity;
         private double attackSpeed;
+        private Random rng;
 
-        // Did the playe press the interact key?
+        private SoundEffect[] hurtSounds;
+
+        private Vector2 DodgeVector;
+        private int dodgeCooldown;
+        private int dodgeTime;
+        private bool isDodging;
+        private int dodgeSpeed;
+
+        // Did the player press the interact key?
         private bool interacting;
 
-        private float weaponDrawOffset;
+        private float weaponDrawOffsetAngular;
+        private Vector2 weaponDrawOffsetTrans;
 
         private Vector2 prevMoveDirection;
 
@@ -43,7 +55,7 @@ namespace TheHalls
         /// <param name="image">image to display for the player</param>
         /// <param name="arcImage">image to display for the arc of the players attacks</param>
         /// <param name="gameOver">method to be called when the player dies</param>
-        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D weaponImage, GameOver gameOver) :
+        public Player(Vector2 worldLoc, Vector2 size, Texture2D[] spriteSheets, SoundEffect[] HurtSounds, Texture2D arcImageSword, Texture2D arcImageSpear,Texture2D swordImage, Texture2D spearImage, GameOver gameOver) :
             base(worldLoc, size, spriteSheets, 6, new Vector2(18, 18), new Vector2(7, 7), 32)
         {
             arcImgSword = arcImageSword;
@@ -55,13 +67,25 @@ namespace TheHalls
             this.gameOver = gameOver;
             health = 5;
             attackRadius = 75;
-            this.weaponImage = weaponImage;
+            this.swordImage = swordImage;
+            this.spearImage = spearImage;
             damage = 1;
             weapon = weaponType.Sword;
             attackSpeed = 28;
+            arcLength = Math.PI / 8;
             prevMoveDirection = Vector2.Zero;
-            weaponDrawOffset = (float)Math.Sqrt(2) / 4;
+            weaponDrawOffsetAngular = (float)Math.Sqrt(2) / 4;
+            //after game start, this value gets reduced once (so its values are increased from 0, 175 so it ends in its default position
+            weaponDrawOffsetTrans = new Vector2(0, 175);
+
+            rng = new Random(); // for random hurt sound effects
+            hurtSounds = HurtSounds;
+
             interacting = false;
+            dodgeCooldown = 1;
+            dodgeTime = 9;
+            DodgeVector = Vector2.Zero;
+            dodgeSpeed = 18;
         }
 
         /// <summary>
@@ -71,6 +95,7 @@ namespace TheHalls
         {
             // Move player
             Vector2 moveDirection = new Vector2(0, 0);
+
             if (kb.IsKeyDown(Keys.W))
             {
                 moveDirection.Y -= movementSpeed;
@@ -123,8 +148,50 @@ namespace TheHalls
                 }
             }
 
-            worldLoc += (moveDirection * movementSpeed);
+
+
+            dodgeCooldown--;
+
+            // Dodging mechanics will go here
+            if (isDodging)
+            {
+                worldLoc += DodgeVector;
+                dodgeTime--;
+                if (dodgeTime <= 0)
+                {
+                    isDodging = false;
+                    dodgeTime = 8;
+                }
+                arcOpacity = new Color(255, 155, 155, 255);
+            }
+            else
+            {
+                worldLoc += (moveDirection * movementSpeed);
+            }
+            
             prevMoveDirection = moveDirection;
+        }
+
+        /// <summary>
+        /// Dodges the player, giving them a sudden boost of speed in their current movement direction.
+        /// </summary>
+        public void Dodge()
+        {
+            if (dodgeCooldown <= 1)
+            {
+                isDodging = true;
+
+                // If player isn't moving, they will by default dodge up
+                if (prevMoveDirection.Length() == 0)
+                {
+                    DodgeVector = new Vector2(0, -dodgeSpeed);
+                }
+                else
+                {
+                    DodgeVector = new Vector2(prevMoveDirection.X / prevMoveDirection.Length(), prevMoveDirection.Y / prevMoveDirection.Length()) * dodgeSpeed;
+                }
+                dodgeCooldown = 130; // = 2.15 second cooldown
+            }
         }
 
         /// <summary>
@@ -147,7 +214,13 @@ namespace TheHalls
             //this resets the sword image back to a 'normal' offset, after a few in between frames
             if(attackSpeed == 25)
             {
-                weaponDrawOffset *= -2;
+                weaponDrawOffsetAngular *= -2;
+                weaponDrawOffsetTrans = new Vector2(0, 175);
+            }
+
+            if(attackSpeed == 37 || attackSpeed == 29)
+            {
+                weaponDrawOffsetTrans += new Vector2(50, -25);
             }
 
             arcLoc = ScreenLoc + (Vector2.Normalize(new Vector2(mouse.X, mouse.Y) - ScreenLoc) * attackRadius);
@@ -179,7 +252,7 @@ namespace TheHalls
         /// <param name="targets"></param>
         public void Attack(List<Enemy> targets, SoundEffect[] attackSFX)
         {
-            if (attackSpeed <= 0)
+            if (attackSpeed <= 0 && !isDodging)
             {
                 arcOpacity = new Color(255, 155, 155, 255);
                 // Iterate for each enemy
@@ -207,7 +280,10 @@ namespace TheHalls
                 }
 
                 //start rotating the weapon image, only matters with swords
-                weaponDrawOffset /= 2;
+                weaponDrawOffsetAngular /= 2;
+
+                //move the spear (if its a spear)
+                weaponDrawOffsetTrans = new Vector2(-100, 225);
             }
         }
 
@@ -220,54 +296,25 @@ namespace TheHalls
             enemyScreenRect = new Rectangle((int)(target.ScreenLoc.X - (target.Size / 2).X),
                 (int)(target.ScreenLoc.Y - (target.Size / 2).Y), (int)target.Size.X, (int)target.Size.Y);
 
-            switch (weapon)
+            //     ---   SCAN THE PIE SLICE   ---
+            
+            //  Vector rotates clockwise starting at left side of pie slice
+            for (double leftSide = -arcLength; leftSide < arcLength; leftSide += Math.PI / 64)
             {
-                // SWORD ATTACKING ALGORITHM
-                case weaponType.Sword:
-
-                    //     ---   SCAN THE PIE SLICE   ---
-
-                    //  Vector rotates clockwise starting at left side of pie slice
-                    for (double leftSide = -(Math.PI / 8); leftSide < (Math.PI / 8); leftSide += Math.PI / 64)
+                // At each point of the vector's rotation, check every point along the vector's line
+                for (int i = 1; i <= attackRadius; i++)
+                {
+                    // This vector represents every point to check within the pie slice
+                    attackScanner = new Vector2(
+                        (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
+                        (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
+            
+                    // If the point lies within the enemy's bounds, enemy takes damage from player's attack
+                    if (enemyScreenRect.Contains(attackScanner))
                     {
-                        // At each point of the vector's rotation, check every point along the vector's line
-                        for (int i = 1; i <= attackRadius; i++)
-                        {
-                            // This vector represents every point to check within the pie slice
-                            attackScanner = new Vector2(
-                                (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
-                                (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
-
-                            // If the point lies within the enemy's bounds, enemy takes damage from player's attack
-                            if (enemyScreenRect.Contains(attackScanner))
-                            {
-                                return true;
-                            }
-                        }
+                        return true;
                     }
-                    break;
-
-                // SPEAR ATTACKING ALGORITHM
-                case weaponType.Spear:
-
-                    for (double leftSide = -(Math.PI / 20); leftSide < (Math.PI / 20); leftSide += Math.PI / 64)
-                    {
-                        // At each point of the vector's rotation, check every point along the vector's line
-                        for (int i = 1; i <= attackRadius; i++)
-                        {
-                            // This vector represents every point to check within the pie slice
-                            attackScanner = new Vector2(
-                                (float)(ScreenLoc.X + i * Math.Sin(arcRotation + leftSide)),
-                                (float)(ScreenLoc.Y - i * Math.Cos(arcRotation + leftSide)));
-
-                            // If the point lies within the enemy's bounds, enemy takes damage from player's attack
-                            if (enemyScreenRect.Contains(attackScanner))
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                    break;
+                }
             }
 
             // If nothing detected
@@ -285,6 +332,11 @@ namespace TheHalls
                 invulnerableFrames = 15;
                 tint = Color.Red;
                 health -= damage;
+                hurtSounds[rng.Next(5)].Play();
+
+                // Add the background hurt effect
+                Game1.lowHealthBGOpacity = 200;
+
                 if (health <= 0)
                 {
                     gameOver();
@@ -312,23 +364,23 @@ namespace TheHalls
             switch (weapon)
             {
                 case weaponType.Sword:
-                    sb.Draw(Game1.sword,
+                    sb.Draw(swordImage,
                         new Rectangle((int)ScreenLoc.X, (int)ScreenLoc.Y, 50, 50),
                         null,
                         Color.White,
-                        arcRotation - (float)Math.Sqrt(2) / 2 + weaponDrawOffset,
+                        arcRotation - (float)Math.Sqrt(2) / 2 + weaponDrawOffsetAngular,
                         new Vector2(0, 27),
                         SpriteEffects.None,
                         0);
                     break;
 
                 case weaponType.Spear:
-                    sb.Draw(Game1.spear,
+                    sb.Draw(spearImage,
                         new Rectangle((int)ScreenLoc.X, (int)ScreenLoc.Y, 75, 75),
                         null,
                         Color.White,
                         arcRotation - (float)Math.Sqrt(2) / 2 - .15f,
-                        new Vector2(0, 175),
+                        weaponDrawOffsetTrans,
                         SpriteEffects.None,
                         0);
                     break;
@@ -350,6 +402,16 @@ namespace TheHalls
                 new Vector2(arcImg.Width / 2, arcImg.Height / 2), 
                 SpriteEffects.None, 
                 0);
+
+            // Draw dodge cooldown bar
+            if (dodgeCooldown > 1)
+            {
+                sb.Draw(Game1.debugSquare, new Rectangle((int)ScreenLoc.X - 50, (int)ScreenLoc.Y + 40, 
+                    GetRect().Width + 50, 10), new Color(50, 50, 50, 50));
+
+                sb.Draw(Game1.debugSquare, new Rectangle((int)ScreenLoc.X - 50, (int)ScreenLoc.Y + 40, 
+                    (int)((GetRect().Width + 50.0) * ((130.0 - dodgeCooldown) / 130.0)), 10), new Color(200, 200, 200));
+            }
         }
         
         public int Health
@@ -389,14 +451,16 @@ namespace TheHalls
                 {
                     case weaponType.Sword:
                         attackRadius = 75;
+                        arcLength = Math.PI / 8;
                         break;
                     case weaponType.Spear:
-                        attackRadius = 125; 
+                        attackRadius = 125;
+                        arcLength = Math.PI / 22;
                         break;
                 }
             } 
         }
-        public Texture2D WeaponImage { set { weaponImage = value; } }
+        //public Texture2D WeaponImage { set { weaponImage = value; } }
 
         /// <summary>
         /// Gets if the player pressed their interact key

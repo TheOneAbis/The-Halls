@@ -28,17 +28,30 @@ namespace TheHalls
 
         public static Vector2 screenOffset;
         public static Texture2D debugSquare;
+        public static int lowHealthBGOpacity;
+
         public Random rng;
+
+        private const int ROOM_SIZE = 1000;
+
+        //Tracks if the player entered the most recently added room
+        private bool EnteredLastRoom; 
 
         //loaded content
         private Texture2D arcImgSword;
         private Texture2D arcImgSpear;
         private Texture2D whiteSquare;
-        public static Texture2D sword;
-        public static Texture2D spear;
-        public static Texture2D potion;
+        private Texture2D sword;
+        private Texture2D spear;
+        private Texture2D potion;
         private Texture2D hearts;
         private Texture2D titleBG;
+        private Texture2D directionPointer;
+
+        private Texture2D button;
+        private Texture2D buttonHover;
+        private Texture2D buttonLong;
+        private Texture2D buttonLongHover;
 
         // Character images
         private Texture2D rangedWalkSheet;
@@ -57,6 +70,7 @@ namespace TheHalls
         private Texture2D playerWalkL;
         private Texture2D playerWalkUp;
         private Texture2D playerWalkDown;
+        private Texture2D playerLowHealthBG;
 
         // Dungeon Tilesprites
         private Texture2D tiles;
@@ -70,6 +84,8 @@ namespace TheHalls
         private Song gameMusic;
         private SoundEffect[] playerAttackSFX;
         private SoundEffect[] enemyRangedSFX;
+        private SoundEffect[] enemySkeletonSFX;
+        private SoundEffect[] playerHurtSFX;
 
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
@@ -91,13 +107,16 @@ namespace TheHalls
         private MouseState mouse;
         private MouseState prevMouse;
 
+        private Dictionary<Keys, int> framesSincePress;
+        private List<Keys> keysToTrack;
+
         public static GameState gameState;
 
         private int enemyHealth;  // Enemy Health
         private int numEnemies;   // Number of enemies in a room
         private int nextEnemIncrease; // Tracks how many more rooms until the number of enemies that spawn increases
 
-        private int levelUpFrames; // how many more frames with level up text show?
+        //private int levelUpFrames; // how many more frames with level up text show?
 
         // Menu buttons
         List<Button> buttons;
@@ -122,17 +141,32 @@ namespace TheHalls
             gameState = GameState.Menu;
             buttons = new List<Button>();
             rng = new Random();
+            EnteredLastRoom = true;
+            lowHealthBGOpacity = 0;
+
+            framesSincePress = new Dictionary<Keys, int>();
+            keysToTrack = new List<Keys>();
+
+            framesSincePress[Keys.W] = 0;
+            framesSincePress[Keys.A] = 0;
+            framesSincePress[Keys.S] = 0;
+            framesSincePress[Keys.D] = 0;
+
+            keysToTrack.Add(Keys.W);
+            keysToTrack.Add(Keys.A);
+            keysToTrack.Add(Keys.S);
+            keysToTrack.Add(Keys.D);
 
             //    -- Menu Buttons --
 
             // Play button
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 38, _graphics.PreferredBackBufferHeight /2 - 25, 80, 50, whiteSquare, "Play", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 60, _graphics.PreferredBackBufferHeight /2 - 25, 120, 60, button, buttonHover, "Play", fffforward20));
 
             // God mode
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 85, _graphics.PreferredBackBufferHeight / 2 + 75, 180, 50, whiteSquare, "God Mode", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 120, _graphics.PreferredBackBufferHeight / 2 + 75, 240, 60, buttonLong, buttonLongHover, "God Mode", fffforward20));
 
             // Controls Continue Button
-            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 38, _graphics.PreferredBackBufferHeight / 2 + 200, 105, 50, whiteSquare, "Begin", fffforward20);
+            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 60, _graphics.PreferredBackBufferHeight / 2 + 200, 120, 60, button, buttonHover, "Begin", fffforward20);
         }
 
         protected override void LoadContent()
@@ -154,6 +188,14 @@ namespace TheHalls
             potion = Content.Load<Texture2D>("potions");
             hearts = Content.Load<Texture2D>("hearts");
             titleBG = Content.Load<Texture2D>("TitleBG");
+            directionPointer = Content.Load<Texture2D>("ArrowPixelated");
+
+
+            button = Content.Load<Texture2D>("button");
+            buttonHover = Content.Load<Texture2D>("buttonHover");
+            buttonLong = Content.Load<Texture2D>("buttonLong");
+            buttonLongHover = Content.Load<Texture2D>("buttonLongHover");
+
 
             debugSquare = whiteSquare;
 
@@ -174,6 +216,7 @@ namespace TheHalls
             playerWalkL = Content.Load<Texture2D>("CharWalkL");
             playerWalkUp = Content.Load<Texture2D>("CharWalkU");
             playerWalkDown = Content.Load<Texture2D>("CharWalkD");
+            playerLowHealthBG = Content.Load<Texture2D>("PlayerLowHealthWarning (1)");
 
             // Load tileset
             tiles = Content.Load<Texture2D>("dungeon_");
@@ -185,6 +228,14 @@ namespace TheHalls
             playerAttackSFX[1] = Content.Load<SoundEffect>("Spear_Thrust");
             enemyRangedSFX = new SoundEffect[2];
             enemyRangedSFX[0] = Content.Load<SoundEffect>("RangedEnemy_Death");
+            enemySkeletonSFX = new SoundEffect[2];
+            enemySkeletonSFX[0] = Content.Load<SoundEffect>("SkeletonDeathSound");
+
+            playerHurtSFX = new SoundEffect[5];
+            for (int i = 0; i < playerHurtSFX.Length; i++)
+            {
+                playerHurtSFX[i] = Content.Load<SoundEffect>($"PlayerHurtSound{i + 1}");
+            }
 
             roomTemplates = LoadRooms();
         }
@@ -239,22 +290,22 @@ namespace TheHalls
                     {
                         if (!enemies[i].Alive)
                         {
-                            int itemDrop = rng.Next(5);
-                            if (itemDrop == 0)
+                            int itemDrop = rng.Next(11);
+                            if (itemDrop <= 1) //0, 1
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X, 
                                     (int)enemies[i].WorldLoc.Y, 50, 50), sword, 
                                     rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 /4) + 1,
                                     weaponType.Sword, fffforwardSmall));
                             }
-                            else if(itemDrop == 1)
+                            else if(itemDrop <= 3) //2, 3
                             {
                                 weapons.Add(new Weapon(new Rectangle((int)enemies[i].WorldLoc.X,
                                     (int)enemies[i].WorldLoc.Y, 50, 50), spear, 
                                     rng.Next(enemies[i].MaxHealth / 4, enemies[i].MaxHealth * 3 / 4) + 1, 
                                     weaponType.Spear, fffforwardSmall));
                             }
-                            else if(itemDrop == 2)
+                            else if(itemDrop <= 5) //4, 5
                             {
                                 potions.Add(new Potion(new Rectangle((int)enemies[i].WorldLoc.X, (int)enemies[i].WorldLoc.Y, 50, 50), potion, 1));
                             }
@@ -262,6 +313,7 @@ namespace TheHalls
                             enemies.RemoveAt(i);
                             if(enemies.Count == 0)
                             {
+                                EnteredLastRoom = false;
                                 NextRoom();
                             }
                             i--;
@@ -292,6 +344,21 @@ namespace TheHalls
                     player.ResolveCollisions(obstacles);
                     player.SetIsInteracting(kb, prevkb);
 
+
+                    foreach (Keys key in keysToTrack)
+                    {
+                        if (kb.IsKeyDown(key) && prevkb.IsKeyUp(key) && framesSincePress[key] <= 5)
+                        {
+                            player.Dodge();
+                        }
+                    }
+
+                    // Dodge player mechanic bound to Space and LSHIFT key
+                    if ((kb.IsKeyDown(Keys.LeftShift) && prevkb.IsKeyUp(Keys.LeftShift)) || (kb.IsKeyDown(Keys.Space) && prevkb.IsKeyUp(Keys.Space)))
+                    {
+                        player.Dodge();
+                    }
+
                     if (mouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released)
                     {
                         player.Attack(enemies, playerAttackSFX);
@@ -303,11 +370,14 @@ namespace TheHalls
                         if (weapons[i].PickUp(player))
                         {
                             weapons.RemoveAt(i);
+                            // Break so player doesn't pick up multiple weapons 
+                            // at once if they are stacked up on top of each other
+                            break; 
                         }
                     }
 
                     //Potion pickups
-                    for(int i = 0; i<potions.Count; i++)
+                    for(int i = 0; i < potions.Count; i++)
                     {
                         if (potions[i].PickUp(player))
                         {
@@ -351,11 +421,21 @@ namespace TheHalls
                     }
                     break;
             }
-            if (levelUpFrames > 0)
+            //if (levelUpFrames > 0)
+            //{
+            //    levelUpFrames--;
+            //}
+            foreach (Keys key in keysToTrack)
             {
-                levelUpFrames--;
+                if (kb.IsKeyUp(key))
+                {
+                    framesSincePress[key]++;
+                }
+                else
+                {
+                    framesSincePress[key] = 0;
+                }
             }
-
             prevMouse = Mouse.GetState();
             prevkb = Keyboard.GetState();
 
@@ -365,8 +445,7 @@ namespace TheHalls
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Gray);
-
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
 
             
@@ -377,7 +456,7 @@ namespace TheHalls
                     // Draw each menu button to the screen
                     foreach (Button button in buttons)
                     {
-                        button.Draw(_spriteBatch, Color.Black);
+                        button.Draw(_spriteBatch, Color.Black, mouse);
                     }
                     _spriteBatch.DrawString(
                         fffforward20, "THE HALLS", 
@@ -389,19 +468,20 @@ namespace TheHalls
 
                 case GameState.Controls:
                     // Draw start button
-                    beginGameButton.Draw(_spriteBatch, Color.Black);
+                    beginGameButton.Draw(_spriteBatch, Color.Black, mouse);
 
                     // Draw tutorial stuff
                     _spriteBatch.DrawString(fffforward20, "Use [W A S D] to move around!", new Vector2(400, 100), Color.White);
                     _spriteBatch.DrawString(fffforward20, "Use [Mouse1] to attack!", new Vector2(450, 150), Color.White);
+                    _spriteBatch.DrawString(fffforward20, "Use [SPACE], [LSHIFT], or double-tap [W A S D] to Dodge!", new Vector2(165, 225), Color.White);
 
-                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is LIT UP, \n\nenemies are in range of your attack!", new Vector2(100, 250), Color.White);
-                    _spriteBatch.Draw(arcImgSword, new Rectangle(125, 300, 150, 100), Color.White);
-                    _spriteBatch.Draw(arcImgSpear, new Rectangle(275, 300, 150, 100), Color.White);
+                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is LIT UP, \n\nenemies are in range of your attack!", new Vector2(100, 350), Color.White);
+                    _spriteBatch.Draw(arcImgSword, new Rectangle(125, 400, 150, 100), Color.White);
+                    _spriteBatch.Draw(arcImgSpear, new Rectangle(275, 400, 150, 100), Color.White);
 
-                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is RED, \n\nyour attack is on cooldown!", new Vector2(900, 250), Color.White);
-                    _spriteBatch.Draw(arcImgSword, new Rectangle(925, 300, 150, 100), new Color(255, 155, 155));
-                    _spriteBatch.Draw(arcImgSpear, new Rectangle(1075, 300, 150, 100), new Color(255, 155, 155));
+                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is RED, \n\nyour attack is on cooldown!", new Vector2(900, 350), Color.White);
+                    _spriteBatch.Draw(arcImgSword, new Rectangle(925, 400, 150, 100), new Color(255, 155, 155));
+                    _spriteBatch.Draw(arcImgSpear, new Rectangle(1075, 400, 150, 100), new Color(255, 155, 155));
                     break;
 
                 case GameState.Pause:
@@ -439,13 +519,13 @@ namespace TheHalls
                         "GAME OVER", 
                         new Vector2(_graphics.PreferredBackBufferWidth /2 - (fffforward20.MeasureString("GAME OVER").X /2), 100), 
                         Color.Red);
-                     _spriteBatch.DrawString(arial16, 
+                     _spriteBatch.DrawString(fffforwardSmall, 
                         "\nPress [Esc] to return to menu", 
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 300), 
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString("Press [Esc] to return to menu").X / 2), 300), 
                         Color.Red);
-                    _spriteBatch.DrawString(arial16,
+                    _spriteBatch.DrawString(fffforwardSmall,
                         $"\n\nRoom #{rooms.Count -1}",
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString($"\n\nRoom #{rooms.Count -1}").X / 2), 100),
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString($"\n\nRoom #{rooms.Count -1}").X / 2), 150),
                         Color.Red);
                     break;
             }
@@ -474,7 +554,7 @@ namespace TheHalls
 
             MediaPlayer.Play(gameMusic);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = .15f;
+            MediaPlayer.Volume = .2f;
             
 
             rooms = new List<Room>();
@@ -486,7 +566,7 @@ namespace TheHalls
             //starter room
             rooms.Add(new Room(
                 new RoomData(
-                        "room2", Direction.Down, Direction.Up,
+                        "starterRoom", Direction.Down, Direction.Up,
                         new Rectangle(0, 0, 50, 50), 
                         tiles),
                 tiles));
@@ -511,18 +591,22 @@ namespace TheHalls
                     playerWalkR,
                     playerWalkL,
                     playerWalkDown,
-                    playerWalkUp
+                    playerWalkUp,
                 },
+                playerHurtSFX,
                 arcImgSword,
                 arcImgSpear,
                 sword,
+                spear,
                 GameOver);
             if (easyMode)
             {
                 player.Health = 9999;
+                weapons.Add(new Weapon(new Rectangle(300, 300, 50, 50), sword, 999, weaponType.Sword, fffforwardSmall));
+                weapons.Add(new Weapon(new Rectangle(500, 300, 50, 50), spear, 999, weaponType.Spear, fffforwardSmall));
             }
 
-            obstacles.Add(player);
+            //obstacles.Add(player);
 
             screenOffset = new Vector2(0, 0);
             
@@ -549,7 +633,6 @@ namespace TheHalls
             {
                 player.Health++;
                 player.Damage++;
-                levelUpFrames = 60;
             }
 
             // Decrease number of rooms until increase enemy count
@@ -572,34 +655,73 @@ namespace TheHalls
             switch(enterFrom.OutDirection)
             {
                 case Direction.Down:
-                    roomOffset.Y += 1000;
+                    roomOffset.Y += ROOM_SIZE;
                     inDirection = Direction.Up;
                     break;
 
                 case Direction.Up:
-                    roomOffset.Y -= 1000;
+                    roomOffset.Y -= ROOM_SIZE;
                     inDirection = Direction.Down;
                     break;
 
                 case Direction.Left:
-                    roomOffset.X -= 1000;
+                    roomOffset.X -= ROOM_SIZE;
                     inDirection = Direction.Right;
                     break;
 
                 case Direction.Right:
-                    roomOffset.X += 1000;
+                    roomOffset.X += ROOM_SIZE;
                     inDirection = Direction.Left;
                     break;
             }
 
-            //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
-            //create the room
-            lastRoom = new Room(
-                roomTemplates[inDirection][rng.Next(0, roomTemplates[inDirection].Count)],
-                enterFrom,
-                tiles,
-                roomOffset
-                );
+            bool done = false;
+
+            while(!done)
+            {
+                //this variable is always the last room in rooms, but it will be accessed a lot so this makes it easier. 
+                //create the room
+                lastRoom = new Room(
+                    roomTemplates[inDirection][rng.Next(0, roomTemplates[inDirection].Count)],
+                    enterFrom,
+                    tiles,
+                    roomOffset
+                    );
+
+
+                Vector2 testOffset = roomOffset;
+
+                //project the next offset based on the new rooms outdirection
+                switch (lastRoom.OutDirection)
+                {
+                    case Direction.Down:
+                        testOffset.Y += ROOM_SIZE;
+                        break;
+
+                    case Direction.Up:
+                        testOffset.Y -= ROOM_SIZE;
+                        break;
+
+                    case Direction.Left:
+                        testOffset.X -= ROOM_SIZE;
+                        break;
+
+                    case Direction.Right:
+                        testOffset.X += ROOM_SIZE;
+                        break;
+                }
+                done = true;
+                //if the projected offset is the same as any other room, then there will be a collision; pick a new room (new outDirection)
+                foreach (Room room in rooms)
+                {
+
+                    if (room.RoomOffset == testOffset)
+                    {
+                        //There is a collision- loop through again
+                        done = false;
+                    }
+                }
+            }
 
             //add the room
             rooms.Add(lastRoom);
@@ -640,8 +762,9 @@ namespace TheHalls
                             meleeDeathSheet,
                             whiteSquare},
                         1.5,
-                        whiteSquare, enemyRangedSFX));
+                        whiteSquare, enemySkeletonSFX));
                 }
+                obstacles.Add(enemies[enemies.Count - 1]);
             }
 
             //creates the exit door, which opens when the enemies are defeated.
@@ -692,6 +815,16 @@ namespace TheHalls
         /// </summary>
         public void GameDraw()
         {
+            for(int i = 50 - ((int)screenOffset.X % 50 + 100); i < _graphics.PreferredBackBufferWidth; i += 50)
+            {
+                for (int j = 50 - ((int)screenOffset.Y % 50 + 100); j < _graphics.PreferredBackBufferHeight; j += 50)
+                {
+                    _spriteBatch.Draw(tiles, new Rectangle(i, j, 50, 50), new Rectangle(
+                        60 % 15 * 16, 60 / 15 * 16, 16, 16),
+                        Color.White);
+                }
+            }
+
             foreach (Room room in rooms)
             {
                 room.Draw(_spriteBatch);
@@ -736,6 +869,68 @@ namespace TheHalls
                 }
             }
 
+            // If player is at critical health, draw low health background effect
+            if (player.Health <= 1)
+            {
+                lowHealthBGOpacity = 255;
+            }
+            else
+            {
+                // Fades away when no longer at low health or after being hit
+                if (lowHealthBGOpacity > 0)
+                {
+                    lowHealthBGOpacity -= 6;
+                }
+            }
+            _spriteBatch.Draw(playerLowHealthBG, new Rectangle(
+                -300, -300, _graphics.PreferredBackBufferWidth + 600, _graphics.PreferredBackBufferHeight + 600),
+                new Color(lowHealthBGOpacity, 0, 0, lowHealthBGOpacity));
+
+            // If player kills all enemies, notify them to move forward
+            if (!EnteredLastRoom)
+            {
+                // Display this when the 3rd room has appeared, 
+                // since the first 2 rooms appear already when game starts.
+                // This avoids a potential out of range exception
+                if (rooms.Count >= 3)
+                {
+                    _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(
+                        _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").X / 2),
+                        _graphics.PreferredBackBufferHeight - 30 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").Y / 2)),
+                        Color.White);
+
+                    // Draw direction arrow to direct player to next room
+                    _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight - 150, 100, 75),
+                        null, Color.White, -MathF.Acos(
+                        (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).X /
+                        (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).Length()),
+                        new Vector2(directionPointer.Width / 2, directionPointer.Height / 2),
+                        SpriteEffects.None, 0);
+                }
+
+                //If its a multiple of 5, show the level up text aswell
+                if(rooms.Count % 5 == 1)
+                {
+                    _spriteBatch.DrawString(
+                        fffforward20, "Attack +1! Health +1!",
+                        new Vector2(
+                            _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").X / 2),
+                            _graphics.PreferredBackBufferHeight - 250 - (fffforward20.MeasureString("Attack +1! Health +1!").Y / 2)),
+                        Color.Yellow
+                        );
+                }
+                
+                    
+            }
+            // Stop displaying message when player enters the latest room
+            foreach (GameObject enterObs in rooms[rooms.Count - 2].OutDoor)
+            {
+                if (player.GetRect().Intersects(enterObs.GetRect()))
+                {
+                    EnteredLastRoom = true;
+                }
+            }
+
             //weapon info (bottom left)
             switch (player.CurrentWeapon)
             {
@@ -748,20 +943,7 @@ namespace TheHalls
                     break;
             }
             
-            _spriteBatch.DrawString(arial16, player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 60), Color.Black);
-
-            //"level up" text
-
-            if (levelUpFrames > 0)
-            {
-                _spriteBatch.DrawString(
-                    fffforward20, "Attack +1! Health +1!",
-                    new Vector2(
-                        _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").X / 2),
-                        _graphics.PreferredBackBufferHeight / 2 - (fffforward20.MeasureString("Attack +1! Health +1!").Y / 2)),
-                    Color.Black
-                    );
-            }
+            _spriteBatch.DrawString(fffforwardSmall, "Dmg: " + player.Damage.ToString(), new Vector2(10, _graphics.PreferredBackBufferHeight - 80), Color.White);
         }
     }
 }

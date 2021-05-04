@@ -76,7 +76,7 @@ namespace TheHalls
             outDoor = new List<GameObject>(); // Ideally this will be given a value if the level was designed correctly
             int tileIndex;
 
-            reader = new BinaryReader(File.OpenRead($"Content/{roomFileName}.room"));
+            reader = new BinaryReader(File.OpenRead($"Content/Rooms/{roomFileName}.room"));
 
             for (int i = 0; i < 20; i++)
             {
@@ -89,7 +89,7 @@ namespace TheHalls
                     {
                         outDoor.Add(new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex));
                     }
-                    else
+                    else if(tileIndex != -1)
                     {
                         obstacles.Add(
                         new GameObject(new Vector2(i * 50, j * 50), new Vector2(50, 50), tileSheet, tileIndex));

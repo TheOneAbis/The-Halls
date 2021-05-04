@@ -47,7 +47,7 @@ namespace TheHalls
                 if (player.IsInteracting)
                 {
                     player.CurrentWeapon = Type;
-                    player.WeaponImage = image;
+                    //player.WeaponImage = image;
                     player.Damage = damage;
                     active = false;
                     return true;
