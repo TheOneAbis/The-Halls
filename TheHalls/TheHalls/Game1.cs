@@ -884,10 +884,24 @@ namespace TheHalls
             // If player kills all enemies, notify them to move forward
             if (!EnteredLastRoom)
             {
-                _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(
-                    _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").X / 2),
-                    _graphics.PreferredBackBufferHeight - 30 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").Y / 2)),
-                    Color.White);
+                // Display this when the 3rd room has appeared, 
+                // since the first 2 rooms appear already when game starts.
+                // This avoids a potential out of range exception
+                if (rooms.Count >= 3)
+                {
+                    _spriteBatch.DrawString(fffforward20, "Room cleared! Proceed to next room.", new Vector2(
+                        _graphics.PreferredBackBufferWidth / 2 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").X / 2),
+                        _graphics.PreferredBackBufferHeight - 30 - (fffforward20.MeasureString("Room cleared! Proceed to next room.").Y / 2)),
+                        Color.White);
+
+                    // Draw direction arrow to direct player to next room
+                    _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight - 150, 100, 75),
+                        null, Color.White, -MathF.Acos(
+                        (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).X /
+                        (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).Length()),
+                        new Vector2(directionPointer.Width / 2, directionPointer.Height / 2),
+                        SpriteEffects.None, 0);
+                }
 
                 //If its a multiple of 5, show the level up text aswell
                 if(rooms.Count % 5 == 1)
@@ -900,13 +914,8 @@ namespace TheHalls
                         Color.Yellow
                         );
                 }
-                // Draw direction arrow to direct player to next room
-                _spriteBatch.Draw(directionPointer, new Rectangle(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight - 150, 100, 75), 
-                    null, Color.White, -MathF.Acos(
-                    (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).X /
-                    (rooms[rooms.Count - 2].OutDoor[0].ScreenLoc - player.ScreenLoc).Length()), 
-                    new Vector2(directionPointer.Width / 2, directionPointer.Height / 2), 
-                    SpriteEffects.None, 0);
+                
+                    
             }
             // Stop displaying message when player enters the latest room
             foreach (GameObject enterObs in rooms[rooms.Count - 2].OutDoor)
