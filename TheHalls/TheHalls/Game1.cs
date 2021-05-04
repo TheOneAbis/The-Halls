@@ -318,6 +318,18 @@ namespace TheHalls
                             }
                             i--;
                         }
+                        //bandaid solution for enemies spawning outside the wall- if they do, they will be immediately killed and the player won't know they ever existed
+                        else if(enemies[i].Deleted)
+                        {
+                            obstacles.Remove(enemies[i]);
+                            enemies.RemoveAt(i);
+                            if (enemies.Count == 0)
+                            {
+                                EnteredLastRoom = false;
+                                NextRoom();
+                            }
+                            i--;
+                        }
                         else
                         {
                             //if the enemy is still alive, update its AI and collisions
@@ -571,6 +583,8 @@ namespace TheHalls
                         new Rectangle(0, 0, 50, 50), 
                         tiles),
                 tiles));
+
+            //testing enemy
 
             //add starter room to obstacles
             foreach (Room elem in rooms)

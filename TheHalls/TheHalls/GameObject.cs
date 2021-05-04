@@ -116,11 +116,11 @@ namespace TheHalls
             { 0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 15, 16, 17,
                 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 35, 36, 37,
                 38, 39, 40, 41, 42, 45, 46, 47, 48, 50, 51, 52, 53, 54, 64, 66, 69,
-                105, 125, 139, 150, 151, 152, 165, 166, 167, 168 };
+                105, 120, 125, 139, 150, 151, 152, 165, 166, 167, 168 };
 
             wallIndices = new List<int> 
             { 60, 61, 62, 63, 75, 76, 77, 78, 90, 91, 92, 93,
-                106, 107, 108, 109, 110, 120, 121, 122, 123, 124, 135, 136, 137, 153 };
+                106, 107, 108, 109, 110, 121, 122, 123, 124, 135, 136, 137, 153 };
 
             // Is this object tile a wall?
             if (wallIndices.Contains(tileIndex))
@@ -256,48 +256,63 @@ namespace TheHalls
             bool collides = false;
             Rectangle rect = GetRect();
 
+            bool onFloor = false;
+
             foreach (GameObject elem in obstacles)
             {
-                if (!(elem == this) && elem.IsCollidable)
+                if (elem != this)
                 {
                     if (!(this is Player && elem is Enemy))
                     {
                         Rectangle obstacle = elem.GetRect();
                         if (obstacle.Intersects(rect))
                         {
-                            collides = true;
-                            Rectangle overlap = Rectangle.Intersect(obstacle, rect);
-                            if (overlap.Width <= overlap.Height)
+                            //Solve onFloor
+                            if(!elem.IsCollidable)
                             {
-                                //X adjustment
-                                if (obstacle.X > rect.X)
-                                {
-                                    //obstacle is to the right of player 
-                                    rect.X -= overlap.Width;
-                                }
-                                else
-                                {
-                                    //obstacle is to the left of the player
-                                    rect.X += overlap.Width;
-                                }
+                                onFloor = true;
                             }
                             else
                             {
-                                //Y adjustment
-                                if (obstacle.Y > rect.Y)
+                                collides = true;
+                                Rectangle overlap = Rectangle.Intersect(obstacle, rect);
+                                if (overlap.Width <= overlap.Height)
                                 {
-                                    //obstacle is above the player
-                                    rect.Y -= overlap.Height;
+                                    //X adjustment
+                                    if (obstacle.X > rect.X)
+                                    {
+                                        //obstacle is to the right of player 
+                                        rect.X -= overlap.Width;
+                                    }
+                                    else
+                                    {
+                                        //obstacle is to the left of the player
+                                        rect.X += overlap.Width;
+                                    }
                                 }
                                 else
                                 {
-                                    //obstacle is below the player
-                                    rect.Y += overlap.Height;
+                                    //Y adjustment
+                                    if (obstacle.Y > rect.Y)
+                                    {
+                                        //obstacle is above the player
+                                        rect.Y -= overlap.Height;
+                                    }
+                                    else
+                                    {
+                                        //obstacle is below the player
+                                        rect.Y += overlap.Height;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            }
+
+            if(this is Enemy && !onFloor)
+            {
+                ((Enemy)this).Delete();
             }
 
             //sets the player location to the updated location

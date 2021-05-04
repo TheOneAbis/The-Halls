@@ -16,6 +16,7 @@ namespace TheHalls
         protected int currentHealth;
         protected float movementSpeed;
         protected bool alive;
+        protected bool deleted;
         protected double attackCooldown;
         protected double attackInterval;
         GameObject attack;
@@ -32,6 +33,11 @@ namespace TheHalls
             get { return alive; }
         }
 
+        public bool Deleted
+        {
+            get { return deleted; }
+        }
+
         public int MaxHealth
         {
             get { return maxHealth; }
@@ -44,6 +50,7 @@ namespace TheHalls
             maxHealth = Health;
             currentHealth = Health;
             alive = true;
+            deleted = false;
             attackCooldown = attackInterval;
             this.attackInterval = attackInterval;
             Tint = Color.White;
@@ -102,6 +109,14 @@ namespace TheHalls
                 enemyDeathSFX.Pitch = (float)(rng.NextDouble() - .5) / 2;
                 enemyDeathSFX.Play();
             }
+        }
+
+        /// <summary>
+        /// removes this enemy without dropping any drops
+        /// </summary>
+        public void Delete()
+        {
+            deleted = true;
         }
 
         /// <summary>
