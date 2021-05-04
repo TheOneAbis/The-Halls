@@ -16,7 +16,7 @@ namespace TheHallsLevelEditor
         private PictureBox[,] levelMap;
         private int[,] mapImgIndices;
         private bool changes;
-        private int noOfTiles = 20;
+        private int noOfTiles = 30;
         
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace TheHallsLevelEditor
                     Image img = item.ImageList.Images[item.ImageIndex];
                     ((PictureBox)sender).Image = img;
 
-                    for (int i = 0; i < 20; i++)
+                    for (int i = 0; i < noOfTiles; i++)
                     {
-                        for (int j = 0; j < 20; j++)
+                        for (int j = 0; j < noOfTiles; j++)
                         {
                             if (levelMap[i, j] == sender)
                             {
@@ -117,9 +117,9 @@ namespace TheHallsLevelEditor
             if (saveFile.ShowDialog() == DialogResult.OK && saveFile.FileName != "")
             {
                 BinaryWriter save = new BinaryWriter(File.OpenWrite(saveFile.FileName));
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < noOfTiles; i++)
                 {
-                    for (int j = 0; j < 20; j++)
+                    for (int j = 0; j < noOfTiles; j++)
                     {
                         save.Write(mapImgIndices[i, j]);
                     }
@@ -145,9 +145,9 @@ namespace TheHallsLevelEditor
         private void LoadFile(OpenFileDialog file)
         {
             BinaryReader load = new BinaryReader(file.OpenFile());
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < noOfTiles; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < noOfTiles; j++)
                 {
 
                     mapImgIndices[i, j] = load.ReadInt32();
@@ -191,9 +191,9 @@ namespace TheHallsLevelEditor
         {
             if (e.Button == MouseButtons.Right) 
             {
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < noOfTiles; i++)
                 {
-                    for (int j = 0; j < 20; j++)
+                    for (int j = 0; j < noOfTiles; j++)
                     {
                         if (levelMap[i, j] == ((PictureBox)sender))
                         {
