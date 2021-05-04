@@ -342,31 +342,14 @@ namespace TheHalls
 
                     foreach (Keys key in keysToTrack)
                     {
-                        if (kb.IsKeyDown(key) && prevkb.IsKeyUp(key) && framesSincePress[key] <= 15)
+                        if (kb.IsKeyDown(key) && prevkb.IsKeyUp(key) && framesSincePress[key] <= 5)
                         {
                             player.Dodge();
                         }
                     }
-                    /*
-                    if (kb.IsKeyDown(Keys.S))
-                    {
-                        moveDirection.Y += movementSpeed;
-                    }
 
-                    if (kb.IsKeyDown(Keys.A))
-                    {
-                        moveDirection.X -= movementSpeed;
-                    }
-
-                    if (kb.IsKeyDown(Keys.D))
-                    {
-                        moveDirection.X += movementSpeed;
-                    }
-
-                    */
-
-                    // Dodge player mechanic bound to LShift key
-                    if (kb.IsKeyDown(Keys.LeftShift) && prevkb.IsKeyUp(Keys.LeftShift))
+                    // Dodge player mechanic bound to Space and LSHIFT key
+                    if ((kb.IsKeyDown(Keys.LeftShift) && prevkb.IsKeyUp(Keys.LeftShift)) || (kb.IsKeyDown(Keys.Space) && prevkb.IsKeyUp(Keys.Space)))
                     {
                         player.Dodge();
                     }
@@ -485,14 +468,15 @@ namespace TheHalls
                     // Draw tutorial stuff
                     _spriteBatch.DrawString(fffforward20, "Use [W A S D] to move around!", new Vector2(400, 100), Color.White);
                     _spriteBatch.DrawString(fffforward20, "Use [Mouse1] to attack!", new Vector2(450, 150), Color.White);
+                    _spriteBatch.DrawString(fffforward20, "Use [SPACE], [LSHIFT], or double-tap [W A S D] to Dodge!", new Vector2(165, 225), Color.White);
 
-                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is LIT UP, \n\nenemies are in range of your attack!", new Vector2(100, 250), Color.White);
-                    _spriteBatch.Draw(arcImgSword, new Rectangle(125, 300, 150, 100), Color.White);
-                    _spriteBatch.Draw(arcImgSpear, new Rectangle(275, 300, 150, 100), Color.White);
+                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is LIT UP, \n\nenemies are in range of your attack!", new Vector2(100, 350), Color.White);
+                    _spriteBatch.Draw(arcImgSword, new Rectangle(125, 400, 150, 100), Color.White);
+                    _spriteBatch.Draw(arcImgSpear, new Rectangle(275, 400, 150, 100), Color.White);
 
-                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is RED, \n\nyour attack is on cooldown!", new Vector2(900, 250), Color.White);
-                    _spriteBatch.Draw(arcImgSword, new Rectangle(925, 300, 150, 100), new Color(255, 155, 155));
-                    _spriteBatch.Draw(arcImgSpear, new Rectangle(1075, 300, 150, 100), new Color(255, 155, 155));
+                    _spriteBatch.DrawString(fffforwardSmall, "When the attack indicator is RED, \n\nyour attack is on cooldown!", new Vector2(900, 350), Color.White);
+                    _spriteBatch.Draw(arcImgSword, new Rectangle(925, 400, 150, 100), new Color(255, 155, 155));
+                    _spriteBatch.Draw(arcImgSpear, new Rectangle(1075, 400, 150, 100), new Color(255, 155, 155));
                     break;
 
                 case GameState.Pause:
@@ -530,13 +514,13 @@ namespace TheHalls
                         "GAME OVER", 
                         new Vector2(_graphics.PreferredBackBufferWidth /2 - (fffforward20.MeasureString("GAME OVER").X /2), 100), 
                         Color.Red);
-                     _spriteBatch.DrawString(arial16, 
+                     _spriteBatch.DrawString(fffforwardSmall, 
                         "\nPress [Esc] to return to menu", 
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString("Press [Esc] to return to menu").X / 2), 300), 
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString("Press [Esc] to return to menu").X / 2), 300), 
                         Color.Red);
-                    _spriteBatch.DrawString(arial16,
+                    _spriteBatch.DrawString(fffforwardSmall,
                         $"\n\nRoom #{rooms.Count -1}",
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (arial16.MeasureString($"\n\nRoom #{rooms.Count -1}").X / 2), 100),
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString($"\n\nRoom #{rooms.Count -1}").X / 2), 150),
                         Color.Red);
                     break;
             }
@@ -565,7 +549,7 @@ namespace TheHalls
 
             MediaPlayer.Play(gameMusic);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = .15f;
+            MediaPlayer.Volume = .2f;
             
 
             rooms = new List<Room>();
