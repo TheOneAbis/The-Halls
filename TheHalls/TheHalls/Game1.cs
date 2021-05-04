@@ -774,6 +774,13 @@ namespace TheHalls
             }
         }
 
+        private RoomData getMainRooms(string name) {
+            return new RoomData(
+                        name, Direction.Down, Direction.Up,
+                        new Rectangle(150, 150, 700, 700),
+                        tiles);
+        }
+
         /// <summary>
         /// in the future this will load the rooms from .room files, and return a list of all the rooms. 
         /// </summary>
@@ -785,10 +792,37 @@ namespace TheHalls
             rooms.Add(Direction.Down,
                 new List<RoomData>
                 {
-                    new RoomData(
-                        "DtoU_Octogon", Direction.Down, Direction.Up,
-                        new Rectangle(150, 150, 700, 700),
-                        tiles),
+                    getMainRooms("DtoU_Octogon"),
+                    getMainRooms("smiley"),
+                    getMainRooms("dots"),
+                    getMainRooms("x_room"),
+                    getMainRooms("tunnel"),
+                    getMainRooms("eyes"),
+                    getMainRooms("middle"),
+                    getMainRooms("line"),
+                    getMainRooms("four_dots"),
+                    getMainRooms("corners"),
+                    getMainRooms("smallah"),
+                    getMainRooms("misc"),
+                    getMainRooms("doors"),
+                    getMainRooms("loss"),
+                    getMainRooms("funnel"),
+                    getMainRooms("narrow"),
+                    getMainRooms("L"),
+                    getMainRooms("spider"),
+                    getMainRooms("bleh"),
+                    getMainRooms("narrow_tunnel"),
+                    getMainRooms("big_die"),
+                    getMainRooms("bigboi"),
+                    getMainRooms("angery"),
+                    getMainRooms("snake"),
+                    getMainRooms("meh"),
+                    getMainRooms("dotdot"),
+                    getMainRooms("arrows"),
+                    getMainRooms("fof"),
+                    getMainRooms("faces"),
+                    getMainRooms("windy"),
+
 
                     new RoomData(
                         "DtoR_LShape", Direction.Down, Direction.Right,

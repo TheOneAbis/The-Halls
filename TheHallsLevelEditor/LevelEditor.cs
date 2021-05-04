@@ -16,7 +16,7 @@ namespace TheHallsLevelEditor
         private PictureBox[,] levelMap;
         private int[,] mapImgIndices;
         private bool changes;
-        private int noOfTiles = 30;
+        private int noOfTiles = 20;
         
 
         /// <summary>

@@ -77,10 +77,10 @@ namespace TheHalls
             int tileIndex;
 
             reader = new BinaryReader(File.OpenRead($"Content/Rooms/{roomFileName}.room"));
-
-            for (int i = 0; i < 20; i++)
+            int size = 20;
+            for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < size; j++)
                 {
                     tileIndex = reader.ReadInt32();
                     // 110 is the index for the up spikes, the closed entrance and exit tile of the game.
