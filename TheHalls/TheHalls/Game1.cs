@@ -965,6 +965,7 @@ namespace TheHalls
         /// </summary>
         public void GameDraw()
         {
+            // Draw background walls
             for(int i = 50 - ((int)screenOffset.X % 50 + 100); i < _graphics.PreferredBackBufferWidth; i += 50)
             {
                 for (int j = 50 - ((int)screenOffset.Y % 50 + 100); j < _graphics.PreferredBackBufferHeight; j += 50)
@@ -975,6 +976,7 @@ namespace TheHalls
                 }
             }
 
+            // Draw all the generated rooms
             foreach (Room room in rooms)
             {
                 room.Draw(_spriteBatch);
@@ -1018,6 +1020,8 @@ namespace TheHalls
                     _spriteBatch.Draw(hearts, new Rectangle(10 + (70 * i), 10, 60, 60), new Rectangle(0, 17, 16, 15), Color.White);
                 }
             }
+
+            _spriteBatch.DrawString(fffforward20, $"Rooms Cleared: {rooms.Count - 1}", new Vector2(_graphics.PreferredBackBufferWidth - 400, 20), Color.White);
 
             // If player is at critical health, draw low health background effect
             if (player.Health <= 1)
