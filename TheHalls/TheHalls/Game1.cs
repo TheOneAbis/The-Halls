@@ -252,10 +252,18 @@ namespace TheHalls
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.F10))
                 Exit();
 
+
             // Get mouse and keyboard states
             mouse = Mouse.GetState();
             kb = Keyboard.GetState();
             Point mouseP = new Point(mouse.X, mouse.Y);
+
+            if (kb.IsKeyDown(Keys.F11) && prevkb.IsKeyUp(Keys.F11))
+            {
+                _graphics.IsFullScreen = !_graphics.IsFullScreen;
+                _graphics.ApplyChanges();
+            }
+
 
             switch (gameState)
             {
