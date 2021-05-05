@@ -61,6 +61,12 @@
 /processorParam:TextureFormat=Color
 /build:button.png
 
+#begin ButtonClickSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ButtonClickSound.wav
+
 #begin buttonHover.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,6 +78,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:buttonHover.png
+
+#begin ButtonHoverSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ButtonHoverSound.wav
 
 #begin buttonLong.png
 /importer:TextureImporter

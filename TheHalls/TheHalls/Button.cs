@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TheHalls
 {
@@ -14,6 +15,8 @@ namespace TheHalls
         private Texture2D hovered;
         private string msg;
         private SpriteFont font;
+        private SoundEffect[] buttonSounds;
+        private bool isHovering;
 
         /// <summary>
         /// Creates an interactable button the player can click on
@@ -26,13 +29,15 @@ namespace TheHalls
         /// <param name="hovered">image when button is hovered</param>
         /// <param name="message">Button message text</param>
         /// <param name="font">The font of the message</param>
-        public Button(int X, int Y, int Width, int Height, Texture2D image, Texture2D hovered, string message, SpriteFont font)
+        public Button(int X, int Y, int Width, int Height, Texture2D image, Texture2D hovered, string message, SpriteFont font, SoundEffect[] buttonSounds)
         {
             rect = new Rectangle(X, Y, Width, Height);
             img = image;
             msg = message;
             this.font = font;
             this.hovered = hovered;
+            this.buttonSounds = buttonSounds;
+            isHovering = false;
         }
 
         /// <summary>
@@ -45,9 +50,14 @@ namespace TheHalls
         {
             Point mouseP = new Point(mouse.X, mouse.Y);
 
-            return rect.Contains(mouseP) && 
+            if (rect.Contains(mouseP) &&
                 mouse.LeftButton == ButtonState.Pressed &&
-                prevMouse.LeftButton == ButtonState.Released;
+                prevMouse.LeftButton == ButtonState.Released)
+            {
+                buttonSounds[1].Play();
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -59,6 +69,11 @@ namespace TheHalls
         {
             if(rect.Contains(mouse.Position))
             {
+                if (!isHovering)
+                {
+                    buttonSounds[0].Play();
+                    isHovering = true;
+                }
                 sb.Draw(hovered, rect, Color.White);
                 sb.DrawString(font, msg, new Vector2(
                     rect.X + (rect.Width / 2) - (font.MeasureString(msg).X / 2),
@@ -66,6 +81,7 @@ namespace TheHalls
             }
             else
             {
+                isHovering = false;
                 sb.Draw(img, rect, Color.White);
                 sb.DrawString(font, msg, new Vector2(
                     rect.X + (rect.Width / 2) - (font.MeasureString(msg).X / 2),

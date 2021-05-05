@@ -86,6 +86,7 @@ namespace TheHalls
         private SoundEffect[] enemyRangedSFX;
         private SoundEffect[] enemySkeletonSFX;
         private SoundEffect[] playerHurtSFX;
+        private SoundEffect[] buttonSounds;
 
         //seperate lists for each direction
         private Dictionary<Direction, List<RoomData>> roomTemplates;
@@ -160,13 +161,13 @@ namespace TheHalls
             //    -- Menu Buttons --
 
             // Play button
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 60, _graphics.PreferredBackBufferHeight /2 - 25, 120, 60, button, buttonHover, "Play", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth /2 - 60, _graphics.PreferredBackBufferHeight /2 - 25, 120, 60, button, buttonHover, "Play", fffforward20, buttonSounds));
 
             // God mode
-            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 120, _graphics.PreferredBackBufferHeight / 2 + 75, 240, 60, buttonLong, buttonLongHover, "God Mode", fffforward20));
+            buttons.Add(new Button(_graphics.PreferredBackBufferWidth / 2 - 120, _graphics.PreferredBackBufferHeight / 2 + 75, 240, 60, buttonLong, buttonLongHover, "God Mode", fffforward20, buttonSounds));
 
             // Controls Continue Button
-            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 60, _graphics.PreferredBackBufferHeight / 2 + 200, 120, 60, button, buttonHover, "Begin", fffforward20);
+            beginGameButton = new Button(_graphics.PreferredBackBufferWidth / 2 - 60, _graphics.PreferredBackBufferHeight / 2 + 200, 120, 60, button, buttonHover, "Begin", fffforward20, buttonSounds);
         }
 
         protected override void LoadContent()
@@ -230,6 +231,9 @@ namespace TheHalls
             enemyRangedSFX[0] = Content.Load<SoundEffect>("RangedEnemy_Death");
             enemySkeletonSFX = new SoundEffect[2];
             enemySkeletonSFX[0] = Content.Load<SoundEffect>("SkeletonDeathSound");
+            buttonSounds = new SoundEffect[2];
+            buttonSounds[0] = Content.Load<SoundEffect>("ButtonHoverSound");
+            buttonSounds[1] = Content.Load<SoundEffect>("ButtonClickSound");
 
             playerHurtSFX = new SoundEffect[5];
             for (int i = 0; i < playerHurtSFX.Length; i++)
@@ -267,11 +271,14 @@ namespace TheHalls
                     {
                         gameState = GameState.Controls;
                     }
+
+                    /*
                     // was god mode button clicked?
                     else if(buttons[1].Clicked(mouse, prevMouse))
                     {
                         GameStart(true);
                     }
+                    */
                     break;
 
                 // Controls State
@@ -467,10 +474,9 @@ namespace TheHalls
                 case GameState.Menu:
                     _spriteBatch.Draw(titleBG, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
                     // Draw each menu button to the screen
-                    foreach (Button button in buttons)
-                    {
-                        button.Draw(_spriteBatch, Color.Black, mouse);
-                    }
+                    buttons[0].Draw(_spriteBatch, Color.Black, mouse);
+                    //buttons[1].Draw(_spriteBatch, Color.Black, mouse);
+
                     _spriteBatch.DrawString(
                         fffforward20, "THE HALLS", 
                         new Vector2(_graphics.PreferredBackBufferWidth /2 - (fffforward20.MeasureString("THE HALLS").X/2), 
