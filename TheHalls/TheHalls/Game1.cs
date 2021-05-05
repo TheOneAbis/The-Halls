@@ -538,7 +538,7 @@ namespace TheHalls
                         Color.Red);
                     _spriteBatch.DrawString(fffforwardSmall,
                         $"\n\nRoom #{rooms.Count -1}",
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString($"\n\nRoom #{rooms.Count -1}").X / 2), 150),
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString($"\n\nRoom #{rooms.Count - 2}").X / 2), 150),
                         Color.Red);
                     break;
             }
@@ -1021,7 +1021,7 @@ namespace TheHalls
                 }
             }
 
-            _spriteBatch.DrawString(fffforward20, $"Rooms Cleared: {rooms.Count - 1}", new Vector2(_graphics.PreferredBackBufferWidth - 400, 20), Color.White);
+            _spriteBatch.DrawString(fffforward20, $"Rooms Cleared: {rooms.Count - 2}", new Vector2(_graphics.PreferredBackBufferWidth - 400, 20), Color.White);
 
             // If player is at critical health, draw low health background effect
             if (player.Health <= 1)
