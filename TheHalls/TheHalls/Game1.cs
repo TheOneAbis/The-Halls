@@ -29,6 +29,7 @@ namespace TheHalls
         public static Vector2 screenOffset;
         public static Texture2D debugSquare;
         public static int lowHealthBGOpacity;
+        private bool godModeEnabled;
 
         public Random rng;
 
@@ -144,6 +145,7 @@ namespace TheHalls
             rng = new Random();
             EnteredLastRoom = true;
             lowHealthBGOpacity = 0;
+            godModeEnabled = false;
 
             framesSincePress = new Dictionary<Keys, int>();
             keysToTrack = new List<Keys>();
@@ -272,20 +274,20 @@ namespace TheHalls
                         gameState = GameState.Controls;
                     }
 
-                    /*
                     // was god mode button clicked?
                     else if(buttons[1].Clicked(mouse, prevMouse))
                     {
-                        GameStart(true);
+                        godModeEnabled = true;
+                        gameState = GameState.Controls;
                     }
-                    */
+                    
                     break;
 
                 // Controls State
                 case GameState.Controls:
                     if (beginGameButton.Clicked(mouse, prevMouse))
                     {
-                        GameStart(false);
+                        GameStart(godModeEnabled ? true : false);
                     }
                     break;
 
@@ -475,7 +477,7 @@ namespace TheHalls
                     _spriteBatch.Draw(titleBG, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
                     // Draw each menu button to the screen
                     buttons[0].Draw(_spriteBatch, Color.Black, mouse);
-                    //buttons[1].Draw(_spriteBatch, Color.Black, mouse);
+                    buttons[1].Draw(_spriteBatch, Color.Black, mouse);
 
                     _spriteBatch.DrawString(
                         fffforward20, "THE HALLS", 
