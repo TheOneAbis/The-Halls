@@ -543,8 +543,8 @@ namespace TheHalls
                         new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString("Press [Esc] to return to menu").X / 2), 300), 
                         Color.Red);
                     _spriteBatch.DrawString(fffforwardSmall,
-                        $"\n\nRoom #{rooms.Count -1}",
-                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString($"\n\nRoom #{rooms.Count - 2}").X / 2), 150),
+                        $"\n\n Last Room: Room #{rooms.Count -1}",
+                        new Vector2(_graphics.PreferredBackBufferWidth / 2 - (fffforwardSmall.MeasureString($"\n\n Last Room: Room #{rooms.Count - 2}").X / 2), 150),
                         Color.Red);
                     break;
             }
