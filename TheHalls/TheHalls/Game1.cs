@@ -271,6 +271,7 @@ namespace TheHalls
                     // Was the play button clicked?
                     if (buttons[0].Clicked(mouse, prevMouse))
                     {
+                        godModeEnabled = false;
                         gameState = GameState.Controls;
                     }
 
